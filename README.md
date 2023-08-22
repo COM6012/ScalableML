@@ -1,6 +1,6 @@
 ## COM6012 Scalable Machine Learning - University of Sheffield
 
-### Spring 2023 by [Haiping Lu](http://staffwww.dcs.shef.ac.uk/people/H.Lu/) and [Shuo Zhou](https://shuo-zhou.github.io/), with Tahsin Khan and Mike Smith
+### Spring 2024 by [Shuo Zhou](https://shuo-zhou.github.io/) and Robert Loftin, with Tahsin Khan and Mike Smith
 
 In [this module](http://www.dcs.shef.ac.uk/intranet/teaching/public/modules/msc/com6012.html), we will learn how to do machine learning at large scale using [Apache Spark](https://spark.apache.org/).
 We will use the [High Performance Computing (HPC) cluster systems](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) of our university. If you are NOT on the University's network, you **must** use [VPN (Virtual Private Network)](https://www.sheffield.ac.uk/it-services/vpn) to connect to the HPC.
