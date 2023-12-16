@@ -1,8 +1,6 @@
 # Lab 3: Scalable logistic regression
 
-### Modified by Shuo Zhou, 19th February 2023
-
-#### 25th February 2022 Mauricio A Álvarez
+[COM6012 Scalable Machine Learning **2024**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
 ## Study schedule
 
@@ -111,7 +109,7 @@ sc._conf.getAll()
 
 ### Driver memory and potential `out of memory` problem
 
-**Pay attention to the memory requirements that you set in the .sh file, and in the spark-submit instructions**
+**Note:** *Pay attention to the memory requirements that you set in the .sh file, and in the spark-submit instructions*
 
 Memory requirements that you request from ShARC are configured in the following two lines appearing in your .sh file
 
@@ -222,7 +220,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-Or make sure the number of cores you specify with SparkSession.builder matches the number of cores you specify when using spark-submit, 
+Or make sure the number of cores you specify with SparkSession.builder matches the number of cores you specify when using spark-submit,
 
 ```python
 spark = SparkSession.builder \
@@ -292,7 +290,8 @@ You may search for example usage, an example that we used in the past **for very
 spark-submit --driver-memory 20g --executor-memory 20g --master local[10] --local.dir /fastdata/USERNAME --conf spark.driver.maxResultSize=4g test.py
 ```
 
-**Observations**
+#### Observations
+
 1. If the real memory usage of your job exceeds `-l rmem=xxG` multiplied by the number of cores / nodes you requested then your job will be killed (see the [HPC documentation](https://docs.hpc.shef.ac.uk/en/latest/hpc/scheduler/index.html#interactive-jobs)).
 2. A reminder that the more resources you request to ShARC, the longer you need to wait for them to become available to you.
 
@@ -364,11 +363,15 @@ vecAssembler = VectorAssembler(inputCols = spam_names[0:ncolumns-1], outputCol =
 
 **Logistic regression** We are now in a position to train the logistic regression model. But before, let us look at a list of relevant parameters. A comprehensive list of parameters for [LogisticRegression](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegression.html) can be found in the Python API for PySpark.
 
-> **maxIter**: max number of iterations. <p>
-    **regParam**: regularization parameter ($\ge 0$).<p>
-        **elasticNetParam**: mixing parameter for ElasticNet. It takes values in the range [0,1]. For $\alpha=0$, the penalty is an $\ell_2$. For $\alpha=1$, the penalty is an $\ell_1$.<p>
-        **family**: binomial (binary classification) or multinomial (multi-class classification). It can also be 'auto'.<p>
-            **standardization**: whether to standardize the training features before fitting the model. It can be true or false (True by default).
+> `maxIter`: max number of iterations
+>
+> `regParam`: regularization parameter ($\ge 0$)
+>
+> `elasticNetParam`: mixing parameter for ElasticNet. It takes values in the range [0,1]. For $\alpha=0$, the penalty is an $\ell_2$. For $\alpha=1$, the penalty is an $\ell_1$.
+>
+> `family`: binomial (binary classification) or multinomial (multi-class classification). It can also be 'auto'.
+>
+> `standardization`: whether to standardize the training features before fitting the model. It can be true or false (True by default).
 
 The function to optimise has the form
 
@@ -401,7 +404,6 @@ pipelineModel = pipeline.fit(trainingData)
 
 Let us compute the accuracy.
 
-
 ```python
 predictions = pipelineModel.transform(testData)
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
@@ -411,7 +413,9 @@ accuracy = evaluator.evaluate(predictions)
 print("Accuracy = %g " % accuracy)
 ```
 
-    Accuracy = 0.925362 
+```bash
+Accuracy = 0.925362 
+```
 
 We now save the vector $\mathbf{w}$ obtained without regularisation
 
@@ -438,7 +442,9 @@ accuracy = evaluator.evaluate(predictions)
 print("Accuracy = %g " % accuracy)
 ```
 
-    Accuracy = 0.913176 
+```bash
+Accuracy = 0.913176 
+```
 
 We now save the vector $\mathbf{w}$ obtained for the L1 regularisation
 
@@ -466,7 +472,9 @@ Let us find out which features are preferred by each method. Without regularisat
 spam_names[np.argmax(np.abs(w_no_reg))]
 ```
 
-    'word_freq_cs'
+```bash
+'word_freq_cs'
+```
 
 With L1 regularisation, the most relevant feature is
 
@@ -474,7 +482,9 @@ With L1 regularisation, the most relevant feature is
 spam_names[np.argmax(np.abs(w_L1))]
 ```
 
-    'char_freq_$'
+```bash
+'char_freq_$'
+```
 
 A useful method for the logistic regression model is the [summary](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegressionSummary.html) method.
 
@@ -483,7 +493,9 @@ lrModel1 = pipelineModellrL1.stages[-1]
 lrModel1.summary.accuracy
 ```
 
-    0.9111922141119222
+```bash
+0.9111922141119222
+```
 
 The accuracy here is different to the one we got before. Why?
 
@@ -495,9 +507,11 @@ for i, prec in enumerate(lrModel1.summary.precisionByLabel):
     print("label %d: %s" % (i, prec))
 ```
 
-    Precision by label:
-    label 0: 0.8979686057248384
-    label 1: 0.9367201426024956
+```bash
+Precision by label:
+label 0: 0.8979686057248384
+label 1: 0.9367201426024956
+```
 
 ## 3. Exercises
 

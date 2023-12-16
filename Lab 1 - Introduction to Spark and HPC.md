@@ -1,24 +1,22 @@
 # Lab 1 - Introduction to (Py)Spark and (Sheffield)HPC
 
-[COM6012 Scalable Machine Learning **2023**](https://github.com/haipinglu/ScalableML) by [Haiping Lu](https://haipinglu.github.io/) at The University of Sheffield
-
-**Accompanying lectures**: [YouTube video lectures recorded in Year 2020/21.](https://www.youtube.com/watch?v=iS9ytjKWpro&list=PLuRoUKdWifzwUoKwu-HyRhnlIaQh8o_Qd)
+[COM6012 Scalable Machine Learning **2024**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
 ## Study schedule
 
-- [Task 1](#1-connect-to-hpc-and-install-spark): To finish in the lab session on 10th Feb. **Critical**
-- [Task 2](#2-run-pyspark): To finish in the lab session on 10th Feb. **Critical**
-- [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 10th Feb. **Essential**
-- [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 10th Feb. **Essential**
-- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-wednesday): To finish by the following Wednesday 15th Feb. ***Exercise***
+- [Task 1](#1-connect-to-hpc-and-install-spark): To finish in the lab session on 9th Feb. **Critical**
+- [Task 2](#2-run-pyspark): To finish in the lab session on 9th Feb. **Critical**
+- [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 9th Feb. **Essential**
+- [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 9th Feb. **Essential**
+- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-thursday): To finish by the following Wednesday 14th Feb. ***Exercise***
 - [Task 6](#6-additional-ideas-to-explore-optional-no-solutions-will-be-provided): To explore further. *Optional*
 
 **Suggested reading**:
 
-- [Spark Overview](https://spark.apache.org/docs/3.3.1/index.html)
-- [Spark Quick Start](https://spark.apache.org/docs/3.3.1/quick-start.html) (Choose **Python** rather than the default *Scala*)
+- [Spark Overview](https://spark.apache.org/docs/3.5.0/index.html)
+- [Spark Quick Start](https://spark.apache.org/docs/3.5.0/quick-start.html) (Choose **Python** rather than the default *Scala*)
 - Chapters 2 to 4 of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf) (several sections in Chapter 3 can be safely skipped)
-- Reference: [PySpark documentation](https://spark.apache.org/docs/3.3.1/api/python/index.html#)
+- Reference: [PySpark documentation](https://spark.apache.org/docs/3.5.0/api/python/index.html#)
 - Reference: [PySpark source code](https://github.com/apache/spark/tree/master/python)
 
 **Note - Please READ before proceeding**:
@@ -34,7 +32,7 @@
 
 ### 1.1 HPC Driving License and Connect to ShARC HPC via SSH
 
-Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. I have get your HPC account created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 9th Feb. If you have not done so, please do it as soon as possible.
+Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. I have get your HPC account created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
 
 Use your university **username** such as `abc18de` and the associated password to log in. You are required to use [Multi-factor authentication (MFA)](https://www.sheffield.ac.uk/it-services/vpn) to connect to VPN. If you have problem logging in, do the following in sequence:
 
@@ -47,9 +45,11 @@ Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/
 ssh $USER@sharc.shef.ac.uk  # Use lowercase for your username, without `$`
 ```
 
-You need to replace `$USER` with your username. Let's assume it is `abc1de`, then you do `ssh abc1de@sharc.shef.ac.uk` (using **lowercase** and without `$`). If successful, you should see 
+You need to replace `$USER` with your username. Let's assume it is `abc1de`, then you do `ssh abc1de@sharc.shef.ac.uk` (using **lowercase** and without `$`). If successful, you should see
 
-`[abc1de@sharc-login1 ~]$`
+```sh
+[abc1de@sharc-login1 ~]$
+```
 
 `abc1de` should be your username.
 
@@ -62,6 +62,7 @@ You need to replace `$USER` with your username. Let's assume it is `abc1de`, the
 - YOu can directly open a file to edit and then save it.
 
 #### (Optional) **VSCode Remote HPC** for writing/managing code
+
 - You can use VSCode to write and manage your code and scripts on HPC by following the [VSCode Remote HPC instructions](https://github.com/rcgsheffield/vscoderemote_sheffield_hpc).
 - After performing the steps in the above repo, you will be able to 1) start a remote code server on the HPC and 2) connect to it via your web browser and edit/manage your code with access to the remote filesystem on the HPC.
 - Using VSCode via the browser provides similar functionality as a desktop VSCode installation but having some restrictions on the marketplace and extensions. See [Why can't code-server use Microsoft's extension marketplace?](https://coder.com/docs/code-server/latest/FAQ#why-cant-code-server-use-microsofts-extension-marketplace).
@@ -72,7 +73,7 @@ You need to replace `$USER` with your username. Let's assume it is `abc1de`, the
 
 #### Start an interactive session
 
-Type `qrshx` for a *regular- node **or** `qrshx -P rse-com6012` for a com6012-reserved node. If successful, you should see 
+Type `qrshx` for a *regular- node **or** `qrshx -P rse-com6012` for a com6012-reserved node. If successful, you should see
 
 ```sh
 [abc1de@sharc-node*** ~]$  # *** is the node number
@@ -90,7 +91,7 @@ Otherwise, try `qrshx` or `qrshx -P rse-com6012` again. You will not be able to 
 
 `conda create -n myspark python=3.9.1`
 
-When you are asked whether to proceed, say `y`. When seeing `Please update conda by running ...`, do NOT try to update conda following the given command. As a regular user, you will NOT be able to update conda. 
+When you are asked whether to proceed, say `y`. When seeing `Please update conda by running ...`, do NOT try to update conda following the given command. As a regular user, you will NOT be able to update conda.
 
 #### Activate the environment
 
@@ -98,21 +99,21 @@ When you are asked whether to proceed, say `y`. When seeing `Please update conda
 
 The prompt says to use `conda activate myspark` but it does not always work. You **must** see `(myspark) [abc1de@sharc-nodeXXX ~]$`, i.e. **(myspark)** in front, before proceeding. Otherwise, you did not get the proper environment. Check the above steps.
 
-#### Install pyspark 3.3.1 using `pip`
+#### Install pyspark 3.5.0 using `pip`
 
-`pip install pyspark==3.3.1`
+`pip install pyspark==3.5.0`
 
-When you are asked whether to proceed, say `y`. You should see the last line of the output as 
+When you are asked whether to proceed, say `y`. You should see the last line of the output as
 
-`Successfully installed py4j-0.10.9.5 pyspark-3.3.1`
+`Successfully installed py4j-0.10.9.5 pyspark-3.5.0`
 
-[]`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
+[`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
 
 #### Run pyspark
 
 `pyspark`
 
-You should see spark version **3.3.1** displayed like below
+You should see spark version **3.5.0** displayed like below
 
 ```sh
 ......
@@ -120,7 +121,7 @@ Welcome to
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  '_/
-   /__ / .__/\_,_/_/ /_/\_\   version 3.3.1
+   /__ / .__/\_,_/_/ /_/\_\   version 3.5.0
       /_/
 
 Using Python version 3.9.1 (default, Dec 11 2020 14:32:07)
@@ -154,7 +155,7 @@ Installation of PySpark on your own machine is more complicated than installing 
 
 - Install [**Java 8**](https://www.java.com/en/download/manual.jsp), i.e. java version *1.8.xxx*. Most instructions online ask you to install *Java SDK*, which is heavier. *Java JRE- is lighter and sufficient for pyspark.
 - Install Python **3.7+** (if not yet)
-- Install PySpark **3.3.1** with **Hadoop 2.7**
+- Install PySpark **3.5.0** with **Hadoop 3.3**
 - Set up the proper environments (see references below)
 
 As far as I know, it is not necessary to install *Scala*.
@@ -165,7 +166,7 @@ If you do want to install PySpark and run Jupyter Notebooks on your own machine,
 
 #### References (use with caution, not necessarily up to date or the best)
 
-If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8**, Python **3.7+**, PySpark **3.3.1** with **Hadoop 2.7**. *Scala- is optional.
+If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8**, Python **3.7+**, PySpark **3.5.0** with **Hadoop 3.3**. *Scala- is optional.
 
 - Windows: 1) [Install Spark on Windows (PySpark)](https://medium.com/@GalarnykMichael/install-spark-on-windows-pyspark-4498a5d8d66c) (with video) 2) [How to install Spark on Windows in 5 steps](https://medium.com/@dvainrub/how-to-install-apache-spark-2-x-in-your-pc-e2047246ffc3).
 
@@ -184,19 +185,19 @@ Here we provide detailed instructions only for Windows.
     - `PATH += C:\Progra~1\Java\jdk1.8.0_xxx\bin`
   - Check: open a command prompt and type `java -version`. If you can see the version displayed, congratulations. Otherwise, check the above.
 - Install Python
-  - Install [Python 3.7+](https://www.python.org/downloads/). Open a command and type `python --version` to check your version to be 3.6+.
-- Install PySpark (Alternatively, you may try `pip install pyspark==3.3.1`)
-  - Download Spark **3.3.1** for Hadoop **2.7**, i.e. `spark-3.3.1-bin-hadoop2.7.tgz`.
-  - Extract the `.tgz` file (e.g. using 7zip) into `C:\Spark` so that extracted files are at `C:\Spark\spark-3.3.1-bin-hadoop2.7`.
-  - Set the environment variables: 
-    - `SPARK_HOME = C:\Spark\spark-3.3.1-bin-hadoop2.7`
-    - `PATH += C:\Spark\spark-3.3.1-bin-hadoop2.7\bin`
-  - Download [**winutils.exe** for hadoop 2.7](https://github.com/steveloughran/winutils/blob/master/hadoop-2.7.1/bin/winutils.exe) and move it to `C:\Spark\spark-3.3.1-bin-hadoop2.7\bin`
+  - Install [Python 3.8+](https://www.python.org/downloads/). Open a command and type `python --version` to check your version to be 3.6+.
+- Install PySpark (Alternatively, you may try `pip install pyspark==3.5.0`)
+  - Download Spark **3.5.0** for Hadoop **3.3**, i.e. `spark-3.5.0-bin-hadoop3.tgz`.
+  - Extract the `.tgz` file (e.g. using 7zip) into `C:\Spark` so that extracted files are at `C:\Spark\spark-3.5.0-bin-hadoop3`.
+  - Set the environment variables:
+    - `SPARK_HOME = C:\Spark\spark-3.5.0-bin-hadoop`
+    - `PATH += C:\Spark\spark-3.5.0-bin-hadoop3\bin`
+  - Download [**winutils.exe** for hadoop 3](https://github.com/steveloughran/winutils/blob/master/hadoop-3/bin/winutils.exe) and move it to `C:\Spark\spark-3.5.0-bin-hadoop3\bin`
   - Set the environment variable:
-    - `HADOOP_HOME = C:\Spark\spark-3.3.1-bin-hadoop2.7`
+    - `HADOOP_HOME = C:\Spark\spark-3.5.0-bin-hadoop3`
     - `PYTHONPATH = %SPARK_HOME%\python;%SPARK_HOME%\python\lib\py4j-<version>-src.zip;%PYTHONPATH%` (just check what py4j version you have in your `spark/python/lib` folder to replace `<version>` ([source](https://stackoverflow.com/questions/53161939/pyspark-error-does-not-exist-in-the-jvm-error-when-initializing-sparkcontext?noredirect=1&lq=1)).
 
-Now open a command prompt and type `pyspark`. You should see pyspark 3.3.1 running as above.
+Now open a command prompt and type `pyspark`. You should see pyspark 3.5.0 running as above.
 
 *Known issue on Windows* There may be a `ProcfsMetricsGetter` warning. If you press `Enter`, the warning will disappear. I did not find a better solution to get rid of it. It does not seem harmful either. If you know how to deal with it. Please let me know. Thanks. [Reference 1](https://stackoverflow.com/questions/63762106/rn-procfsmetricsgetter-exception-when-trying-to-compute-pagesize-as-a-result-r); [Reference 2](https://stackoverflow.com/questions/60257377/encountering-warn-procfsmetricsgetter-exception-when-trying-to-compute-pagesi); [Reference 3](https://stackoverflow.com/questions/61863127/getting-error-while-setting-pyspark-environment).
 
@@ -204,7 +205,7 @@ Now open a command prompt and type `pyspark`. You should see pyspark 3.3.1 runni
 
 ## 2. Run PySpark
 
-Once PySpark has been installed, after _each_ log-in, you need to do the following to run PySpark.
+Once PySpark has been installed, after *each* log-in, you need to do the following to run PySpark.
 
 ### Get a node and activate myspark
 
@@ -227,7 +228,7 @@ Run pyspark (optionally, specify to use multiple cores):
 pyspark  # pyspark --master local[4] for 4 cores
 ```
 
-You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/2.1.0/api/python/pyspark.sql.html?highlight=sparksession#pyspark.sql.SparkSession)) and `sc` ([SparkContext](https://spark.apache.org/docs/3.3.1/api/python/pyspark.html#pyspark.SparkContext)) are automatically created.
+You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/2.1.0/api/python/pyspark.sql.html?highlight=sparksession#pyspark.sql.SparkSession)) and `sc` ([SparkContext](https://spark.apache.org/docs/3.5.0/api/python/pyspark.html#pyspark.SparkContext)) are automatically created.
 
 Check your SparkSession and SparkContext object and you will see something like
 
@@ -252,7 +253,7 @@ Let us do some simple computing (squares)
 
 This example deals with **Semi-Structured** data in a text file.
 
-Firstly, you need to **make sure the file is in the proper directory and change the file path if necessary**, on either HPC or local machine, e.g. using ``pwd` to see the current directly, `ls` (or `dir` in Windows) to see the content. Also review how to [**transfer files to HPC**](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html) and [MobaXterm tips](#MobaXterm-tips) for Windows users.
+Firstly, you need to **make sure the file is in the proper directory and change the file path if necessary**, on either HPC or local machine, e.g. using ``pwd` to see the current directly, `ls` (or `dir` in Windows) to see the content. Also review how to [**transfer files to HPC**](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html) and [MobaXterm tips](#mobaxterm-tips) for Windows users.
 
 Now quit pyspark by `Ctrl + D`. Take a look at where you are
 
@@ -274,7 +275,7 @@ Let us make a copy of our teaching materials at this directory via
 git clone --depth 1 https://github.com/haipinglu/ScalableML
 ```
 
-If `ScalableML` is not empty (e.g. you have cloned a copy already), this will give you an error. You need to delete the cloned version (the whole folder) via `rm -rf ScalableML`. Be careful that you can **NOT** undo this delete so make sure **you do not have anything valuable (e.g. your assignment) there** if you do this delete. 
+If `ScalableML` is not empty (e.g. you have cloned a copy already), this will give you an error. You need to delete the cloned version (the whole folder) via `rm -rf ScalableML`. Be careful that you can **NOT** undo this delete so make sure **you do not have anything valuable (e.g. your assignment) there** if you do this delete.
 
 You are advised to create a **separate folder** for your own work under `com6012`, e.g. `mywork`.
 
@@ -290,7 +291,7 @@ Code  Data  HPC  Lab 1 - Introduction to Spark and HPC.md  Output  README.md  Sl
 /home/abc1de/com6012/ScalableML
 ```
 
-You can see that files on the GitHub has been downloaded to your HPC directory `/home/abc1de/com6012/ScalableML`. Now start spark shell by `pyspark` (again you should see the splash) and now we 
+You can see that files on the GitHub has been downloaded to your HPC directory `/home/abc1de/com6012/ScalableML`. Now start spark shell by `pyspark` (again you should see the splash) and now we
 
 - read the log file `NASA_Aug95_100.txt` under the folder `Data`
 - count the number of lines
@@ -370,10 +371,11 @@ spark-submit Code/LogMining100.py
 ```
 
 You will see lots of logging info output such as
+
 ```sh
 21/02/05 00:35:57 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
-21/02/05 00:35:59 INFO SparkContext: Running Spark version 3.3.1
+21/02/05 00:35:59 INFO SparkContext: Running Spark version 3.5.0
 .....................
 21/02/05 00:35:59 INFO ResourceUtils: Resources for spark.driver:
 
@@ -426,7 +428,7 @@ spark.stop()
 
 See [how to submit batch jobs to ShARC](https://docs.hpc.shef.ac.uk/en/latest/hpc/scheduler/index.html#batch-jobs) and follow the instructions for **SGE**. **Reminder:** The more resources you request, the longer you need to queue.
 
-Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script. 
+Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
 Create a file `Lab1_SubmitBatch.sh`
 
@@ -508,7 +510,7 @@ I suggest you to remove and re-install the environment. You can do this by
 
 1. Remove the `myspark` environment by running `conda remove --name myspark --all`, following [conda's managing environments documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment) and redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
 2. If the above does not work, delete the `myspark` environment (folder) at `/home/abc1de/.conda/envs/myspark` via the terminal folder window on the left of the screen on mobax term or use linux command. Then redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
-3. If the above still does not work, you may have installed `pyspark==3.3.1` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==3.3.1`, you may be prompted with `Requirement already satisfied: pyspark==3.3.1` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try unstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==3.3.1` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==3.3.1`.
+3. If the above still does not work, you may have installed `pyspark==3.5.0` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==3.5.0`, you may be prompted with `Requirement already satisfied: pyspark==3.5.0` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try unstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==3.5.0` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==3.5.0`.
 
 ## 5. Exercises (reference solutions will be provided on the following Thursday)
 
@@ -527,7 +529,7 @@ You are encouraged to try out in the pyspark shell first to figure out the right
 
 ### More log mining questions
 
-You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.3.1/api/python/reference/pyspark.sql.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
+You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.5.0/api/python/reference/pyspark.sql.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
 
 - How many **unique** hosts on a particular day (e.g., 15th August)?
 - How many **unique** hosts in total (i.e., in August 1995)?
@@ -547,6 +549,6 @@ You are encouraged to explore these more challenging questions by consulting the
 
 ## 7. Acknowledgements
 
-Many thanks to Twin, Will, Mike, Vamsi for their kind help and all those kind contributors of open resources.
+Many thanks to Haiping, Mauricio, Twin, Will, Mike, Vamsi for their kind help and all those kind contributors of open resources.
 
 The log mining problem is adapted from [UC Berkeley cs105x L3](https://www.edx.org/course/introduction-apache-spark-uc-berkeleyx-cs105x).

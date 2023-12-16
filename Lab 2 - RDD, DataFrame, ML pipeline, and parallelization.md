@@ -1,8 +1,6 @@
-# Lab 2 - RDD, DataFrame, ML Pipeline, and Parallelization
+# Lab 2 - RDD, DataFrame, ML Pipeline, and Parallelisation
 
-[COM6012 Scalable Machine Learning **2023**](https://github.com/haipinglu/ScalableML) by [Haiping Lu](https://haipinglu.github.io/) at The University of Sheffield
-
-**Accompanying lectures**: [YouTube video lectures recorded in Year 2020/21.](https://www.youtube.com/playlist?list=PLuRoUKdWifzxj5tm-FZRhs_DeBi2hra-d)
+[COM6012 Scalable Machine Learning **2024**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
 ## Study schedule
 
@@ -15,13 +13,13 @@
 ### Suggested reading
 
 - Chapters 5 and 6, and especially **Section 9.1** (of Chapter 9)  of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf)
-- [RDD Programming Guide](https://spark.apache.org/docs/3.3.1/rdd-programming-guide.html): Most are useful to know in this module.
-- [Spark SQL, DataFrames and Datasets Guide](https://spark.apache.org/docs/3.3.1/sql-programming-guide.html): `Overview` and `Getting Started` recommended (skipping those without Python example).
-- [Machine Learning Library (MLlib) Guide](https://spark.apache.org/docs/3.3.1/ml-guide.html)
-- [ML Pipelines](https://spark.apache.org/docs/3.3.1/ml-pipeline.html)
+- [RDD Programming Guide](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html): Most are useful to know in this module.
+- [Spark SQL, DataFrames and Datasets Guide](https://spark.apache.org/docs/3.5.0/sql-programming-guide.html): `Overview` and `Getting Started` recommended (skipping those without Python example).
+- [Machine Learning Library (MLlib) Guide](https://spark.apache.org/docs/3.5.0/ml-guide.html)
+- [ML Pipelines](https://spark.apache.org/docs/3.5.0/ml-pipeline.html)
 - [Apache Spark Examples](https://spark.apache.org/examples.html)
-- [Basic Statistics - DataFrame API](https://spark.apache.org/docs/3.3.1/ml-statistics.html)
-- [Basic Statistics - RDD API](https://spark.apache.org/docs/3.3.1/mllib-statistics.html): much **richer**
+- [Basic Statistics - DataFrame API](https://spark.apache.org/docs/3.5.0/ml-statistics.html)
+- [Basic Statistics - RDD API](https://spark.apache.org/docs/3.5.0/mllib-statistics.html): much **richer**
 
 ### Compact references (highly recommended)
 
@@ -29,7 +27,7 @@
 - [Cheat sheet PySpark SQL Python](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/PySpark_SQL_Cheat_Sheet_Python.pdf)
 - [Cheat sheet for PySpark (2 page version)](https://github.com/runawayhorse001/CheatSheet/blob/master/cheatSheet_pyspark.pdf)
 
-**Tip**: Try to use as much DataFrame APIs as possible by referring to the [PySpark API documentation](https://spark.apache.org/docs/3.3.1/api/python/index.html). When you try to program something, try to search whether there is a function in the API already.
+**Tip**: Try to use as much DataFrame APIs as possible by referring to the [PySpark API documentation](https://spark.apache.org/docs/3.5.0/api/python/index.html). When you try to program something, try to search whether there is a function in the API already.
 
 ## 1. RDD and Shared Variables
 
@@ -45,7 +43,7 @@ Firstly, we follow the standard steps as in Task 2 of Lab 1 but with some variat
    pyspark --master local[4] # start pyspark with 4 cores requested above.
   ```
 
-As stated in the [RDD Programming Guide](https://spark.apache.org/docs/3.3.1/rdd-programming-guide.html#parallelized-collections), Spark allows for parallel operations in a program to be executed on a cluster with the following abstractions:
+As stated in the [RDD Programming Guide](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#parallelized-collections), Spark allows for parallel operations in a program to be executed on a cluster with the following abstractions:
 
 - **Main abstraction**: **resilient distributed dataset (RDD)** is a collection of elements partitioned across the nodes of the cluster that can be operated on in parallel.
 - **Second abstraction**: **shared variables** can be shared across tasks, or between tasks and the driver program. Two types:
@@ -54,7 +52,7 @@ As stated in the [RDD Programming Guide](https://spark.apache.org/docs/3.3.1/rdd
 
 ### Parallelized collections (RDDs)
 
-[Parallelized collections](https://spark.apache.org/docs/3.3.1/rdd-programming-guide.html#parallelized-collections) are created by calling `SparkContext`’s `parallelize` method on an existing iterable or collection in your driver program. The elements of the collection are copied to form a distributed dataset that can be operated on in parallel. For example, here is how to create a parallelized collection holding the numbers 1 to 5:
+[Parallelized collections](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#parallelized-collections) are created by calling `SparkContext`’s `parallelize` method on an existing iterable or collection in your driver program. The elements of the collection are copied to form a distributed dataset that can be operated on in parallel. For example, here is how to create a parallelized collection holding the numbers 1 to 5:
 
 ```python
 data = [1, 2, 3, 4, 5]
@@ -93,13 +91,13 @@ print("Pi is roughly %f" % (4.0 * count / NUM_SAMPLES))
 
 Note that we did not control the seed above so you are not likely to get exactly the same number `3.139747`. You can change `NUM_SAMPLES` to see the difference in precision and time cost.
 
-### [Shared Variables](https://spark.apache.org/docs/3.3.1/rdd-programming-guide.html#shared-variables)
+### [Shared Variables](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#shared-variables)
 
 When a function passed to a Spark operation (such as `map` or `reduce`) is executed on a remote cluster node, it works on *separate* copies of all the variables used in the function. These variables are *copied* to each machine, and no updates to the variables on the remote machine are propagated back to the driver program. Supporting general, read-write shared variables across tasks would be inefficient. However, Spark does provide two limited types of shared variables for two common usage patterns: broadcast variables and accumulators.
 
-#### [Broadcast variables](https://spark.apache.org/docs/3.3.1/rdd-programming-guide.html#broadcast-variables)
+#### [Broadcast variables](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#broadcast-variables)
 
-To avoid creating a copy of a **large** variable for each task, an accessible (*read-only*!) variable can be kept on each machine - this is useful for particularly large datasets which may be needed for multiple tasks. The data broadcasted this way is cached in [serialized](https://spark.apache.org/docs/3.3.1/tuning.html#serialized-rdd-storage) form and deserialized before running each task. See [Data Serialization](https://spark.apache.org/docs/3.3.1/tuning.html#data-serialization) for more details about serialization.
+To avoid creating a copy of a **large** variable for each task, an accessible (*read-only*!) variable can be kept on each machine - this is useful for particularly large datasets which may be needed for multiple tasks. The data broadcasted this way is cached in [serialized](https://spark.apache.org/docs/3.5.0/tuning.html#serialized-rdd-storage) form and deserialized before running each task. See [Data Serialisation](https://spark.apache.org/docs/3.5.0/tuning.html#data-serialization) for more details about serialisation.
 
 Broadcast variables are created from a variable $v$ by calling `SparkContext.broadcast(v)`. The broadcast variable is a wrapper around $v$, and its value can be accessed by calling the *value* method.
 
@@ -111,7 +109,7 @@ broadcastVar.value
 # [1, 2, 3]
 ```
 
-#### [Accumulators](https://spark.apache.org/docs/3.3.1/rdd-programming-guide.html#accumulators)
+#### [Accumulators](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#accumulators)
 
 Accumulators are variables that are only “added” to through an associative and commutative operation and can therefore be efficiently supported in parallel. They can be used to implement counters (as in `MapReduce`) or sums.
 
@@ -132,7 +130,7 @@ accum.value
 
 ## 2. DataFrame
 
-Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](http://spark.apache.org/docs/3.3.1/api/scala/index.html#org.apache.spark.sql.Dataset). Again, these are objects that can be worked on in parallel. The available operations are:
+Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](http://spark.apache.org/docs/3.5.0/api/scala/index.html#org.apache.spark.sql.Dataset). Again, these are objects that can be worked on in parallel. The available operations are:
 
 - **transformations**: produce new datasets
 - **actions**: computations which return results
@@ -180,7 +178,7 @@ rdd2.collect()  # view the content
 # [Row(a=1, b=2, c=3), Row(a=4, b=5, c=6), Row(a=7, b=8, c=9)]
 ```
 
-#### Load data from a CSV file
+### Load data from a CSV file
 
 This data was downloaded from a [classic book on statistical learning](https://www.statlearning.com/).
 
@@ -247,7 +245,7 @@ df2.describe().show()
 
 ## 3. Machine Learning Library and Pipelines
 
-[MLlib](https://spark.apache.org/docs/3.3.1/ml-guide.html) is Spark’s machine learning (ML) library. It provides:
+[MLlib](https://spark.apache.org/docs/3.5.0/ml-guide.html) is Spark’s machine learning (ML) library. It provides:
 
 - *ML Algorithms*: common learning algorithms such as classification, regression, clustering, and collaborative filtering
 - *Featurization*: feature extraction, transformation, dimensionality reduction, and selection
@@ -263,9 +261,9 @@ df2.describe().show()
 - **Pipeline**. A Pipeline chains multiple Transformers and Estimators together to specify an ML workflow.
 - **Parameter**. Transformers and Estimators share a common API for specifying parameters.
 
-A list of some of the available ML features is available [here](http://spark.apache.org/docs/3.3.1/ml-features.html).
+A list of some of the available ML features is available [here](http://spark.apache.org/docs/3.5.0/ml-features.html).
 
-**Clarification on whether Estimator is a transformer**. See [Estimators](https://spark.apache.org/docs/3.3.1/ml-pipeline.html#estimators)
+**Clarification on whether Estimator is a transformer**. See [Estimators](https://spark.apache.org/docs/3.5.0/ml-pipeline.html#estimators)
 > An Estimator abstracts the concept of a learning algorithm or any algorithm that fits or trains on data. Technically, an Estimator implements a method fit(), which accepts a DataFrame and produces a Model, which is a Transformer. For example, a learning algorithm such as LogisticRegression is an Estimator, and calling fit() trains a LogisticRegressionModel, which is a Model and hence a **Transformer**.
 
 ### Example: Linear Regression for Advertising
@@ -274,7 +272,7 @@ The example below is based on **Section 9.1** of [PySpark tutorial](https://runa
 
 #### Convert the data to dense vector (features and label)
 
-Let us convert the above data in CSV format to a typical (feature, label) pair for supervised learning. Here we use the [`Vectors` API](https://spark.apache.org/docs/3.3.1/api/python/reference/api/pyspark.ml.linalg.Vectors.html). You may also review the [lambda expressions in python](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions).
+Let us convert the above data in CSV format to a typical (feature, label) pair for supervised learning. Here we use the [`Vectors` API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.linalg.Vectors.html). You may also review the [lambda expressions in python](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions).
 
 ```python
 from pyspark.sql import Row
@@ -305,7 +303,7 @@ The labels here are real numbers and this is a **regression** problem. For **cla
 (trainingData, testData) = transformed.randomSplit([0.6, 0.4], 6012)
 ```
 
-We set the `seed=6012` in the above (see the [randomSplit API](https://spark.apache.org/docs/3.3.1/api/python/reference/api/pyspark.sql.DataFrame.randomSplit.html) )Check your train and test data as follows. It is a good practice to *keep tracking your data during prototype phase*.
+We set the `seed=6012` in the above (see the [randomSplit API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.sql.DataFrame.randomSplit.html) )Check your train and test data as follows. It is a good practice to *keep tracking your data during prototype phase*.
 
 ```python
 trainingData.show(5)
@@ -335,7 +333,7 @@ testData.show(5)
 
 #### Fit a linear regression Model and perform prediction
 
-More details on parameters can be found in the [Python API documentation](https://spark.apache.org/docs/3.3.1/api/python/reference/api/pyspark.ml.regression.LinearRegression.html).
+More details on parameters can be found in the [Python API documentation](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.regression.LinearRegression.html).
 
 ```python
 from pyspark.ml.regression import LinearRegression
@@ -371,7 +369,7 @@ print("Root Mean Squared Error (RMSE) on test data = %g" % rmse)
 
 ### Example: Machine Learning Pipeline for Document Classification
 
-This example is adapted from the [ML Pipeline API](https://spark.apache.org/docs/3.3.1/ml-pipeline.html), with minor changes and additional explanations.
+This example is adapted from the [ML Pipeline API](https://spark.apache.org/docs/3.5.0/ml-pipeline.html), with minor changes and additional explanations.
 
 ```python
 from pyspark.ml import Pipeline
@@ -499,11 +497,11 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 
 ### Linear regression for advertising
 
-4. Add regularisation to the [linear regression for advertising example](#Example-Linear-Regression-for-Advertising) and evaluate the prediction performance against the performance without any regularisation. Study at least three different regularisation settings.
+4. Add regularisation to the [linear regression for advertising example](#example-linear-regression-for-advertising) and evaluate the prediction performance against the performance without any regularisation. Study at least three different regularisation settings.
 
 ### Logistic regression for document classification
 
-5. Construct another test dataset for the [machine learning pipeline for document classification example](#Example-Machine-Learning-Pipeline-for-Document-Classification) with three test document samples: `"pyspark hadoop"`; `"spark a b c"`; `"mapreduce spark"` and report the prediction probabilities and the predicted labels for these three sample.
+5. Construct another test dataset for the [machine learning pipeline for document classification example](#example-machine-learning-pipeline-for-document-classification) with three test document samples: `"pyspark hadoop"`; `"spark a b c"`; `"mapreduce spark"` and report the prediction probabilities and the predicted labels for these three sample.
 
 ## 5. Additional ideas to explore (*optional*)
 
