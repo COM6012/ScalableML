@@ -7,7 +7,7 @@
 In [this module](http://www.dcs.shef.ac.uk/intranet/teaching/public/modules/msc/com6012.html), we will learn how to do machine learning at large scale using [Apache Spark](https://spark.apache.org/).
 We will use the [High Performance Computing (HPC) cluster systems](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) of our university. If you are NOT on the University's network, you **must** use [VPN (Virtual Private Network)](https://www.sheffield.ac.uk/it-services/vpn) to connect to the HPC.
 
-This edition uses [**PySpark 3.5.0**](https://spark.apache.org/docs/3.5.0/api/python/index.html), the [latest stable release of Spark](https://spark.apache.org/releases/spark-release-3-5-0.html) (Oct 25, 2022), and has 10 sessions below. You can refer to the [overview slides](https://github.com/COM6012/ScalableML/blob/master/Slides/Overview-COM6012-2023.pdf) for more information, e.g. timetable and assessment information.
+This edition uses [**PySpark 3.5.0**](https://spark.apache.org/docs/3.5.0/api/python/index.html), the [latest stable release of Spark](https://spark.apache.org/releases/spark-release-3-5-0.html) (Sep 13, 2023), and has 10 sessions below. You can refer to the [overview slides](https://github.com/COM6012/ScalableML/blob/master/Slides/Overview-COM6012-2024.pdf) for more information, e.g. timetable and assessment information.
 
 * Session 1: Introduction to Spark and HPC (Shuo Zhou)
 * Session 2: RDD, DataFrame, ML pipeline, & parallelization (Shuo Zhou)
@@ -40,6 +40,6 @@ The materials are built with references to the following sources:
 
 Many thanks to
 
-* [Haiping Lu](https://haipinglu.github.io/) and [Mauricio A Álvarez](https://maalvarezl.github.io/), who has developed this module from 2016 to 2022(3). Their contributions are still reflected in the materials.
+* [Haiping Lu](https://haipinglu.github.io/) and [Mauricio A Álvarez](https://maalvarezl.github.io/), who has developed this module from 2016 to 2023(2). Their contributions are still reflected in the materials.
 * Mike Croucher, Neil Lawrence, Will Furnass, Twin Karmakharm, and Vamsi Sai Turlapati for their inputs and inspirations since 2016.
 * Our teaching assistants and students who have contributed in many ways since 2017.
