@@ -22,24 +22,23 @@
 **Note - Please READ before proceeding**:
 
 - HPC nodes are **shared** resources (**like buses/trains**) relying on considerate usage of every user. When requesting resources, if you ask for too much (e.g. 50 cores), it will take a long time to get allocated, particularly during "*rush hours*" (e.g. close to deadlines) and once allocated, it will leave much less for the others. If everybody is asking for too much, the system won't work and everyone suffers.
-- We have five nodes (each with 40 cores, 768GB RAM) reserved for this module. You can specify `-P rse-com6012` (e.g. after `qrshx`) to get access. However, these nodes are not always more available, e.g. if all of us are using it. There are **100+** regular nodes, many of which may be idle.
 - Please follow **ALL steps (step by step without skipping)** unless you are very confident in handling problems by yourself.
 - Please try your best to follow the **study schedule** above to finish the tasks on time. If you start early/on time, you will find your problems early so that you can make good use of the labs and online sessions to get help from the instructors and teaching assistants to fix your problems early, rather than getting panic close to an assessment deadline. Based on our experience from the past five years, rushing towards an assessment deadline in this module is likely to make you fall, sometimes painfully.
 
 ## 1. Connect to HPC and Install Spark
 
-**Unless** you are on the campus network, you **MUST** first connect to the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn).
-
 ### 1.1 HPC Driving License and Connect to Stanage HPC via SSH
 
 Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. I have get your HPC account created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
+
+To connect to Stanage without VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setup your Stanage TOTP MFA, **unless** you are on the campus network, you **still need** to connect to the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn).
 
 Use your university **username** such as `abc18de` and the associated password to log in. You are required to use [Multi-factor authentication (MFA)](https://www.sheffield.ac.uk/it-services/vpn) to connect to VPN. If you have problem logging in, do the following in sequence:
 
 - Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
 - Come to the labs on Fridays and office hours on Mondays to get in-person help and online sessions on Wednesdays for online help.
 
-Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html) for [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) or [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) to open a terminal and connect to Stanage via SSH by
+Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh) for [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) or [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) to open a terminal and connect to Stanage via SSH by
 
 ```sh
 ssh $USER@stanage.shef.ac.uk  # Use lowercase for your username, without `$`
@@ -384,49 +383,15 @@ You will see lots of logging info output such as
 
 ```sh
 24/01/26 18:33:16 INFO SparkContext: Running Spark version 3.5.0
-24/01/26 18:33:16 INFO SparkContext: OS info Linux, 3.10.0-1160.105.1.el7.x86_64, amd64
-24/01/26 18:33:16 INFO SparkContext: Java version 17.0.4
-24/01/26 18:33:16 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-24/01/26 18:33:16 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
-24/01/26 18:33:16 INFO ResourceUtils: ==============================================================
-24/01/26 18:33:16 INFO ResourceUtils: No custom resources configured for spark.driver.
+.....................
 24/01/26 18:33:16 INFO ResourceUtils: ==============================================================
 24/01/26 18:33:16 INFO SparkContext: Submitted application: COM6012 Spark Intro
-24/01/26 18:33:16 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
-24/01/26 18:33:16 INFO ResourceProfile: Limiting resource is cpu
-24/01/26 18:33:16 INFO ResourceProfileManager: Added ResourceProfile id: 0
-24/01/26 18:33:16 INFO SecurityManager: Changing view acls to: ac1sz
-24/01/26 18:33:16 INFO SecurityManager: Changing modify acls to: ac1sz
-24/01/26 18:33:16 INFO SecurityManager: Changing view acls groups to: 
-24/01/26 18:33:16 INFO SecurityManager: Changing modify acls groups to: 
-24/01/26 18:33:16 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ac1sz; groups with view permissions: EMPTY; users with modify permissions: ac1sz; groups with modify permissions: EMPTY
-24/01/26 18:33:16 INFO Utils: Successfully started service 'sparkDriver' on port 42343.
-24/01/26 18:33:16 INFO SparkEnv: Registering MapOutputTracker
-24/01/26 18:33:16 INFO SparkEnv: Registering BlockManagerMaster
-24/01/26 18:33:16 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
-24/01/26 18:33:16 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
-24/01/26 18:33:16 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
-24/01/26 18:33:16 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/ac1sz/blockmgr-012fbea2-840e-4584-8015-01e57b2b326d
-24/01/26 18:33:16 INFO MemoryStore: MemoryStore started with capacity 413.9 MiB
-24/01/26 18:33:16 INFO SparkEnv: Registering OutputCommitCoordinator
-24/01/26 18:33:17 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
-24/01/26 18:33:17 INFO Utils: Successfully started service 'SparkUI' on port 4040.
-24/01/26 18:33:17 INFO Executor: Starting executor ID driver on host node001.pri.stanage.alces.network
-24/01/26 18:33:17 INFO Executor: OS info Linux, 3.10.0-1160.105.1.el7.x86_64, amd64
-24/01/26 18:33:17 INFO Executor: Java version 17.0.4
-24/01/26 18:33:17 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
-24/01/26 18:33:17 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@37a620b2 for default.
+.....................
 24/01/26 18:33:17 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 41095.
-24/01/26 18:33:17 INFO NettyBlockTransferService: Server created on node001.pri.stanage.alces.network:41095
-24/01/26 18:33:17 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
-24/01/26 18:33:17 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, node001.pri.stanage.alces.network, 41095, None)
-24/01/26 18:33:17 INFO BlockManagerMasterEndpoint: Registering block manager node001.pri.stanage.alces.network:41095 with 413.9 MiB RAM, BlockManagerId(driver, node001.pri.stanage.alces.network, 41095, None)
-24/01/26 18:33:17 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, node001.pri.stanage.alces.network, 41095, None)
-24/01/26 18:33:17 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, node001.pri.stanage.alces.network, 41095, None)
+.....................
 
 
 Hello Spark: There are 11 hosts from Japan.
-
 ```
 
 The output is verbose so I did not show all (see `Output/COM6012_Lab1_SAMPLE.txt` for the verbose output example). We can set the log level easily after `sparkContext` is created but not before (it is a bit complicated). I leave two blank lines before printing the result so it is early to see.
@@ -474,7 +439,6 @@ Create a file `Lab1_SubmitBatch.sh`
 
 ```sh
 #!/bin/bash
-#$ -l h_rt=6:00:00  # time needed in hours:mins:secs
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
 #SBATCH --output=../Output/COM6012_Lab1.txt  # This is where your output and errors are logged
@@ -490,13 +454,13 @@ spark-submit ../Code/LogMiningBig.py  # .. is a relative path, meaning one level
 ```
 
 - Get necessary files on your Stanage.
-- Start a session with command `qrshx`.
+- Start a session with command `srun --pty bash -i`.
 - Go to the `HPC` directory to submit your job via the `sbatch` command (can be run at the **login node**).
 - The output file will be under `Output`.
 
 ```sh
 cd HPC
-sbatch Lab1_SubmitBatch.sh # or qsub HPC/Lab1_SubmitBatch.sh if you are at /home/abc1de/com6012/ScalableML
+sbatch Lab1_SubmitBatch.sh # or sbatch HPC/Lab1_SubmitBatch.sh if you are at /home/abc1de/com6012/ScalableML
 ```
 
 Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named `COM6012_Lab1_SAMPLE.txt` is in the GitHub `Output` folder for your reference. The results are
