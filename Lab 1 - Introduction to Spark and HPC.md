@@ -41,7 +41,7 @@ ssh $USER@stanage.shef.ac.uk  # Use lowercase for your username, without `$`
 
 You need to replace `$USER` with your username. Let's assume it is `abc1de`, then use the command `ssh abc1de@stanage.shef.ac.uk` (using **lowercase** and without `$`).
 
-For [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) users, it is recommended to [MobaXterm](https://mobaxterm.mobatek.net/) for SSH. Download and install it. Open MobaXterm and click `Session --> SSH` and fill in the following information:
+For [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) users, it is recommended to use [MobaXterm](https://mobaxterm.mobatek.net/) for SSH. Download the [portable edition](https://mobaxterm.mobatek.net/download-home-edition.html). Unzip MobaXterm, launch it, and click `Session --> SSH`. Then, enter the following details:
 
 <!-- Fix: Move the inline HTML code to a separate line -->
 <!-- <img src="./Figs/win-ssh-config.png" width="700"/> -->
