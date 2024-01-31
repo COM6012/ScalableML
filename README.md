@@ -20,7 +20,7 @@ This edition uses [**PySpark 3.5.0**](https://spark.apache.org/docs/3.5.0/api/py
 * Session 9: Scalable PCA for dimensionality reduction and Spark data types (Robert Loftin)
 * Session 10: Apache Spark in the Cloud (Xianyuan Liu)
 
-You can also download the [Spring 2023 version](https://github.com/haipinglu/ScalableML) for preview or reference.
+You can also download the [Spring 2023 version](https://github.com/COM6012/ScalableML/tree/2023-legacy) for preview or reference.
 
 If you do not have one yet, we recommend you to sign up for a [GitHub account](https://github.com/join) to learn using this popular open source software development platform.
 
