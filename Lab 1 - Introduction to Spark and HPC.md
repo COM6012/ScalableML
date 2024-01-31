@@ -29,11 +29,11 @@
 
 ### 1.1 HPC Driving License and Connect to Stanage HPC via SSH
 
-Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
+Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
 
 To access Stanage for the first time, you **must** connect the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn). Use your university **username** such as `abc18de` and the associated password to log in.
 
-Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh), for [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) users, open a terminal and connect to Stanage via SSH by
+[Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) users, following the [official connection instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh), open a terminal and connect to Stanage via SSH by
 
 ```sh
 ssh $USER@stanage.shef.ac.uk  # Use lowercase for your username, without `$`
@@ -41,14 +41,14 @@ ssh $USER@stanage.shef.ac.uk  # Use lowercase for your username, without `$`
 
 You need to replace `$USER` with your username. Let's assume it is `abc1de`, then use the command `ssh abc1de@stanage.shef.ac.uk` (using **lowercase** and without `$`).
 
-For [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) users, it is recommended to use [MobaXterm](https://mobaxterm.mobatek.net/) for SSH. Download the [portable edition](https://mobaxterm.mobatek.net/download-home-edition.html). Unzip MobaXterm, launch it, and click `Session --> SSH`. Then, enter the following details:
+[Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) users are recommended to use [MobaXterm](https://mobaxterm.mobatek.net/) for SSH. Download the [portable edition](https://mobaxterm.mobatek.net/download-home-edition.html). Unzip MobaXterm, launch it, and click `Session --> SSH`. Then, enter the following details:
 
 <!-- Fix: Move the inline HTML code to a separate line -->
 <!-- <img src="./Figs/win-ssh-config.png" width="700"/> -->
 
 ![image info](./Figs/win-ssh-config.png)
 
-If successful, you should see
+If successful, you will be on the login node and should see
 
 ```sh
 [abc1de@login2 [stanage] ~]$
@@ -59,9 +59,9 @@ If successful, you should see
 If you have problem logging in, do the following in sequence:
 
 - Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
-- Come to the labs on Fridays and office hours on Mondays to get in-person help and online sessions on Wednesdays for online help.
+- Come to the labs on Fridays or office hours on Mondays for in-person help, and online sessions on Wednesdays for online help.
 
-To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setup your Stanage TOTP MFA, **unless** you are on the campus network, you **still need** to connect to the VPN to access Stanage.
+To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setting up your Stanage TOTP MFA, **unless** you are on the campus network, you will **still need** to connect to the VPN to access Stanage.
 
 #### MobaXterm tips
 
@@ -71,19 +71,19 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 - You can open multiple sessions (but do not open more than what you need as these are shared resources).
 - YOu can directly open a file to edit and then save it.
 
-#### (Optional) **VSCode Remote HPC** for writing/managing code
+<!-- #### (Optional) **VSCode Remote HPC** for writing/managing code
 
 - You can use VSCode to write and manage your code and scripts on HPC by following the [VSCode Remote HPC instructions](https://github.com/rcgsheffield/vscoderemote_sheffield_hpc).
 - After performing the steps in the above repo, you will be able to 1) start a remote code server on the HPC and 2) connect to it via your web browser and edit/manage your code with access to the remote filesystem on the HPC.
 - Using VSCode via the browser provides similar functionality as a desktop VSCode installation but having some restrictions on the marketplace and extensions. See [Why can't code-server use Microsoft's extension marketplace?](https://coder.com/docs/code-server/latest/FAQ#why-cant-code-server-use-microsofts-extension-marketplace).
 
-**NOTE:** While using VScode provides a level of convenience, it is also good to get familiar with writing and managing code from the terminal using vim/nano.
+**NOTE:** While using VScode provides a level of convenience, it is also good to get familiar with writing and managing code from the terminal using vim/nano. -->
 
 ### 1.2 Set up the environment and install PySpark
 
 #### Start an interactive session
 
-Type `srun --pty bash -i` for a *regular- node. If successful, you should see
+Type `srun --pty bash -i` for a *regular-node*. If successful, you should see
 
 ```sh
 [abc1de@node*** [stanage] ~]$  # *** is the node number
@@ -97,11 +97,11 @@ Otherwise, try `srun --pty bash -i` again. You will not be able to run the follo
 
 `module load Anaconda3/2022.10`
 
-#### Create a virtual environment called `myspark`
+#### Create a virtual environment called `myspark` with Python 3.11.7
 
 `conda create -n myspark python=3.11.7`
 
-When you are asked whether to proceed, say `y`. When seeing `Please update conda by running ...`, do NOT try to update conda following the given command. As a regular user, you will NOT be able to update conda.
+When you are asked whether to proceed, say `y`. When seeing `Please update conda by running ...`, do NOT try to update conda following the given command. As a regular user in HPC, you will NOT be able to update conda.
 
 #### Activate the environment
 
