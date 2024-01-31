@@ -31,12 +31,7 @@
 
 Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. I have get your HPC account created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
 
-To connect to Stanage without VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setup your Stanage TOTP MFA, **unless** you are on the campus network, you **still need** to connect to the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn).
-
-Use your university **username** such as `abc18de` and the associated password to log in. You are required to use [Multi-factor authentication (MFA)](https://www.sheffield.ac.uk/it-services/vpn) to connect to VPN. If you have problem logging in, do the following in sequence:
-
-- Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
-- Come to the labs on Fridays and office hours on Mondays to get in-person help and online sessions on Wednesdays for online help.
+To access Stanage for the first time, you **must** connect the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn). Use your university **username** such as `abc18de` and the associated password to log in.
 
 Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh) for [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) or [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) to open a terminal and connect to Stanage via SSH by
 
@@ -51,6 +46,13 @@ You need to replace `$USER` with your username. Let's assume it is `abc1de`, the
 ```
 
 `abc1de` should be your username.
+
+To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setup your Stanage TOTP MFA, **unless** you are on the campus network, you **still need** to connect to the VPN to access Stanage.
+
+If you have problem logging in, do the following in sequence:
+
+- Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
+- Come to the labs on Fridays and office hours on Mondays to get in-person help and online sessions on Wednesdays for online help.
 
 #### MobaXterm tips
 
@@ -191,7 +193,7 @@ Here we provide detailed instructions only for Windows.
   - Set the environment variables:
     - `SPARK_HOME = C:\Spark\spark-3.5.0-bin-hadoop`
     - `PATH += C:\Spark\spark-3.5.0-bin-hadoop3\bin`
-  - Download [**winutils.exe** for hadoop 3](https://github.com/steveloughran/winutils/blob/master/hadoop-3/bin/winutils.exe) and move it to `C:\Spark\spark-3.5.0-bin-hadoop3\bin`
+  - Download [**winutils.exe** for hadoop 3](https://github.com/steveloughran/winutils/blob/master/hadoop-3.0.0/bin/winutils.exe) and move it to `C:\Spark\spark-3.5.0-bin-hadoop3\bin`
   - Set the environment variable:
     - `HADOOP_HOME = C:\Spark\spark-3.5.0-bin-hadoop3`
     - `PYTHONPATH = %SPARK_HOME%\python;%SPARK_HOME%\python\lib\py4j-<version>-src.zip;%PYTHONPATH%` (just check what py4j version you have in your `spark/python/lib` folder to replace `<version>` ([source](https://stackoverflow.com/questions/53161939/pyspark-error-does-not-exist-in-the-jvm-error-when-initializing-sparkcontext?noredirect=1&lq=1)).
@@ -530,7 +532,7 @@ You are encouraged to try out in the pyspark shell first to figure out the right
 
 ### More log mining questions
 
-You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.5.0/api/python/reference/pyspark.sql.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
+You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.5.0/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
 
 - How many **unique** hosts on a particular day (e.g., 15th August)?
 - How many **unique** hosts in total (i.e., in August 1995)?
@@ -552,4 +554,4 @@ You are encouraged to explore these more challenging questions by consulting the
 
 Many thanks to Haiping, Mauricio, Twin, Will, Mike, Vamsi for their kind help and all those kind contributors of open resources.
 
-The log mining problem is adapted from [UC Berkeley cs105x L3](https://www.edx.org/course/introduction-apache-spark-uc-berkeleyx-cs105x).
+The log mining problem is adapted from [UC Berkeley cs105x L3](https://learning.edx.org/course/course-v1:BerkeleyX+CS105x+1T2016/home).
