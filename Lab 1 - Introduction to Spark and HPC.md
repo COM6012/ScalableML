@@ -29,17 +29,26 @@
 
 ### 1.1 HPC Driving License and Connect to Stanage HPC via SSH
 
-Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. I have get your HPC account created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
+Follow the [official instruction](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
 
 To access Stanage for the first time, you **must** connect the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn). Use your university **username** such as `abc18de` and the associated password to log in.
 
-Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh) for [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) or [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) to open a terminal and connect to Stanage via SSH by
+Following the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh), for [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) users, open a terminal and connect to Stanage via SSH by
 
 ```sh
 ssh $USER@stanage.shef.ac.uk  # Use lowercase for your username, without `$`
 ```
 
-You need to replace `$USER` with your username. Let's assume it is `abc1de`, then you do `ssh abc1de@stanage.shef.ac.uk` (using **lowercase** and without `$`). If successful, you should see
+You need to replace `$USER` with your username. Let's assume it is `abc1de`, then use the command `ssh abc1de@stanage.shef.ac.uk` (using **lowercase** and without `$`).
+
+For [Windows](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-windows) users, it is recommended to [MobaXterm](https://mobaxterm.mobatek.net/) for SSH. Download and install it. Open MobaXterm and click `Session --> SSH` and fill in the following information:
+
+<!-- Fix: Move the inline HTML code to a separate line -->
+<!-- <img src="./Figs/win-ssh-config.png" width="700"/> -->
+
+![image info](./Figs/win-ssh-config.png)
+
+If successful, you should see
 
 ```sh
 [abc1de@login2 [stanage] ~]$
@@ -47,12 +56,12 @@ You need to replace `$USER` with your username. Let's assume it is `abc1de`, the
 
 `abc1de` should be your username.
 
-To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setup your Stanage TOTP MFA, **unless** you are on the campus network, you **still need** to connect to the VPN to access Stanage.
-
 If you have problem logging in, do the following in sequence:
 
 - Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
 - Come to the labs on Fridays and office hours on Mondays to get in-person help and online sessions on Wednesdays for online help.
+
+To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setup your Stanage TOTP MFA, **unless** you are on the campus network, you **still need** to connect to the VPN to access Stanage.
 
 #### MobaXterm tips
 
