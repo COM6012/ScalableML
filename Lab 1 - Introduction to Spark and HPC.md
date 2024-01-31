@@ -83,7 +83,7 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 
 #### Start an interactive session
 
-Type `srun --pty bash -i` for a *regular-node*. If successful, you should see
+Type `srun --pty bash -i` for a *regular node*. If successful, you should see
 
 ```sh
 [abc1de@node*** [stanage] ~]$  # *** is the node number
@@ -163,26 +163,26 @@ This module focuses on the HPC terminal. You are expected to use the HPC termina
 
 Installation of PySpark on your own machine is more complicated than installing a regular python library because it depends on Java (i.e. not pure python). The following steps are typically needed:
 
-- Install [**Java 8**](https://www.java.com/en/download/manual.jsp), i.e. java version *1.8.xxx*. Most instructions online ask you to install *Java SDK*, which is heavier. *Java JRE- is lighter and sufficient for pyspark.
+- Install [**Java 8**](https://www.java.com/en/download/manual.jsp), i.e. java version *1.8.xxx*. Most instructions online ask you to install *Java SDK*, which is heavier. *Java JRE* is lighter and sufficient for pyspark.
 - Install Python **3.8+** (if not yet)
 - Install PySpark **3.5.0** with **Hadoop 3.3**
 - Set up the proper environments (see references below)
 
 As far as I know, it is not necessary to install *Scala*.
 
-Different OS (Windows/Linux/Mac) may have different problems. We provide some references below if you wish to try but it is *not required- and we can provide only very limited support on this task (i.e. we may not be able to solve all problems that you may encounter).
+Different OS (Windows/Linux/Mac) may have different problems. We provide some references below if you wish to try but it is *not required* and we can provide only very limited support on this task (i.e. we may not be able to solve all problems that you may encounter).
 
 If you do want to install PySpark and run Jupyter Notebooks on your own machine, you need to complete the steps above with reference to the instructions below for your OS (Windows/Linux/Mac).
 
 #### References (use with caution, not necessarily up to date or the best)
 
-If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, Python **3.8+**, PySpark **3.5.0** with **Hadoop 3.3**. *Scala- is optional.
+If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, Python **3.8+**, PySpark **3.5.0** with **Hadoop 3.3**. *Scala* is optional.
 
-- Windows: 1) [How to setup PySpark on Windows?](https://saumyagoyal.medium.com/how-to-install-pyspark-on-windows-faf7ac293ecf) 2) [PySpark Made Easy: Day 1 — Install PySpark locally on windows](https://medium.com/@dipan.saha/getting-started-with-pyspark-day-1-37e5e6fdc14b).
+- Windows: 1) [How to setup PySpark on Windows?](https://saumyagoyal.medium.com/how-to-install-pyspark-on-windows-faf7ac293ecf) and 2) [PySpark Made Easy: Day 1 — Install PySpark locally on windows](https://medium.com/@dipan.saha/getting-started-with-pyspark-day-1-37e5e6fdc14b)
 
-- Linux: [Install PySpark on Ubuntu](https://linuxhint.com/install-pyspark-ubuntu-22-04/);
+- Linux: [Install PySpark on Ubuntu](https://linuxhint.com/install-pyspark-ubuntu-22-04/)
 
-- Mac: 1) [Install and Set Up Pyspark in 5 Minutes (M1 Mac)](https://medium.com/@jpurrutia95/install-and-set-up-pyspark-in-5-minutes-m1-mac-eb415fe623f3) (with video); 2) [Install Spark/PySpark on Mac](https://medium.com/@yajieli/installing-spark-pyspark-on-mac-and-fix-of-some-common-errors-355a9050f735)
+- Mac: 1) [Install and Set Up Pyspark in 5 Minutes (M1 Mac)](https://medium.com/@jpurrutia95/install-and-set-up-pyspark-in-5-minutes-m1-mac-eb415fe623f3) and 2) [Install Spark/PySpark on Mac](https://medium.com/@yajieli/installing-spark-pyspark-on-mac-and-fix-of-some-common-errors-355a9050f735)
 
 #### Install PySpark on Windows
 
@@ -263,7 +263,7 @@ Let us do some simple computing (squares)
 
 This example deals with **Semi-Structured** data in a text file.
 
-Firstly, you need to **make sure the file is in the proper directory and change the file path if necessary**, on either HPC or local machine, e.g. using ``pwd` to see the current directly, `ls` (or `dir` in Windows) to see the content. Also review how to [**transfer files to HPC**](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html) and [MobaXterm tips](#mobaxterm-tips) for Windows users.
+Firstly, you need to **make sure the file is in the proper directory and change the file path if necessary**, on either HPC or local machine, e.g. using `pwd` to see the current directly, `ls` (or `dir` in Windows) to see the content. Also review how to [**transfer files to HPC**](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html) and [MobaXterm tips](#mobaxterm-tips) for Windows users.
 
 Now quit pyspark by `Ctrl + D`. Take a look at where you are
 
@@ -446,7 +446,7 @@ See [how to submit batch jobs to Stanage](https://docs.hpc.shef.ac.uk/en/latest/
 
 Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
-Create a file `Lab1_SubmitBatch.sh`
+Create a file `Lab1_SubmitBatch.sh` and change `username`
 
 ```sh
 #!/bin/bash
