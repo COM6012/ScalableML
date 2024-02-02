@@ -83,13 +83,27 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 
 #### Start an interactive session
 
-Type `srun --pty bash -i` for a *regular node*. If successful, you should see
+During the lab sessions, you can access the *reserved nodes* for this module via
+
+```sh
+srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i
+```
+
+Replace `$LAB_ID` with the session number of the lab you are taking. For example, if you are in Lab 1, you should use
+
+```sh
+srun --account=com6012-1 --reservation=com6012-1 --pty bash -i
+```
+
+You can also access the *general queue* via `srun --pty bash -i`. If successful, you should see
 
 ```sh
 [abc1de@node*** [stanage] ~]$  # *** is the node number
 ```
 
-Otherwise, try `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+Otherwise, try `srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+
+Note: you can only access the reserved nodes during the lab sessions. Outside the lab sessions, you can only access the general queue.
 
 #### Load Java and conda
 
@@ -446,10 +460,12 @@ See [how to submit batch jobs to Stanage](https://docs.hpc.shef.ac.uk/en/latest/
 
 Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
-Create a file `Lab1_SubmitBatch.sh` and change `username`
+Create a file `Lab1_SubmitBatch.sh` for *reserved nodes* and change `$LAB_ID` and `username`
 
 ```sh
 #!/bin/bash
+#SBATCH --account=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number  
+#SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
 #SBATCH --output=../Output/COM6012_Lab1.txt  # This is where your output and errors are logged
@@ -464,14 +480,23 @@ source activate myspark
 spark-submit ../Code/LogMiningBig.py  # .. is a relative path, meaning one level up
 ```
 
+Please remove the following two lines for the *general queue*.
+  
+```sh
+#SBATCH --account=com6012-$LAB_ID 
+#SBATCH --reservation=com6012-$LAB_ID
+```
+
 - Get necessary files on your Stanage.
 - Start a session with command `srun --pty bash -i`.
 - Go to the `HPC` directory to submit your job via the `sbatch` command (can be run at the **login node**).
 - The output file will be under `Output`.
 
+Use the following commands to submit your job
+
 ```sh
 cd HPC
-sbatch Lab1_SubmitBatch.sh # or sbatch HPC/Lab1_SubmitBatch.sh if you are at /home/abc1de/com6012/ScalableML
+sbatch Lab1_SubmitBatch.sh # or sbatch HPC/Lab1_SubmitBatch.sh if you are at /users/abc1de/com6012/ScalableML
 ```
 
 Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named `COM6012_Lab1_SAMPLE.txt` is in the GitHub `Output` folder for your reference. The results are
@@ -560,6 +585,8 @@ You are encouraged to explore these more challenging questions by consulting the
 - **Compare** the time taken to complete your jobs with 2, 4, 8, 16, and 32 cores.
 
 ## 7. Acknowledgements
+
+Many thanks to the IT-Services (Research) Team, especially Desmond, for their kind support with the HPC resources.
 
 Many thanks to Haiping, Mauricio, Twin, Will, Mike, Vamsi for their kind help and all those kind contributors of open resources.
 
