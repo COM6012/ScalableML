@@ -107,9 +107,13 @@ Note: you can only access the reserved nodes during the lab sessions. Outside th
 
 #### Load Java and conda
 
-`module load Java/17.0.4`
+```sh
+module load Java/17.0.4
+```
 
-`module load Anaconda3/2022.10`
+```sh
+module load Anaconda3/2022.10
+```
 
 #### Create a virtual environment called `myspark` with Python 3.11.7
 
@@ -119,23 +123,31 @@ When you are asked whether to proceed, say `y`. When seeing `Please update conda
 
 #### Activate the environment
 
-`source activate myspark`
+```sh
+source activate myspark
+```
 
 The prompt says to use `conda activate myspark` but it does not always work. You **must** see `(myspark)` in front, before proceeding. Otherwise, you did not get the proper environment. Check the above steps.
 
 #### Install pyspark 3.5.0 using `pip`
 
-`pip install pyspark==3.5.0`
+```sh
+pip install pyspark==3.5.0
+```
 
 When you are asked whether to proceed, say `y`. You should see the last line of the output as
 
-`Successfully installed py4j-0.10.9.7 pyspark-3.5.0`
+```sh
+Successfully installed py4j-0.10.9.7 pyspark-3.5.0
+```
 
 [`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
 
 #### Run pyspark
 
-`pyspark`
+```sh
+pyspark
+```
 
 You should see spark version **3.5.0** displayed like below
 
@@ -233,7 +245,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 
 ### Get a node and activate myspark
 
-- Get a node via `srun --pty bash -i`.
+- Get a node via `srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i` or `srun --pty bash -i`.
 - Activate the environment by
 
    ```sh
@@ -501,7 +513,7 @@ sbatch Lab1_SubmitBatch.sh # or sbatch HPC/Lab1_SubmitBatch.sh if you are at /us
 
 Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named `COM6012_Lab1_SAMPLE.txt` is in the GitHub `Output` folder for your reference. The results are
 
-```sh
+```txt
 Hello Spark: There are 35924 hosts from UK.
 
 Hello Spark: There are 71600 hosts from Japan.
