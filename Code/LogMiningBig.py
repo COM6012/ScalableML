@@ -5,7 +5,7 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder \
     .master("local[2]") \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 
 sc = spark.sparkContext
