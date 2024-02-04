@@ -179,7 +179,10 @@ You are expected to have passed the [HPC Driving License test](https://infosecur
 
 **Line ending WARNING!!!**: if you are using Windows, you should be aware that [line endings differ between Windows and Linux](https://stackoverflow.com/questions/426397/do-line-endings-differ-between-windows-and-linux). If you edit a shell script (below) in Windows, make sure that you use a Unix/Linux compatible editor or do the conversion before using it on HPC.
 
-**File recovery**: your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups.
+**File recovery**: the Stanage currently does not support file recovery following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
+<!-- your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups. -->
+
+
 
 
 
