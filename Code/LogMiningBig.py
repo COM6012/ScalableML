@@ -11,7 +11,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("WARN")  # This can only affect the log level after it is executed.
 
-logFile=spark.read.text("../Data/NASA_access_log_Aug95.gz").cache()
+logFile=spark.read.text("./Data/NASA_access_log_Aug95.gz").cache()
 
 hostsJapan = logFile.filter(logFile.value.contains(".jp")).count()
 hostsUK = logFile.filter(logFile.value.contains(".uk")).count()
