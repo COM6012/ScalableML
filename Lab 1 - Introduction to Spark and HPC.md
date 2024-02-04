@@ -444,7 +444,7 @@ The output is verbose so I did not show all (see `Output/COM6012_Lab1_SAMPLE.txt
 
 **Question**: How many accesses are from Japan and UK respectively?
 
-Create a file `LogMiningBig.py`
+Create a file `LogMiningBig.py` under `/users/abc1de/com6012/ScalableML` directory
 
 ```python
 from pyspark.sql import SparkSession
@@ -477,7 +477,7 @@ See [how to submit batch jobs to Stanage](https://docs.hpc.shef.ac.uk/en/latest/
 
 Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
-Create a file `Lab1_SubmitBatch.sh` for *reserved nodes* and change `$LAB_ID` and `username`
+Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML` directory for *reserved nodes* and change `$LAB_ID` and `username`
 
 ```sh
 #!/bin/bash
@@ -485,7 +485,7 @@ Create a file `Lab1_SubmitBatch.sh` for *reserved nodes* and change `$LAB_ID` an
 #SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
-#SBATCH --output=../Output/COM6012_Lab1.txt  # This is where your output and errors are logged
+#SBATCH --output=./Output/COM6012_Lab1.txt  # This is where your output and errors are logged
 #SBATCH --mail-user=username@sheffield.ac.uk  # Request job update email notifications, remove this line if you don't want to be notified
 
 module load Java/17.0.4
@@ -494,7 +494,7 @@ module load Anaconda3/2022.10
 
 source activate myspark
 
-spark-submit ../Code/LogMiningBig.py  # .. is a relative path, meaning one level up
+spark-submit ./Code/LogMiningBig.py  # . is a relative path, meaning the current directory
 ```
 
 Please remove the following two lines for the *general queue*.

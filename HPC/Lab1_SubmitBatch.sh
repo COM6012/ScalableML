@@ -1,16 +1,14 @@
 #!/bin/bash
-#$ -l h_rt=6:00:00  # time needed in hours:mins:secs
-#$ -pe smp 2 # number of cores requested
-#$ -l rmem=8G # size of memory requested
-#$ -o ../Output/COM6012_Lab1.txt  # This is where your output and errors are logged
-#$ -j y # normal and error outputs into a single file (the file above)
-#$ -M youremail@shef.ac.uk # notify you by email, remove this line if you don't want to be notified
-#$ -m ea # email you when it finished or aborted
-#$ -cwd # run job from current directory
+#SBATCH --account=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number  
+#SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
+#SBATCH --nodes=1  # Specify a number of nodes
+#SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
+#SBATCH --output=../Output/COM6012_Lab1.txt  # This is where your output and errors are logged
+#SBATCH --mail-user=username@sheffield.ac.uk  # Request job update email notifications, remove this line if you don't want to be notified
 
-module load apps/java/jdk1.8.0_102/binary
+module load Java/17.0.4
 
-module load apps/python/conda
+module load Anaconda3/2022.10
 
 source activate myspark
 
