@@ -381,7 +381,7 @@ Now you have used pyspark for some (very) simple data analytic task.
 
 To run a self-contained application, you need to **exit your shell, by `Ctrl+D` first**.
 
-Create your own personal folder in the `/fastdata`` area. As this doesn’t exist by default, you can create it with safe permissions by running the command:
+Create your own personal folder in the `/fastdata` area. As this doesn’t exist by default, you can create it with safe permissions by running the command:
 
 ```sh
 mkdir -m 0700 /mnt/parscratch/users/YOUR_USERNAME
