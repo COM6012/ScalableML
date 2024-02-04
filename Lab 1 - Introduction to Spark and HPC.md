@@ -411,9 +411,9 @@ print("\n\nHello Spark: There are %i hosts from Japan.\n\n" % (hostsJapan))
 spark.stop()
 ```
 
-`https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas`
+<!-- `https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas` -->
 
-Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory such as `C:\temp`.
+Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory, such as `C:\temp` in Windows.
 
 Actually the file has been created for you under the folder `Code` so you can just run it
 
