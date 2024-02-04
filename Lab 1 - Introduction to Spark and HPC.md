@@ -310,7 +310,7 @@ cd com6012
 Let us make a copy of our teaching materials at this directory via
 
 ```sh
-git clone --depth 1 https://github.com/COM6012/ScalableML https://github.com/haipinglu/ScalableML
+git clone --depth 1 https://github.com/COM6012/ScalableML
 ```
 
 If `ScalableML` is not empty (e.g. you have cloned a copy already), this will give you an error. You need to delete the cloned version (the whole folder) via `rm -rf ScalableML`. Be careful that you can **NOT** undo this delete so make sure **you do not have anything valuable (e.g. your assignment) there** if you do this delete.
