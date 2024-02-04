@@ -506,10 +506,10 @@ Please remove the following two lines for the *general queue*.
 
 - Get necessary files on your Stanage.
 - Start a session with command `srun --pty bash -i`.
-- Go to the `HPC` directory to submit your job via the `sbatch` command (can be run at the **login node**).
+- Go to the `/users/abc1de/com6012/ScalableML` directory to submit your job via the `sbatch` command (can be run at the **login node**).
 - The output file will be under `Output`.
 
-Use `pwd` to check your current directory, make sure you are in the `/users/abc1de/com6012/ScalableML` directory. If not, use command `cd` or `cd ..` (for moving up one directory) to go to the right directory. Then use the following commands to submit your job
+Use the following commands to submit your job
 
 ```sh
 sbatch HPC/Lab1_SubmitBatch.sh
