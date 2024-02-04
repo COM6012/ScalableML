@@ -477,7 +477,7 @@ See [how to submit batch jobs to Stanage](https://docs.hpc.shef.ac.uk/en/latest/
 
 Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
-Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML` directory for *reserved nodes* and change `$LAB_ID` and `username`
+Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC` directory for *reserved nodes* and change `$LAB_ID` and `username`
 
 ```sh
 #!/bin/bash
@@ -509,11 +509,10 @@ Please remove the following two lines for the *general queue*.
 - Go to the `HPC` directory to submit your job via the `sbatch` command (can be run at the **login node**).
 - The output file will be under `Output`.
 
-Use the following commands to submit your job
+Use `pwd` to check your current directory, make sure you are in the `/users/abc1de/com6012/ScalableML` directory. If not, use command `cd` or `cd ..` (for moving up one directory) to go to the right directory. Then use the following commands to submit your job
 
 ```sh
-cd HPC
-sbatch Lab1_SubmitBatch.sh # or sbatch HPC/Lab1_SubmitBatch.sh if you are at /users/abc1de/com6012/ScalableML
+sbatch HPC/Lab1_SubmitBatch.sh
 ```
 
 Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named `COM6012_Lab1_SAMPLE.txt` is in the GitHub `Output` folder for your reference. The results are
@@ -603,8 +602,6 @@ You are encouraged to explore these more challenging questions by consulting the
 
 ## 7. Acknowledgements
 
-Many thanks to the IT-Services (Research) Team, especially Desmond, for their kind support with the HPC resources.
-
-Many thanks to Haiping, Mauricio, Twin, Will, Mike, Vamsi for their kind help and all those kind contributors of open resources.
+Many thanks to Haiping, Mauricio, Twin, Will, Mike, Xianyuan, Desmond, and Vamsi for their kind help and all those kind contributors of open resources.
 
 The log mining problem is adapted from [UC Berkeley cs105x L3](https://learning.edx.org/course/course-v1:BerkeleyX+CS105x+1T2016/home).
