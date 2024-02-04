@@ -403,7 +403,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("WARN")  # This can only affect the log level after it is executed.
 
-logFile=spark.read.text("Data/NASA_Aug95_100.txt").cache()
+logFile=spark.read.text("./Data/NASA_Aug95_100.txt").cache()
 hostsJapan = logFile.filter(logFile.value.contains(".jp")).count()
 
 print("\n\nHello Spark: There are %i hosts from Japan.\n\n" % (hostsJapan))
@@ -415,7 +415,7 @@ spark.stop()
 
 Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory, such as `C:\temp` in Windows.
 
-Actually the file has been created for you under the folder `Code` so you can just run it
+Actually, the file has been created for you under the folder `Code` so you can just run it
 
 ```sh
 spark-submit Code/LogMining100.py
@@ -458,7 +458,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("WARN")  # This can only affect the log level after it is executed.
 
-logFile=spark.read.text("../Data/NASA_access_log_Aug95.gz").cache()
+logFile=spark.read.text("./Data/NASA_access_log_Aug95.gz").cache()
 
 hostsJapan = logFile.filter(logFile.value.contains(".jp")).count()
 hostsUK = logFile.filter(logFile.value.contains(".uk")).count()
