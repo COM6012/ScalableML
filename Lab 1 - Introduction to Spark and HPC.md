@@ -348,7 +348,7 @@ DataFrame[value: string]
 Row(value='in24.inetnebr.com - - [01/Aug/1995:00:00:01 -0400] "GET /shuttle/missions/sts-68/news/sts-68-mcc-05.txt HTTP/1.0" 200 1839')
 ```
 
-You may open the text file to verify than pyspark is doing the right things.
+You may open the text file to verify that `pyspark` is doing the right things.
 
 **Question**: How many accesses are from Japan?
 
