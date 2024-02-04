@@ -162,7 +162,7 @@ Welcome to
 
 Using Python version 3.11.7 (main, Dec 15 2023 18:12:31)
 Spark context Web UI available at http://node001.pri.stanage.alces.network:4040
-Spark context available as 'sc' (master = local[*], app id = local-1706289615528).
+Spark context available as 'sc' (master = local[*], app id = local-0000000000000).
 SparkSession available as 'spark'.
 >>> 
 ```
@@ -179,7 +179,9 @@ You are expected to have passed the [HPC Driving License test](https://infosecur
 
 **Line ending WARNING!!!**: if you are using Windows, you should be aware that [line endings differ between Windows and Linux](https://stackoverflow.com/questions/426397/do-line-endings-differ-between-windows-and-linux). If you edit a shell script (below) in Windows, make sure that you use a Unix/Linux compatible editor or do the conversion before using it on HPC.
 
-**File recovery**: your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
+**File recovery**: your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups.
+
+
 
 ### 1.4 *Optional: Install PySpark on your own machine*  
 
@@ -202,7 +204,7 @@ If you do want to install PySpark and run Jupyter Notebooks on your own machine,
 
 #### References (use with caution, not necessarily up to date or the best)
 
-If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, Python **3.8+**, PySpark **3.5.0** with **Hadoop 3.3**. *Scala* is optional.
+If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, **Python 3.8+**, **PySpark 3.5.0** with **Hadoop 3.3**. *Scala* is optional.
 
 - Windows: 1) [How to setup PySpark on Windows?](https://saumyagoyal.medium.com/how-to-install-pyspark-on-windows-faf7ac293ecf) and 2) [PySpark Made Easy: Day 1 — Install PySpark locally on windows](https://medium.com/@dipan.saha/getting-started-with-pyspark-day-1-37e5e6fdc14b)
 
