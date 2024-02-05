@@ -112,7 +112,7 @@ module load Java/17.0.4
 ```
 
 ```sh
-module load Anaconda3/2022.10
+module load Anaconda3/2022.05
 ```
 
 #### Create a virtual environment called `myspark` with Python 3.11.7
@@ -255,7 +255,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 
    ```sh
    module load Java/17.0.4
-   module load Anaconda3/2022.10
+   module load Anaconda3/2022.05
    source activate myspark
   ```
 
