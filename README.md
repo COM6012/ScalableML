@@ -41,5 +41,5 @@ The materials are built with references to the following sources:
 Many thanks to
 
 * [Haiping Lu](https://haipinglu.github.io/) and [Mauricio A Álvarez](https://maalvarezl.github.io/), who has developed this module from 2016 to 2023(2). Their contributions are still reflected in the materials.
-* Mike Croucher, Neil Lawrence, Will Furnass, Twin Karmakharm, and Vamsi Sai Turlapati for their inputs and inspirations since 2016.
+* Mike Croucher, Neil Lawrence, Will Furnass, Twin Karmakharm, Mike Smith, Xianyuan Liu, Desmond Ryan, and Vamsi Sai Turlapati for their inputs and inspirations since 2016.
 * Our teaching assistants and students who have contributed in many ways since 2017.

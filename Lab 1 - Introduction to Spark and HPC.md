@@ -83,19 +83,37 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 
 #### Start an interactive session
 
-Type `srun --pty bash -i` for a *regular node*. If successful, you should see
+During the lab sessions, you can access the *reserved nodes* for this module via
+
+```sh
+srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i
+```
+
+Replace `$LAB_ID` with the session number of the lab you are taking. For example, if you are in Lab 1, you should use
+
+```sh
+srun --account=com6012-1 --reservation=com6012-1 --pty bash -i
+```
+
+You can also access the *general queue* via `srun --pty bash -i`. If successful, you should see
 
 ```sh
 [abc1de@node*** [stanage] ~]$  # *** is the node number
 ```
 
-Otherwise, try `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+Otherwise, try `srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+
+Note: you can only access the reserved nodes during the lab sessions. Outside the lab sessions, you can only access the general queue.
 
 #### Load Java and conda
 
-`module load Java/17.0.4`
+```sh
+module load Java/17.0.4
+```
 
-`module load Anaconda3/2022.10`
+```sh
+module load Anaconda3/2022.10
+```
 
 #### Create a virtual environment called `myspark` with Python 3.11.7
 
@@ -105,23 +123,31 @@ When you are asked whether to proceed, say `y`. When seeing `Please update conda
 
 #### Activate the environment
 
-`source activate myspark`
+```sh
+source activate myspark
+```
 
 The prompt says to use `conda activate myspark` but it does not always work. You **must** see `(myspark)` in front, before proceeding. Otherwise, you did not get the proper environment. Check the above steps.
 
 #### Install pyspark 3.5.0 using `pip`
 
-`pip install pyspark==3.5.0`
+```sh
+pip install pyspark==3.5.0
+```
 
 When you are asked whether to proceed, say `y`. You should see the last line of the output as
 
-`Successfully installed py4j-0.10.9.7 pyspark-3.5.0`
+```sh
+Successfully installed py4j-0.10.9.7 pyspark-3.5.0
+```
 
 [`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
 
 #### Run pyspark
 
-`pyspark`
+```sh
+pyspark
+```
 
 You should see spark version **3.5.0** displayed like below
 
@@ -136,7 +162,7 @@ Welcome to
 
 Using Python version 3.11.7 (main, Dec 15 2023 18:12:31)
 Spark context Web UI available at http://node001.pri.stanage.alces.network:4040
-Spark context available as 'sc' (master = local[*], app id = local-1706289615528).
+Spark context available as 'sc' (master = local[*], app id = local-0000000000000).
 SparkSession available as 'spark'.
 >>> 
 ```
@@ -153,7 +179,12 @@ You are expected to have passed the [HPC Driving License test](https://infosecur
 
 **Line ending WARNING!!!**: if you are using Windows, you should be aware that [line endings differ between Windows and Linux](https://stackoverflow.com/questions/426397/do-line-endings-differ-between-windows-and-linux). If you edit a shell script (below) in Windows, make sure that you use a Unix/Linux compatible editor or do the conversion before using it on HPC.
 
-**File recovery**: your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
+**File recovery**: the Stanage currently does not support file recovery following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
+<!-- your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups. -->
+
+
+
+
 
 ### 1.4 *Optional: Install PySpark on your own machine*  
 
@@ -176,7 +207,7 @@ If you do want to install PySpark and run Jupyter Notebooks on your own machine,
 
 #### References (use with caution, not necessarily up to date or the best)
 
-If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, Python **3.8+**, PySpark **3.5.0** with **Hadoop 3.3**. *Scala* is optional.
+If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, **Python 3.8+**, **PySpark 3.5.0** with **Hadoop 3.3**. *Scala* is optional.
 
 - Windows: 1) [How to setup PySpark on Windows?](https://saumyagoyal.medium.com/how-to-install-pyspark-on-windows-faf7ac293ecf) and 2) [PySpark Made Easy: Day 1 — Install PySpark locally on windows](https://medium.com/@dipan.saha/getting-started-with-pyspark-day-1-37e5e6fdc14b)
 
@@ -219,7 +250,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 
 ### Get a node and activate myspark
 
-- Get a node via `srun --pty bash -i`.
+- Get a node via `srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i` or `srun --pty bash -i`.
 - Activate the environment by
 
    ```sh
@@ -282,7 +313,7 @@ cd com6012
 Let us make a copy of our teaching materials at this directory via
 
 ```sh
-git clone --depth 1 https://github.com/COM6012/ScalableML https://github.com/haipinglu/ScalableML
+git clone --depth 1 https://github.com/COM6012/ScalableML
 ```
 
 If `ScalableML` is not empty (e.g. you have cloned a copy already), this will give you an error. You need to delete the cloned version (the whole folder) via `rm -rf ScalableML`. Be careful that you can **NOT** undo this delete so make sure **you do not have anything valuable (e.g. your assignment) there** if you do this delete.
@@ -317,7 +348,7 @@ DataFrame[value: string]
 Row(value='in24.inetnebr.com - - [01/Aug/1995:00:00:01 -0400] "GET /shuttle/missions/sts-68/news/sts-68-mcc-05.txt HTTP/1.0" 200 1839')
 ```
 
-You may open the text file to verify than pyspark is doing the right things.
+You may open the text file to verify that `pyspark` is doing the right things.
 
 **Question**: How many accesses are from Japan?
 
@@ -350,7 +381,7 @@ Now you have used pyspark for some (very) simple data analytic task.
 
 To run a self-contained application, you need to **exit your shell, by `Ctrl+D` first**.
 
-Create your own personal folder in the `/fastdata`` area. As this doesn’t exist by default, you can create it with safe permissions by running the command:
+Create your own personal folder in the `/fastdata` area. As this doesn’t exist by default, you can create it with safe permissions by running the command:
 
 ```sh
 mkdir -m 0700 /mnt/parscratch/users/YOUR_USERNAME
@@ -372,7 +403,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("WARN")  # This can only affect the log level after it is executed.
 
-logFile=spark.read.text("Data/NASA_Aug95_100.txt").cache()
+logFile=spark.read.text("./Data/NASA_Aug95_100.txt").cache()
 hostsJapan = logFile.filter(logFile.value.contains(".jp")).count()
 
 print("\n\nHello Spark: There are %i hosts from Japan.\n\n" % (hostsJapan))
@@ -380,11 +411,11 @@ print("\n\nHello Spark: There are %i hosts from Japan.\n\n" % (hostsJapan))
 spark.stop()
 ```
 
-`https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas`
+<!-- `https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas` -->
 
-Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory such as `C:\temp`.
+Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory, such as `C:\temp` in Windows.
 
-Actually the file has been created for you under the folder `Code` so you can just run it
+Actually, the file has been created for you under the folder `Code` so you can just run it
 
 ```sh
 spark-submit Code/LogMining100.py
@@ -413,7 +444,7 @@ The output is verbose so I did not show all (see `Output/COM6012_Lab1_SAMPLE.txt
 
 **Question**: How many accesses are from Japan and UK respectively?
 
-Create a file `LogMiningBig.py`
+Create a file `LogMiningBig.py` under `/users/abc1de/com6012/ScalableML` directory
 
 ```python
 from pyspark.sql import SparkSession
@@ -427,7 +458,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("WARN")  # This can only affect the log level after it is executed.
 
-logFile=spark.read.text("../Data/NASA_access_log_Aug95.gz").cache()
+logFile=spark.read.text("./Data/NASA_access_log_Aug95.gz").cache()
 
 hostsJapan = logFile.filter(logFile.value.contains(".jp")).count()
 hostsUK = logFile.filter(logFile.value.contains(".uk")).count()
@@ -446,13 +477,15 @@ See [how to submit batch jobs to Stanage](https://docs.hpc.shef.ac.uk/en/latest/
 
 Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
-Create a file `Lab1_SubmitBatch.sh` and change `username`
+Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC` directory for *reserved nodes* and change `$LAB_ID` and `username`
 
 ```sh
 #!/bin/bash
+#SBATCH --account=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number  
+#SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
-#SBATCH --output=../Output/COM6012_Lab1.txt  # This is where your output and errors are logged
+#SBATCH --output=./Output/COM6012_Lab1.txt  # This is where your output and errors are logged
 #SBATCH --mail-user=username@sheffield.ac.uk  # Request job update email notifications, remove this line if you don't want to be notified
 
 module load Java/17.0.4
@@ -461,22 +494,30 @@ module load Anaconda3/2022.10
 
 source activate myspark
 
-spark-submit ../Code/LogMiningBig.py  # .. is a relative path, meaning one level up
+spark-submit ./Code/LogMiningBig.py  # . is a relative path, meaning the current directory
+```
+
+Please remove the following two lines for the *general queue*.
+  
+```sh
+#SBATCH --account=com6012-$LAB_ID 
+#SBATCH --reservation=com6012-$LAB_ID
 ```
 
 - Get necessary files on your Stanage.
 - Start a session with command `srun --pty bash -i`.
-- Go to the `HPC` directory to submit your job via the `sbatch` command (can be run at the **login node**).
+- Go to the `/users/abc1de/com6012/ScalableML` directory to submit your job via the `sbatch` command (can be run at the **login node**).
 - The output file will be under `Output`.
 
+Use the following commands to submit your job
+
 ```sh
-cd HPC
-sbatch Lab1_SubmitBatch.sh # or sbatch HPC/Lab1_SubmitBatch.sh if you are at /home/abc1de/com6012/ScalableML
+sbatch HPC/Lab1_SubmitBatch.sh
 ```
 
 Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named `COM6012_Lab1_SAMPLE.txt` is in the GitHub `Output` folder for your reference. The results are
 
-```sh
+```txt
 Hello Spark: There are 35924 hosts from UK.
 
 Hello Spark: There are 71600 hosts from Japan.
@@ -561,6 +602,6 @@ You are encouraged to explore these more challenging questions by consulting the
 
 ## 7. Acknowledgements
 
-Many thanks to Haiping, Mauricio, Twin, Will, Mike, Vamsi for their kind help and all those kind contributors of open resources.
+Many thanks to Haiping, Mauricio, Twin, Will, Mike, Xianyuan, Desmond, and Vamsi for their kind help and all those kind contributors of open resources.
 
 The log mining problem is adapted from [UC Berkeley cs105x L3](https://learning.edx.org/course/course-v1:BerkeleyX+CS105x+1T2016/home).
