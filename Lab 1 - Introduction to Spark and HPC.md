@@ -182,10 +182,6 @@ You are expected to have passed the [HPC Driving License test](https://infosecur
 **File recovery**: the Stanage currently does not support file recovery following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
 <!-- your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups. -->
 
-
-
-
-
 ### 1.4 *Optional: Install PySpark on your own machine*  
 
 **NOTE: You may skip this part 1.4.**
@@ -299,7 +295,7 @@ Firstly, you need to **make sure the file is in the proper directory and change 
 Now quit pyspark by `Ctrl + D`. Take a look at where you are
 
 ```sh
-(myspark) pwd
+(myspark) [abc1de@node*** [stanage] ~]$ pwd
 /users/abc1de
 ```
 
@@ -323,16 +319,16 @@ You are advised to create a **separate folder** for your own work under `com6012
 Let us check
 
 ```sh
-(myspark) ls
+(myspark) [abc1de@node*** [stanage] com6012]$ ls
 ScalableML
-(myspark) cd ScalableML
-(myspark) ls
+(myspark) [abc1de@node*** [stanage] com6012]$ cd ScalableML
+(myspark) [abc1de@node*** [stanage] ScalableML]$ ls
 Code  Data  HPC  Lab 1 - Introduction to Spark and HPC.md  Output  README.md  Slides
-(myspark) pwd
+(myspark) [abc1de@node*** [stanage] ScalableML]$ pwd
 /users/abc1de/com6012/ScalableML
 ```
 
-You can see that files on the GitHub has been downloaded to your HPC directory `/users/abc1de/com6012/ScalableML`. Now start spark shell by `pyspark` (again you should see the splash) and now we
+You can see that files on the GitHub has been downloaded to your HPC directory `/users/abc1de/com6012/ScalableML`. In some cases, you may only see the conda environment `(myspark)` only, without the `[abc1de@node*** [stanage] ~]$` part. You can still proceed with `ls` and `cd` commands. Now start spark shell by `pyspark` (again you should see the splash) and now we
 
 - read the log file `NASA_Aug95_100.txt` under the folder `Data`
 - count the number of lines
@@ -489,8 +485,7 @@ Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC`
 #SBATCH --mail-user=username@sheffield.ac.uk  # Request job update email notifications, remove this line if you don't want to be notified
 
 module load Java/17.0.4
-
-module load Anaconda3/2022.10
+module load Anaconda3/2022.05
 
 source activate myspark
 
