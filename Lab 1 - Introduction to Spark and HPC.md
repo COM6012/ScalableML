@@ -87,13 +87,13 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 During the lab sessions, you can access the *reserved nodes* for this module via
 
 ```sh
-srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i
+srun --account=default --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash
 ```
 
 Replace `$LAB_ID` with the session number of the lab you are taking. For example, if you are in Lab 1, you should use
 
 ```sh
-srun --account=com6012-1 --reservation=com6012-1 --pty bash -i
+srun --account=default --reservation=com6012-1 --time=00:30:00 --pty /bin/bash
 ```
 
 You can also access the *general queue* via `srun --pty bash -i`. If successful, you should see
@@ -102,7 +102,7 @@ You can also access the *general queue* via `srun --pty bash -i`. If successful,
 [abc1de@node*** [stanage] ~]$  # *** is the node number
 ```
 
-Otherwise, try `srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+Otherwise, try `srun --account=default --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
 
 Note: you can only access the reserved nodes during the lab sessions. Outside the lab sessions, you can only access the general queue.
 
@@ -378,7 +378,7 @@ Now you have used pyspark for some (very) simple data analytic task.
 
 To run a self-contained application, you need to **exit your shell, by `Ctrl+D` first**.
 
-Create your own personal folder in the `/fastdata` area. As this doesn’t exist by default, you can create it with safe permissions by running the command:
+Create your own personal folder in the `/mnt/parscratch/users` area. As this doesn’t exist by default, you can create it with safe permissions by running the command:
 
 ```sh
 mkdir -m 0700 /mnt/parscratch/users/YOUR_USERNAME
@@ -478,7 +478,8 @@ Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC`
 
 ```sh
 #!/bin/bash
-#SBATCH --account=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number  
+#SBATCH --job-name=JOB_NAME  # Replace JOB_NAME with a name you like
+#SBATCH --account=default   
 #SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
@@ -496,7 +497,7 @@ spark-submit ./Code/LogMiningBig.py  # . is a relative path, meaning the current
 Please remove the following two lines for the *general queue*.
   
 ```sh
-#SBATCH --account=com6012-$LAB_ID 
+#SBATCH --account=default 
 #SBATCH --reservation=com6012-$LAB_ID
 ```
 
