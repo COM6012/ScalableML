@@ -247,7 +247,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 
 ### Get a node and activate myspark
 
-- Get a node via `srun --account=com6012-$LAB_ID --reservation=com6012-$LAB_ID --pty bash -i` or `srun --pty bash -i`.
+- Get a node via `srun --account=default --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i`.
 - Activate the environment by
 
    ```sh

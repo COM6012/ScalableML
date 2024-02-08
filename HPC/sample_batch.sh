@@ -9,4 +9,4 @@ module load Anaconda3/2022.05
 
 source activate myspark
 
-spark-submit xxxx.py  # .. is a relative path, meaning one level up
+spark-submit ../xxxx.py  # .. is a relative path, meaning one level up
