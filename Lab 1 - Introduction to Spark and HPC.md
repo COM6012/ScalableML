@@ -59,6 +59,7 @@ If successful, you will be on the login node and should see
 If you have problem logging in, do the following in sequence:
 
 - Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
+- Change your password through Muse > My Services > Account Settings.
 - Come to the labs on Fridays or office hours on Mondays for in-person help, and online sessions on Wednesdays for online help.
 
 To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setting up your Stanage TOTP MFA, **unless** you are on the campus network, you will **still need** to connect to the VPN to access Stanage.
