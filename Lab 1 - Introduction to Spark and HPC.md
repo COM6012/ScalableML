@@ -481,6 +481,7 @@ Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC`
 #SBATCH --job-name=JOB_NAME  # Replace JOB_NAME with a name you like
 #SBATCH --account=default   
 #SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
+#SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
 #SBATCH --output=./Output/COM6012_Lab1.txt  # This is where your output and errors are logged
