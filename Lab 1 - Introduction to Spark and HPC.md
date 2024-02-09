@@ -68,9 +68,9 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 
 - You can save the host, username (and password if your computer is secure) as a **Session** if you want to save time in future.
 - You can edit `settings --> keyboard shortcuts` to customise the keyboard shortcuts, e.g. change the paste shortcut from the default `Shift + Insert` to our familiar `Ctrl + V`.
-- You can DRAG your file or folder to the left directory pane of MobaXterm.
+<!--- You can DRAG your file or folder to the left directory pane of MobaXterm.-->
 - You can open multiple sessions (but do not open more than what you need as these are shared resources).
-- YOu can directly open a file to edit and then save it.
+<!--- - YOu can directly open a file to edit and then save it.-->
 
 <!-- #### (Optional) **VSCode Remote HPC** for writing/managing code
 
@@ -79,6 +79,14 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 - Using VSCode via the browser provides similar functionality as a desktop VSCode installation but having some restrictions on the marketplace and extensions. See [Why can't code-server use Microsoft's extension marketplace?](https://coder.com/docs/code-server/latest/FAQ#why-cant-code-server-use-microsofts-extension-marketplace).
 
 **NOTE:** While using VScode provides a level of convenience, it is also good to get familiar with writing and managing code from the terminal using vim/nano. -->
+
+#### FileZilla (Optional)
+
+***NOTE: While MobaXterm also supports SFTP, it has been reported that this does not work properly on the Stanage cluster***
+
+For easier file transfer, Stanage recommends using the FileZilla SFTP client, which can be downloaded for Windows, Mac and Linux from [filezilla-project.org](https://filezilla-project.org).
+
+Instructions on configuring FileZilla for Stanage can be found [here](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html#using-filezilla).  (**Warning:** Remember to change the logon type to "interactive", and not to let FileZilla store your password on shared machines.)
 
 ### 1.2 Set up the environment and install PySpark
 
