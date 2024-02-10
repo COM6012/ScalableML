@@ -80,14 +80,6 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 
 **NOTE:** While using VScode provides a level of convenience, it is also good to get familiar with writing and managing code from the terminal using vim/nano. -->
 
-#### FileZilla (Optional)
-
-***NOTE: While MobaXterm also supports SFTP, it has been reported that this does not work properly on the Stanage cluster***
-
-For easier file transfer, Stanage recommends using the FileZilla SFTP client, which can be downloaded for Windows, Mac and Linux from [filezilla-project.org](https://filezilla-project.org).
-
-Instructions on configuring FileZilla for Stanage can be found [here](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html#using-filezilla).  (**Warning:** Remember to change the logon type to "interactive", and not to let FileZilla store your password on shared machines.)
-
 ### 1.2 Set up the environment and install PySpark
 
 #### Start an interactive session
@@ -110,7 +102,7 @@ You can also access the *general queue* via `srun --pty bash -i`. If successful,
 [abc1de@node*** [stanage] ~]$  # *** is the node number
 ```
 
-Otherwise, try `srun --account=default --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+Otherwise, try `srun --account=default --reservation=com6012-1 --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
 
 Note: you can only access the reserved nodes during the lab sessions. Outside the lab sessions, you can only access the general queue.
 
@@ -182,9 +174,17 @@ SparkSession available as 'spark'.
 
 You are expected to have passed the [HPC Driving License test](https://infosecurity.shef.ac.uk/) and become familiar with the HPC environment.
 
-**Terminal/command line**: learn the [basic use of the command line](https://github.com/mikecroucher/Intro_to_HPC/blob/gh-pages/terminal_tutorial.md) in Linux, e.g. use `pwd` to find out your **current directory**.
+#### Terminal/command line
 
-**Transfer files**: learn how to [transfer files to/from Stanage HPC](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html). I recommend [MobaXterm](https://mobaxterm.mobatek.net/) for Windows and [FileZilla](https://filezilla-project.org/) for Mac/Linux. In MobaXterm, you can [drag and drop files](https://usdrcg.gitbook.io/docs/lawrence-hpc/transferring-files#:~:text=In%20MobaXterm%2C%20the%20file%20explorer,either%20computer%20as%20you%20desire.) between HPC and your local machine.
+Learn the [basic use of the command line](https://github.com/mikecroucher/Intro_to_HPC/blob/gh-pages/terminal_tutorial.md) in Linux, e.g. use `pwd` to find out your **current directory**.
+
+#### Transfer files
+
+Learn how to [transfer files to/from Stanage HPC](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html). For easier file transfer, Stanage recommends using the FileZilla SFTP client, which can be downloaded for Windows, Mac and Linux from [filezilla-project.org](https://filezilla-project.org).
+
+Instructions on configuring FileZilla for Stanage can be found [here](https://docs.hpc.shef.ac.uk/en/latest/hpc/transferring-files.html#using-filezilla).  (**Warning:** Remember to change the logon type to "interactive", and not to let FileZilla store your password on shared machines.)
+
+***NOTE: While MobaXterm also supports SFTP, it has been reported that this does not work properly on the Stanage cluster***
 
 **Line ending WARNING!!!**: if you are using Windows, you should be aware that [line endings differ between Windows and Linux](https://stackoverflow.com/questions/426397/do-line-endings-differ-between-windows-and-linux). If you edit a shell script (below) in Windows, make sure that you use a Unix/Linux compatible editor or do the conversion before using it on HPC.
 
@@ -395,6 +395,8 @@ mkdir -m 0700 /mnt/parscratch/users/YOUR_USERNAME
 See [Managing your files in fastdata areas](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas) for more details.
 
 Create a file `LogMining100.py` under `/users/abc1de/com6012/ScalableML` directory.
+
+Tip: You can use `nano` or `vim` to create the file. If you are not familiar with these editors, you can create the file on your local machine and transfer it to HPC follow the section [transfer-files](#transfer-files).
 
 ```python
 from pyspark.sql import SparkSession
