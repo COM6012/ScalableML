@@ -143,7 +143,7 @@ accum.value
 
 ## 2. DataFrame
 
-Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](http://spark.apache.org/docs/3.5.0/api/scala/index.html#org.apache.spark.sql.Dataset). Again, these are objects that can be worked on in parallel. The available operations are:
+Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html). Again, these are objects that can be worked on in parallel. The available operations are:
 
 - **transformations**: produce new datasets
 - **actions**: computations which return results
@@ -316,7 +316,7 @@ The labels here are real numbers and this is a **regression** problem. For **cla
 (trainingData, testData) = transformed.randomSplit([0.6, 0.4], 6012)
 ```
 
-We set the `seed=6012` in the above (see the [randomSplit API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.sql.DataFrame.randomSplit.html) )Check your train and test data as follows. It is a good practice to *keep tracking your data during prototype phase*.
+We set the `seed=6012` in the above (see the [randomSplit API](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.randomSplit.html)). Check your train and test data as follows. It is a good practice to *keep tracking your data during prototype phase*.
 
 ```python
 trainingData.show(5)
@@ -530,4 +530,4 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 - Find out the mean and standard deviation of the reply byte size.
 - Other questions in Lab 1 Task 6.
 - Explore more CSV data of your interest via Google or at [Sample CSV data](https://support.spatialkey.com/spatialkey-sample-csv-data/), including insurance, real estate, and sales transactions.
-- Explore the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets.php) to build machine learning pipelines in PySpark for some datasets of your interest.
+- Explore the [UCI Machine Learning Repository](https://archive.ics.uci.edu/datasets) to build machine learning pipelines in PySpark for some datasets of your interest.
