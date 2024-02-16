@@ -33,18 +33,18 @@
 
 ### Get started
 
-Firstly, we follow the standard steps as in Task 2 of Lab 1 but with some variations in settings, i.e. to request **4 cores** for an interactive shell. If the request *could not be scheduled*, try to reduce the number of cores requested. We also install `numpy` to our environment for later use.
+Firstly, we follow the standard steps as in Task 2 of Lab 1 but with some variations in settings, i.e. to request **2 cores** for an interactive shell. If the request *could not be scheduled*, try to reduce the number of cores requested. We also install `numpy` to our environment for later use.
 
-We can request 4 cores from reserved resources by
+We can request 2 cores from reserved resources by (use one core only in the lab session due to the limited interactive nodes)
 
 ```sh
-srun --account=default --reservation=com6012-2 --cpus-per-task=4 --time=01:00:00 --pty /bin/bash
+srun --account=default --reservation=com6012-2 --cpus-per-task=1 --time=01:00:00 --pty /bin/bash
 ```
 
 if the reserved resources are not available, request cores from the general queue by
 
 ```sh
-srun --pty --cpus-per-task=4 bash -i
+srun --pty --cpus-per-task=1 bash -i
 ```
 
 Then we can start the PySpark shell by
@@ -53,7 +53,7 @@ Then we can start the PySpark shell by
    source myspark.sh # assuming HPC/myspark.sh is under your root directory, otherwise, see Lab 1 Task 2
    conda install -y numpy # install numpy, to be used in Task 3. This ONLY needs to be done ONCE. NOT every time.
    cd com6012/ScalableML # our main working directory
-   pyspark --master local[4] # start pyspark with 4 cores requested above.
+   pyspark --master local[1] # start pyspark with 1 cores requested above.
   ```
 
 As stated in the [RDD Programming Guide](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#parallelized-collections), Spark allows for parallel operations in a program to be executed on a cluster with the following abstractions:
