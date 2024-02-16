@@ -35,7 +35,15 @@
 
 Firstly, we follow the standard steps as in Task 2 of Lab 1 but with some variations in settings, i.e. to request **4 cores** for an interactive shell. If the request *could not be scheduled*, try to reduce the number of cores requested. We also install `numpy` to our environment for later use.
 
-We can request 4 cores from reserved resources by
+First log into the Stanage cluster
+
+```sh
+ssh $USER@stanage.shef.ac.uk
+```
+
+You need to replace `$USER` with your username (using **lowercase** and without `$`).
+
+Once logged in, we can request 4 cores from reserved resources by
 
 ```sh
 srun --account=default --reservation=com6012-2 --cpus-per-task=4 --time=01:00:00 --pty /bin/bash
@@ -47,10 +55,23 @@ if the reserved resources are not available, request cores from the general queu
 srun --pty --cpus-per-task=4 bash -i
 ```
 
-Then we can start the PySpark shell by
+Now set up our conda environment, using 
+
+```sh
+source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1 Task 2)
+```
+
+if you created a `myspark.sh` script in Lab 1.  If not, use
 
    ```sh
-   source myspark.sh # assuming HPC/myspark.sh is under your root directory, otherwise, see Lab 1 Task 2
+   module load Java/17.0.4
+   module load Anaconda3/2022.05
+   source activate myspark
+   ```
+
+Now we can start the PySpark shell by
+
+   ```sh
    conda install -y numpy # install numpy, to be used in Task 3. This ONLY needs to be done ONCE. NOT every time.
    cd com6012/ScalableML # our main working directory
    pyspark --master local[4] # start pyspark with 4 cores requested above.
@@ -127,7 +148,7 @@ broadcastVar.value
 Accumulators are variables that are only “added” to through an associative and commutative operation and can therefore be efficiently supported in parallel. They can be used to implement counters (as in `MapReduce`) or sums.
 
 An accumulator is created from an initial value `v` by calling `SparkContext.accumulator(v)`
-Cluster tasks can then add to it using the `add` method. However, they cannot read its value. Only the dirver program can read the accumulator's value using its `value` method.
+Cluster tasks can then add to it using the `add` method. However, they cannot read its value. Only the driver program can read the accumulator's value using its `value` method.
 
 ```python
 accum = sc.accumulator(0)
@@ -143,7 +164,7 @@ accum.value
 
 ## 2. DataFrame
 
-Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html). Again, these are objects that can be worked on in parallel. The available operations are:
+Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html) in Spark version 2.0 . Again, these are objects that can be worked on in parallel. The available operations are:
 
 - **transformations**: produce new datasets
 - **actions**: computations which return results
@@ -156,10 +177,10 @@ From RDD to DataFrame
 rdd = sc.parallelize([(1,2,3),(4,5,6),(7,8,9)])
 df = rdd.toDF(["a","b","c"])
 rdd
-# ParallelCollectionRDD[8] at readRDDFromFile at PythonRDD.scala:289 
+# ParallelCollectionRDD[10] at readRDDFromFile at PythonRDD.scala:289 
 ```
 
-The number in `[ ]` (`10`) is the index for RDDs in the shell so it may vary.
+The number in `[10]` is the index for RDDs in the shell so it may vary.
 
 Let us examine the DataFrame
 
