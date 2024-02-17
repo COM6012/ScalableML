@@ -4,7 +4,7 @@
 
 ## Study schedule
 
-- [Section 1](#1-data-storage-in-sharc-and-spark-configuration): To finish by 23rd February. **Essential**
+- [Section 1](#1-spark-configuration): To finish by 23rd February. **Essential**
 - [Section 2](#2-logistic-regression-in-pyspark): To finish by 23rd February. **Essential**
 - [Section 3](#3-exercises): To finish by the following Wednesday 28th February. ***Exercise***
 - [Section 4](#4-additional-exercise-optional): To explore further. *Optional*
@@ -13,7 +13,31 @@
 
 **Dependencies.** For this lab, we need to install the ``matplotlib`` and `pandas` packages. Make sure you install the packages in the environment **myspark**
 
-Before you continue, open a new terminal in [ShARC](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `rse-com6012` queue with four nodes, and activate the **myspark** environment
+Before you continue, open a new terminal in [Stanaeg](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `com6012-3` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
+
+```sh
+ssh $USER@stanage.shef.ac.uk
+```
+
+You need to replace `$USER` with your username (using **lowercase** and without `$`). Once logged in, we can start an interactive session from reserved resources by
+
+```sh
+srun --account=default --reservation=com6012-3 --time=01:00:00 --pty /bin/bash
+```
+
+if the reserved resources are not available, start an interactive session from the general queue by
+
+```sh
+srun --pty bash -i
+```
+
+Now set up our conda environment, using
+
+```sh
+source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1 Task 2)
+```
+
+if you created a `myspark.sh` script in Lab 1.  If not, use
 
 ```sh
 module load Java/17.0.4
@@ -39,10 +63,10 @@ The dataset that we will use is from the [UCI Machine Learning Repository](http:
 
 The particular dataset that we will use wil be referred to is the [Spambase Dataset](http://archive.ics.uci.edu/ml/datasets/Spambase). A detailed description is in the previous link. The dataset contains 57 features related to word frequency, character frequency, and others related to capital letters. The description of the features and labels in the dataset is available [here](http://archive.ics.uci.edu/ml/machine-learning-databases/spambase/spambase.names). The output label indicated whether an email was considered 'ham' or 'spam', so it is a binary label.
 
-Before we work on Logistic Regression, though, let us briefly look at the different file storage systems available in ShARC and different Spark configurations that are necessary to develop a well performing Spark job.
+<!-- Before we work on Logistic Regression, though, let us briefly look at the different file storage systems available in Stanage and different Spark configurations that are necessary to develop a well performing Spark job. -->
 
-## 1. Data storage in ShARC and Spark configuration (to be changed for Stanage)
-
+## 1. Spark configuration
+<!-- 
 As you progress to deal with bigger data, you may need to ensure you have enough disk space and also configure Spark properly to ensure enough resources are available for processing your big data. This section looks at various aspects of data storage management and Spark configuration.
 
 ### 1.1 Data storage management
@@ -90,23 +114,25 @@ Start pyspark working under `/data/abc1de/ScalableML` now.
 pyspark --master local[4]
 ```
 
-Detailed information about the different storage systems can be found in [this link](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html).
+Detailed information about the different storage systems can be found in [this link](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html). 
 
 ### 1.2 Spark configuration
-
+-->
 Take a look at the configuration of the Spark application properties [here (the table)](https://spark.apache.org/docs/latest/configuration.html#application-properties). There are also several good references: [set spark context](https://stackoverflow.com/questions/30560241/is-it-possible-to-get-the-current-spark-context-settings-in-pyspark); [set driver memory](https://stackoverflow.com/questions/53606756/how-to-set-spark-driver-memory-in-client-mode-pyspark-version-2-3-1); [set local dir](https://stackoverflow.com/questions/40372655/how-to-set-spark-local-dir-property-from-spark-shell).
 
-Recall that in the provided [`Code/LogMiningBig.py`](Code/LogMiningBig.py), you were asked to set the `spark.local.dir` to `/fastdata/YOUR_USERNAME` as in the following set of instructions
+Recall that in the provided [`Code/LogMiningBig.py`](Code/LogMiningBig.py), you were asked to set the `spark.local.dir` to `/mnt/parscratch/users/YOUR_USERNAME` as in the following set of instructions
 
 ```python
 spark = SparkSession.builder \
     .master("local[2]") \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 ```
 
-In the instructions above, we have configured Spark's `spark.local.dir` property to `/fastdata/YOUR_USERNAME` to use it as a "scratch" space (e.g. storing temporal files).
+In the instructions above, we have configured Spark's `spark.local.dir` property to `/mnt/parscratch/users/YOUR_USERNAME` to use it as a "scratch" space (e.g. storing temporal files).
+
+Detailed information about the different storage systems of HPC can be found in [this link](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html).
 
 In shell, we can check *customised* (defaults are not shown) config via `sc`:
 
@@ -119,23 +145,23 @@ sc._conf.getAll()
 
 **Note:** *Pay attention to the memory requirements that you set in the .sh file, and in the spark-submit instructions*
 
-Memory requirements that you request from ShARC are configured in the following two lines appearing in your .sh file
+Memory requirements that you request from Stanage are configured in the following two lines appearing in your .sh file
 
 ```sh
 #!/bin/bash
-#$ -pe smp 2 # The smp parallel environment provides multiple cores on one node. <nn> specifies the max number of cores.
-#$ -l rmem=8G # -l rmem=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
+#SBATCH --cpus-per-task=2 # The smp parallel environment provides multiple cores on one node. <nn> specifies the max number of cores.
+#SBATCH --mem=4G # --mem=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
 ```
 
-With the configuration above in the .sh file, we are requesting ShARC for 16GB (2 nodes times 8GB per node) of real memory. If we are working in the `rse-com6012` queue, we are requesting access to one of the five [big memory nodes](https://docs.hpc.shef.ac.uk/en/latest/sharc/groupnodes/big_mem_nodes.html) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node173` to `node177` in the Linux terminal. Each of these nodes has a total of 768 GB memory and 40 nodes, i.e. 19.2 GB per node. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
+With the configuration above in the .sh file, we are requesting Stanage for 16GB (2 nodes times 8GB per node) of real memory. If we are working in the `com6012-$Lab_ID` queue, we are requesting access to one of the two reserved [large memory nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#large-memory-nodes) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node209` to `node210` in the Linux terminal. Each of these nodes has a total of 1024 GB memory and 64 nodes, i.e. 16 GB per node. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
 
 ```sh
 #!/bin/bash
-#$ -pe smp 10 
-#$ -l rmem=100G 
+#SBATCH --cpus-per-task=10 
+#SBATCH --mem=105G 
 ```
 
-**Do you see a problem with this configuration?** In this .sh file, they were requesting 1000 GB of memory (10 nodes times 100 GB per node) which exceeds the available memory in each of these nodes, 768 GB.
+**Do you see a problem with this configuration?** In this .sh file, they were requesting 1050 GB of memory (10 nodes times 105 GB per node) which exceeds the available memory in each of these nodes, 1024 GB.
 
 As well as paying attention to your .sh file for memory requirements, we also need to configure memory requirements in the instructions when we use `spark-submit`, particularly, for the memory that will be allocated to the driver and to each of the executors. The default driver memory, i.e., `spark.driver.memory`, is ONLY **1G** (see [this Table](https://spark.apache.org/docs/3.2.1/configuration.html#application-properties)) so even if you have requested more memory, there can be out of memory problems due to this setting (read the setting description for `spark.driver.memory`). This is true for other memory-related settings as well like the `spark.executor.memory`.
 
@@ -145,52 +171,18 @@ The `spark.driver.memory` option can be changed by setting the configuration opt
 spark-submit --driver-memory 8g AS1Q2.py
 ```
 
-**The amount of memory specified in `driver-memory` above should not exceed the amount you requested to ShARC via your .sh file or qrshx if you are working on interactive mode.**
+**The amount of memory specified in `driver-memory` above should not exceed the amount you requested to Stanage via your .sh file or qrshx if you are working on interactive mode.**
 
-In the past, we have seen .sh files intended to be run in one of our `rse-com6012` nodes with the following configuration
-
-```sh
-#!/bin/bash
-#$ -l h_rt=6:00:00  
-#$ -pe smp 2 
-#$ -l rmem=8G 
-#$ -o ../Output/Output.txt  
-#$ -j y # normal and error outputs into a single file (the file above)
-#$ -M youremail@shef.ac.uk 
-#$ -m ea #Email you when it finished or aborted
-#$ -cwd 
-
-module load apps/java/jdk1.8.0_102/binary
-
-module load apps/python/conda
-
-source activate myspark
-
-spark-submit --driver-memory 10g ../Code/LogMiningBig.py  # .. is a relative path, meaning one level up
-```
-
-**Do you see a problem with the memory configuration in this .sh file?** Whoever submitted this .sh file was asking ShARC to assign them 2 cores and 8GB per core. At the same time, their Spark job was asking for 10GB for the driver node. The obvious problem here is that there will not be any node with 10GB available to be set as a driver node since all nodes requested from ShARC will have a maximum of 8G available.
-
-### Other configuration changes
-
-Other configuration properties that we might find useful to change dynamically are `executor-memory` and `master local`. By default, `executor-memory` is 1GB, which might not be enough in some large data applications. You can change the `executor-memory` when using spark-submit, for example
-
-```sh
-spark-submit --driver-memory 10g --executor-memory 10g ../Code/LogMiningBig.py  
-```
-
-Just as before, one needs to be careful that the amount of memory dynamically requested through spark-submit does not go beyond what was requested from ShARC. In the past, we have seen .sh files intended to be run in one of our `rse-com6012` nodes with the following configuration
+In the past, we have seen .sh files intended to be run in one of our `com6012-$Lab_ID` (this week is `com6012-3`) nodes with the following configuration
 
 ```sh
 #!/bin/bash
-#$ -l h_rt=6:00:00  
-#$ -pe smp 10 
-#$ -l rmem=20G 
-#$ -o ../Output/Output.txt  
-#$ -j y # normal and error outputs into a single file (the file above)
-#$ -M youremail@shef.ac.uk 
-#$ -m ea #Email you when it finished or aborted
-#$ -cwd 
+#SBATCH --account=default   
+#SBATCH --reservation=com6012-3  
+#SBATCH --time=00:30:00  # Change this to a longer time if you need more time
+#SBATCH --cpus-per-task=2 
+#SBATCH --mem=8G 
+#SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
 
@@ -198,10 +190,40 @@ module load Anaconda3/2022.05
 
 source activate myspark
 
-spark-submit --driver-memory 20g --executor-memory 30g ../Code/LogMiningBig.py  
+spark-submit --driver-memory 10g ./Code/LogMiningBig.py  # .. is a relative path, meaning one level up
 ```
 
-**Do you see a problem with the memory configuration in this .sh file?** This script is asking ShARC for each core to have 20GB. This is fine because the scripts is requesting 200GB in total (10 times 20GB) which is lower than the maximum of 768GB. However, although spark-submit is requesting the same amount of 20GB per node for the `driver-memory`, the `executor-memory` is asking for 30G. There will not be any core with a real memory of 30G so the `executor-memory` request needs to be a maximum of 20G.
+**Do you see a problem with the memory configuration in this .sh file?** Whoever submitted this .sh file was asking Stanage to assign them 2 cores and 8GB per core. At the same time, their Spark job was asking for 10GB for the driver node. The obvious problem here is that there will not be any node with 10GB available to be set as a driver node since all nodes requested from Stanage will have a maximum of 8G available.
+
+### Other configuration changes
+
+Other configuration properties that we might find useful to change dynamically are `executor-memory` and `master local`. By default, `executor-memory` is 1GB, which might not be enough in some large data applications. You can change the `executor-memory` when using spark-submit, for example
+
+```sh
+spark-submit --driver-memory 10g --executor-memory 10g ./Code/LogMiningBig.py  
+```
+
+Just as before, one needs to be careful that the amount of memory dynamically requested through spark-submit does not go beyond what was requested from Stanage. In the past, we have seen .sh files intended to be run in one of our `com6012-3` nodes with the following configuration
+
+```sh
+#!/bin/bash
+#SBATCH --account=default   
+#SBATCH --reservation=com6012-3  
+#SBATCH --time=00:30:00  # Change this to a longer time if you need more time
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=20G 
+#SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
+
+module load Java/17.0.4
+
+module load Anaconda3/2022.05
+
+source activate myspark
+
+spark-submit --driver-memory 20g --executor-memory 30g ./Code/LogMiningBig.py  
+```
+
+**Do you see a problem with the memory configuration in this .sh file?** This script is asking Stanage for each core to have 20GB. This is fine because the scripts is requesting 200GB in total (10 times 20GB) which is lower than the maximum of 1024GB. However, although spark-submit is requesting the same amount of 20GB per node for the `driver-memory`, the `executor-memory` is asking for 30G. There will not be any core with a real memory of 30G so the `executor-memory` request needs to be a maximum of 20G.
 
 Another property that may be useful to change dynamically is `--master local`. So far, we have set the number of nodes in the `SparkSession.builder` inside the python script, for example,
 
@@ -209,14 +231,14 @@ Another property that may be useful to change dynamically is `--master local`. S
 spark = SparkSession.builder \
     .master("local[2]") \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 ```
 
 But we can also specify the number of cores in spark-submit using
 
 ```sh
-spark-submit --driver-memory 5g --executor-memory 5g --master local[10] ../Code/LogMiningBig.py  
+spark-submit --driver-memory 5g --executor-memory 5g --master local[10] ./Code/LogMiningBig.py  
 ```
 
 It is important to notice, however, that if `master local` is specified in spark-submit, you would need to remove that configuration from the SparkSession.builder,
@@ -224,7 +246,7 @@ It is important to notice, however, that if `master local` is specified in spark
 ```python
 spark = SparkSession.builder \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 ```
 
@@ -234,14 +256,14 @@ Or make sure the number of cores you specify with SparkSession.builder matches t
 spark = SparkSession.builder \
     .master("local[10]") \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 ```
 
-What happens if this is not the case? I.e. if the number of cores specified in spark-submit is different to the number of cores specified in SparkSession. In the past, we have seen the following instruction in the .sh file
+What happens if this is not the case? For example, if the number of cores specified in spark-submit is different to the number of cores specified in SparkSession. In the past, we have seen the following instruction in the .sh file
 
 ```sh
-spark-submit --driver-memory 5g --executor-memory 5g --master local[5] ../Code/LogMiningBig.py  
+spark-submit --driver-memory 5g --executor-memory 5g --master local[5] ./Code/LogMiningBig.py  
 ```
 
 and when inspecting the python file, the following instruction for SparkSession
@@ -250,32 +272,30 @@ and when inspecting the python file, the following instruction for SparkSession
 spark = SparkSession.builder \
     .master("local[2]") \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 ```
 
-**Do you see a problem with the number of cores in the configuration for these two files?** While spark-submit is requesting 5 cores, the SparkSession is requesting 2 cores. According to Spark documentation "Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file." (see [this link](https://spark.apache.org/docs/3.2.1/configuration.html#application-properties)) meaning that the job will run with 2 cores and no 5 cores as intended in spark-submit.
+**Do you see a problem with the number of cores in the configuration for these two files?** While spark-submit is requesting 5 cores, the SparkSession is requesting 2 cores. According to Spark documentation "Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file." (see [this link](https://spark.apache.org/docs/3.5.0/configuration.html#dynamically-loading-spark-properties)) meaning that the job will run with 2 cores and no 5 cores as intended in spark-submit.
 
-Finally, the number of cores requested through spark-submit needs to match the number of cores requested from ShARC with `#$ -pe smp` in the .sh file. In the past, we have seen the following instruction in the .sh file
+Finally, the number of cores requested through spark-submit needs to match the number of cores requested from Stanage with `#SBATCH --cpus-per-task=nn` in the .sh file. In the past, we have seen the following instruction in the .sh file
 
 ```sh
 #!/bin/bash
-#$ -l h_rt=6:00:00  
-#$ -pe smp 10 
-#$ -l rmem=20G 
-#$ -o ../Output/Output.txt  
-#$ -j y # normal and error outputs into a single file (the file above)
-#$ -M youremail@shef.ac.uk 
-#$ -m ea #Email you when it finished or aborted
-#$ -cwd 
+#SBATCH --account=default   
+#SBATCH --reservation=com6012-3  
+#SBATCH --time=00:30:00  # Change this to a longer time if you need more time
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=20G 
+#SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
-module load apps/java/jdk1.8.0_102/binary
+module load Java/17.0.4
 
-module load apps/python/conda
+module load Anaconda3/2022.05
 
 source activate myspark
 
-spark-submit --driver-memory 20g --executor-memory 20g --master local[15] ../Code/LogMiningBig.py 
+spark-submit --driver-memory 20g --executor-memory 20g --master local[15] ./Code/LogMiningBig.py 
 ```
 
 with the corresponding python file including
@@ -284,24 +304,24 @@ with the corresponding python file including
 spark = SparkSession.builder \
     .master("local[15]") \
     .appName("COM6012 Spark Intro") \
-    .config("spark.local.dir","/fastdata/YOUR_USERNAME") \
+    .config("spark.local.dir","/mnt/parscratch/users/YOUR_USERNAME") \
     .getOrCreate()
 ```
 
-**Do you see a problem with the number of cores in the configuration for these two files?** Although the number of nodes requested through spark-submit and the SparkSession.builder are the same, that number does not match the number of cores requested to ShARC in the .sh file. Actually, spark-submit is requesting a higher number of nodes to the ones that could potentially be assigned by ShARC.
+**Do you see a problem with the number of cores in the configuration for these two files?** Although the number of nodes requested through spark-submit and the SparkSession.builder are the same, that number does not match the number of cores requested to Stanage in the .sh file. Actually, spark-submit is requesting a higher number of nodes to the ones that could potentially be assigned by Stanage.
 
 #### To change more configurations
 
 You may search for example usage, an example that we used in the past **for very big data** is here for your reference only:
 
 ```sh
-spark-submit --driver-memory 20g --executor-memory 20g --master local[10] --local.dir /fastdata/USERNAME --conf spark.driver.maxResultSize=4g test.py
+spark-submit --driver-memory 20g --executor-memory 20g --master local[10] --local.dir /mnt/parscratch/users/USERNAME --conf spark.driver.maxResultSize=4g test.py
 ```
 
 #### Observations
 
-1. If the real memory usage of your job exceeds `-l rmem=xxG` multiplied by the number of cores / nodes you requested then your job will be killed (see the [HPC documentation](https://docs.hpc.shef.ac.uk/en/latest/hpc/scheduler/index.html#interactive-jobs)).
-2. A reminder that the more resources you request to ShARC, the longer you need to wait for them to become available to you.
+1. If the real memory usage of your job exceeds `--mem=xxG` multiplied by the number of cores / nodes you requested then your job will be killed (see the [HPC documentation](https://docs.hpc.shef.ac.uk/en/latest/hpc/scheduler/index.html#interactive-jobs)).
+2. A reminder that the more resources you request to Stanage, the longer you need to wait for them to become available to you.
 
 ## 2. Logistic regression in PySpark
 
