@@ -111,7 +111,7 @@ df -h /data/abc1de
 Start pyspark working under `/data/abc1de/ScalableML` now.
 
 ```sh
-pyspark --master local[4]
+pyspark --master local[2]
 ```
 
 Detailed information about the different storage systems can be found in [this link](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html). 
