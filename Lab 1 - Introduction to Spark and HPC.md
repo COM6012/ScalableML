@@ -170,6 +170,8 @@ SparkSession available as 'spark'.
 
 **Bingo!** Now you are in pyspark! Quit pyspark shell by `Ctrl + D`.
 
+If you are experiencing a `segmentation fault` when entering the `pyspark` interactive shell, run `export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8` to fix it.
+
 ### 1.3 Get more familiar with the HPC
 
 You are expected to have passed the [HPC Driving License test](https://infosecurity.shef.ac.uk/) and become familiar with the HPC environment.
@@ -264,7 +266,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
    source activate myspark
   ```
 
-  Alternatively, put `HPC/myspark.sh` under your *root* directory (see above on how to transfer files) and run the above three commands in sequence via  `source myspark.sh` (see more details [here](https://docs.hpc.shef.ac.uk/en/latest/hpc/modules.html#convenient-ways-to-set-up-your-environment-for-different-projects)). You could modify it further to suit yourself better.
+  Alternatively, put `HPC/myspark.sh` under your *root* directory (see above on how to transfer files) and run the above three commands in sequence via  `source myspark.sh` (see more details [here](https://docs.hpc.shef.ac.uk/en/latest/hpc/modules.html#convenient-ways-to-set-up-your-environment-for-different-projects)). You could modify it further to suit yourself better. You can also include `export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8` in the script to fix the `segmentation fault` problem.
 
 ### Interactive shell
 
