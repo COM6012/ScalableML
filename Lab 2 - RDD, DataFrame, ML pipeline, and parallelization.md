@@ -77,6 +77,8 @@ Now we can start the PySpark shell by
    pyspark --master local[2] # start pyspark with 2 cores requested above.
   ```
 
+If you are experiencing a `segmentation fault` when entering the `pyspark` interactive shell, run `export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8` to fix it. It is recommended to add this line to your `myspark.sh` file.
+
 As stated in the [RDD Programming Guide](https://spark.apache.org/docs/3.5.0/rdd-programming-guide.html#parallelized-collections), Spark allows for parallel operations in a program to be executed on a cluster with the following abstractions:
 
 - **Main abstraction**: **resilient distributed dataset (RDD)** is a collection of elements partitioned across the nodes of the cluster that can be operated on in parallel.
