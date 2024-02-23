@@ -13,7 +13,7 @@
 
 **Dependencies.** For this lab, we need to install the ``matplotlib`` and `pandas` packages. Make sure you install the packages in the environment **myspark**
 
-Before you continue, open a new terminal in [Stanaeg](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `com6012-3` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
+Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `com6012-3` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
 
 ```sh
 ssh $USER@stanage.shef.ac.uk
@@ -152,7 +152,7 @@ Memory requirements that you request from Stanage are configured in the followin
 ```sh
 #!/bin/bash
 #SBATCH --cpus-per-task=2 # The smp parallel environment provides multiple cores on one node. <nn> specifies the max number of cores.
-#SBATCH --mem=4G # --mem=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
+#SBATCH --mem-per-cpu=8G # --mem-per-cpu=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
 ```
 
 With the configuration above in the .sh file, we are requesting Stanage for 16GB (2 nodes times 8GB per node) of real memory. If we are working in the `com6012-$Lab_ID` queue, we are requesting access to one of the two reserved [large memory nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#large-memory-nodes) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node209` to `node210` in the Linux terminal. Each of these nodes has a total of 1024 GB memory and 64 nodes, i.e. 16 GB per node. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
@@ -160,7 +160,7 @@ With the configuration above in the .sh file, we are requesting Stanage for 16GB
 ```sh
 #!/bin/bash
 #SBATCH --cpus-per-task=10 
-#SBATCH --mem=105G 
+#SBATCH --mem-per-cpu=105G 
 ```
 
 **Do you see a problem with this configuration?** In this .sh file, they were requesting 1050 GB of memory (10 nodes times 105 GB per node) which exceeds the available memory in each of these nodes, 1024 GB.
@@ -183,7 +183,7 @@ In the past, we have seen .sh files intended to be run in one of our `com6012-$L
 #SBATCH --reservation=com6012-3  
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --cpus-per-task=2 
-#SBATCH --mem=8G 
+#SBATCH --mem-per-cpu=8G 
 #SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
@@ -213,7 +213,7 @@ Just as before, one needs to be careful that the amount of memory dynamically re
 #SBATCH --reservation=com6012-3  
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --cpus-per-task=10
-#SBATCH --mem=20G 
+#SBATCH --mem-per-cpu=20G 
 #SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
@@ -288,7 +288,7 @@ Finally, the number of cores requested through spark-submit needs to match the n
 #SBATCH --reservation=com6012-3  
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --cpus-per-task=10
-#SBATCH --mem=20G 
+#SBATCH --mem-per-cpu=20G 
 #SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
@@ -322,7 +322,7 @@ spark-submit --driver-memory 20g --executor-memory 20g --master local[10] --loca
 
 #### Observations
 
-1. If the real memory usage of your job exceeds `--mem=xxG` multiplied by the number of cores / nodes you requested then your job will be killed (see the [HPC documentation](https://docs.hpc.shef.ac.uk/en/latest/hpc/scheduler/index.html#interactive-jobs)).
+1. If the real memory usage of your job exceeds `--mem-per-cpu=xxG` multiplied by the number of cores / nodes you requested then your job will be killed (see the [HPC documentation](https://docs.hpc.shef.ac.uk/en/latest/hpc/scheduler/index.html#interactive-jobs)).
 2. A reminder that the more resources you request to Stanage, the longer you need to wait for them to become available to you.
 
 ## 2. Logistic regression in PySpark
