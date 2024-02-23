@@ -183,7 +183,8 @@ In the past, we have seen .sh files intended to be run in one of our `com6012-$L
 #SBATCH --reservation=com6012-3  
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --cpus-per-task=2 
-#SBATCH --mem-per-cpu=8G 
+#SBATCH --mem-per-cpu=8G
+#SBATCH --nodes=2
 #SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
@@ -225,9 +226,9 @@ source activate myspark
 spark-submit --driver-memory 20g --executor-memory 30g ./Code/LogMiningBig.py  
 ```
 
-**Do you see a problem with the memory configuration in this .sh file?** This script is asking Stanage for each core to have 20GB. This is fine because the scripts is requesting 200GB in total (10 times 20GB) which is lower than the maximum of 1024GB. However, although spark-submit is requesting the same amount of 20GB per node for the `driver-memory`, the `executor-memory` is asking for 30G. There will not be any core with a real memory of 30G so the `executor-memory` request needs to be a maximum of 20G.
+**Do you see a problem with the memory configuration in this .sh file?** This script is asking Stanage for each core to have 20GB. This is fine because the script is requesting 200GB in total (10 times 20GB) which is lower than the maximum of 1024GB. However, although spark-submit is requesting the same amount of 20GB per node for the `driver-memory`, the `executor-memory` is asking for 30G. There will not be any core with a real memory of 30G so the `executor-memory` request needs to be a maximum of 20G.
 
-Another property that may be useful to change dynamically is `--master local`. So far, we have set the number of nodes in the `SparkSession.builder` inside the python script, for example,
+Another property that may be useful to change dynamically is `--master local`. So far, we have set the number of worker threads in the `SparkSession.builder` inside the Python script, for example,
 
 ```python
 spark = SparkSession.builder \
@@ -237,7 +238,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-But we can also specify the number of cores in spark-submit using
+But we can also specify the number of worker threads in spark-submit using
 
 ```sh
 spark-submit --driver-memory 5g --executor-memory 5g --master local[10] ./Code/LogMiningBig.py  
@@ -252,7 +253,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-Or make sure the number of cores you specify with SparkSession.builder matches the number of cores you specify when using spark-submit,
+Or make sure the number of worker threads you specify with SparkSession.builder matches the number of cores you specify when using spark-submit,
 
 ```python
 spark = SparkSession.builder \
@@ -262,13 +263,13 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-What happens if this is not the case? For example, if the number of cores specified in spark-submit is different to the number of cores specified in SparkSession. In the past, we have seen the following instruction in the .sh file
+What happens if this is not the case? For example, if the number of worker threads specified in spark-submit is different from the number of worker threads specified in SparkSession. In the past, we have seen the following instructions in the .sh file
 
 ```sh
 spark-submit --driver-memory 5g --executor-memory 5g --master local[5] ./Code/LogMiningBig.py  
 ```
 
-and when inspecting the python file, the following instruction for SparkSession
+and when inspecting the Python file, the following instruction for SparkSession
 
 ```python
 spark = SparkSession.builder \
@@ -278,9 +279,9 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-**Do you see a problem with the number of cores in the configuration for these two files?** While spark-submit is requesting 5 cores, the SparkSession is requesting 2 cores. According to Spark documentation "Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file." (see [this link](https://spark.apache.org/docs/3.5.0/configuration.html#dynamically-loading-spark-properties)) meaning that the job will run with 2 cores and no 5 cores as intended in spark-submit.
+**Do you see a problem with the number of worker threads in the configuration for these two files?** While spark-submit is requesting 5 worker threads, the SparkSession is requesting 2 cores. According to Spark documentation "Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file." (see [this link](https://spark.apache.org/docs/3.5.0/configuration.html#dynamically-loading-spark-properties)) meaning that the job will run with 2 cores and no 5 cores as intended in spark-submit.
 
-Finally, the number of cores requested through spark-submit needs to match the number of cores requested from Stanage with `#SBATCH --cpus-per-task=nn` in the .sh file. In the past, we have seen the following instruction in the .sh file
+Finally, the number of worker threads requested through spark-submit needs to match the number of cores requested from Stanage with `#SBATCH --cpus-per-task=nn` in the .sh file. In the past, we have seen the following instructions in the .sh file
 
 ```sh
 #!/bin/bash
@@ -310,7 +311,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-**Do you see a problem with the number of cores in the configuration for these two files?** Although the number of nodes requested through spark-submit and the SparkSession.builder are the same, that number does not match the number of cores requested to Stanage in the .sh file. Actually, spark-submit is requesting a higher number of nodes to the ones that could potentially be assigned by Stanage.
+**Do you see a problem with the number of worker threads in the configuration for these two files?** Although the number of worker threads requested through spark-submit and the SparkSession.builder are the same, that number does not match the number of cores requested to Stanage in the .sh file. Actually, spark-submit is requesting a higher number of worker threads than the ones that could potentially be assigned by Stanage.
 
 #### To change more configurations
 
