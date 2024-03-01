@@ -15,7 +15,7 @@ Unlike linear regression, where the output is assumed to follow a Gaussian distr
 in [generalized linear models](https://en.wikipedia.org/wiki/Generalized_linear_model) (GLMs) the response variable $y$ follows some distribution from the [exponential family of distributions](https://en.wikipedia.org/wiki/Exponential_family).
 
 
-Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `com6012-4` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
+Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `com6012-4` queue, and activate the **myspark** environment. First log into the Stanage cluster
 
 ```sh
 ssh $USER@stanage.shef.ac.uk
