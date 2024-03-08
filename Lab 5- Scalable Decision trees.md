@@ -1,4 +1,4 @@
-# Lab 8: Scalable decision trees and ensemble methods
+# Lab 5: Scalable decision trees and ensemble methods
 
 ### Modified by Tahsin Khan and Shuo Zhou, 8th March 2024
 
