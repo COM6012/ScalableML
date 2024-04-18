@@ -14,13 +14,13 @@
 - [Clustering in Spark](https://spark.apache.org/docs/3.5.0/ml-clustering.html)
 - [PySpark API on clustering](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.clustering.KMeans.html)
 - [PySpark code on clustering](https://github.com/apache/spark/blob/master/python/pyspark/ml/clustering.py)
-- [$k$-means clustering on Wiki](https://en.wikipedia.org/wiki/K-means_clustering)
-- [$k$-means++ on Wiki](https://en.wikipedia.org/wiki/K-means%2B%2B) 
-- [$k$-means|| paper](http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf)
+- [k-means clustering on Wiki](https://en.wikipedia.org/wiki/K-means_clustering)
+- [k-means++ on Wiki](https://en.wikipedia.org/wiki/K-means%2B%2B) 
+- [k-means|| paper](http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf)
 
 ## 1. $k$-means clustering
 
-[$k$-means](http://en.wikipedia.org/wiki/K-means_clustering) is one of the most commonly used clustering algorithms that clusters the data points into a predefined number of clusters. The Spark MLlib implementation includes a parallelized variant of the [$k$-means++](https://en.wikipedia.org/wiki/K-means%2B%2B) method called [$k$-means||](http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf).
+[k-means](http://en.wikipedia.org/wiki/K-means_clustering) is one of the most commonly used clustering algorithms that clusters the data points into a predefined number of clusters. The Spark MLlib implementation includes a parallelized variant of the [k-means++](https://en.wikipedia.org/wiki/K-means%2B%2B) method called [k-means||](http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf).
 
 `KMeans` is implemented as an `Estimator` and generates a [`KMeansModel`](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.clustering.KMeansModel.html) as the base model.
 
@@ -37,8 +37,6 @@ The following parameters are available:
 - *distanceMeasure*: either Euclidean (default) or cosine distance measure
 - *weightCol*: optional weighting of data points
 
-Let us request for 2 cores using a regular queue. We activate the environment as usual and then install `matplotlib` (if you have not done so).
-
 ### Getting started
 
 First log into the Stanage cluster
@@ -52,7 +50,7 @@ You need to replace `$USER` with your username (using **lowercase** and without 
 Once logged in, we can request 2 cpu cores from reserved resources by
 
 ```sh
-srun --account=default --reservation=com6012-7 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
+srun --account=default --reservation=com6012-8 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
 ```
 
 if the reserved resources are not available, request core from the general queue by
@@ -64,7 +62,7 @@ srun --pty --cpus-per-task=2 bash -i
 Now set up our conda environment, using
 
 ```sh
-source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1 Task 2)
+source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1, Task 2)
 ```
 
 if you created a `myspark.sh` script in Lab 1.  If not, use
