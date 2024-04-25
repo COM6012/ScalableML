@@ -1,4 +1,4 @@
-# Lab 9: PCA for dimensionality reduction and Spark data types
+e# Lab 9: PCA for dimensionality reduction and Spark data types
 
 [COM6012 Scalable Machine Learning **2024**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
@@ -321,8 +321,8 @@ We get the eigenvalues by taking squares of the singular values
 
 ```python
 evs=s*s
- print(evs)
-[36.012494146111734,9.320839187221594]
+print(evs)
+# [36.012494146111734,9.320839187221594]
 ```
 
 Now we compute the percentage of variance captures and compare with the above to verify (see/search `model.explainedVariance`).
