@@ -303,11 +303,11 @@ Check the **PC** obtained this time (it is the same as the above PCA methods now
 
 ```python
 print(V)
-DenseMatrix([[-0.44859172, -0.28423808],
-             [ 0.13301986, -0.05621156],
-             [-0.12523156,  0.76362648],
-             [ 0.21650757, -0.56529588],
-             [-0.84765129, -0.11560341]])
+# DenseMatrix([[-0.44859172, -0.28423808],
+#              [ 0.13301986, -0.05621156],
+#              [-0.12523156,  0.76362648],
+#              [ 0.21650757, -0.56529588],
+#              [-0.84765129, -0.11560341]])
 ```
 
 Let us examine the relationships between the singular values and the eigenvalues.
