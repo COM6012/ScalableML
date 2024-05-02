@@ -144,6 +144,16 @@ Successfully installed py4j-0.10.9.7 pyspark-3.5.0
 
 [`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
 
+#### How to reset your environment
+
+If you found that you’ve messed your environment up and encountered seemingly unrecoverable errors, please follow the steps below to reset your environment:
+
+1. Log out of Stanage and log back in, then start an interactive session `run --pty bash -i`.
+2. Restore the default files by command `resetenv`. If the command `restenv` is not working (possibly removed from $PATH), you can run the resetenv command directly: `/opt/site/bin/resetenv`. See the instructions [here](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html#strange-things-are-happening-with-my-terminal-or-my-terminal-seems-broken) for more details.
+3. Remove the conda environment files via `rm -rf ~/.conda` and `rm -rf ~/.condarc`.
+4. Log out fully & then back in again.
+5. Start an interactive session and follow the steps above to create the `myspark` environment.
+
 #### Run pyspark
 
 ```sh
