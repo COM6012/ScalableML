@@ -1,6 +1,6 @@
 # Lab 1 - Introduction to (Py)Spark and (Sheffield)HPC
 
-[COM6012 Scalable Machine Learning **2024**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
+[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
 ## Study schedule
 
@@ -8,15 +8,15 @@
 - [Task 2](#2-run-pyspark): To finish in the lab session on 9th Feb. **Critical**
 - [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 9th Feb. **Essential**
 - [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 9th Feb. **Essential**
-- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-thursday): To finish by the following Wednesday 14th Feb. ***Exercise***
+- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-thursday): To finish by the following Tuesday 18th Feb. ***Exercise***
 - [Task 6](#6-additional-ideas-to-explore-optional-no-solutions-will-be-provided): To explore further. *Optional*
 
 **Suggested reading**:
 
-- [Spark Overview](https://spark.apache.org/docs/3.5.0/index.html)
-- [Spark Quick Start](https://spark.apache.org/docs/3.5.0/quick-start.html) (Choose **Python** rather than the default *Scala*)
+- [Spark Overview](https://spark.apache.org/docs/latest/index.html)
+- [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html) (Choose **Python** rather than the default *Scala*)
 - Chapters 2 to 4 of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf) (several sections in Chapter 3 can be safely skipped)
-- Reference: [PySpark documentation](https://spark.apache.org/docs/3.5.0/api/python/index.html#)
+- Reference: [PySpark documentation](https://spark.apache.org/docs/3.5.4/api/python/index.html)
 - Reference: [PySpark source code](https://github.com/apache/spark/tree/master/python)
 
 **Note - Please READ before proceeding**:
@@ -130,16 +130,16 @@ source activate myspark
 
 The prompt says to use `conda activate myspark` but it does not always work. You **must** see `(myspark)` in front, before proceeding. Otherwise, you did not get the proper environment. Check the above steps.
 
-#### Install pyspark 3.5.0 using `pip`
+#### Install pyspark 3.5.4 using `pip`
 
 ```sh
-pip install pyspark==3.5.0
+pip install pyspark==3.5.4
 ```
 
 When you are asked whether to proceed, say `y`. You should see the last line of the output as
 
 ```sh
-Successfully installed py4j-0.10.9.7 pyspark-3.5.0
+Successfully installed py4j-0.10.9.7 pyspark-3.5.4
 ```
 
 [`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
@@ -160,7 +160,7 @@ If you found that you’ve messed your environment up and encountered seemingly 
 pyspark
 ```
 
-You should see spark version **3.5.0** displayed like below
+You should see spark version **3.5.4** displayed like below
 
 ```sh
 ......
@@ -213,7 +213,7 @@ Installation of PySpark on your own machine is more complicated than installing 
 
 - Install [**Java 8**](https://www.java.com/en/download/manual.jsp), i.e. java version *1.8.xxx*. Most instructions online ask you to install *Java SDK*, which is heavier. *Java JRE* is lighter and sufficient for pyspark.
 - Install Python **3.8+** (if not yet)
-- Install PySpark **3.5.0** with **Hadoop 3.3**
+- Install PySpark **3.5.4** with **Hadoop 3.3**
 - Set up the proper environments (see references below)
 
 As far as I know, it is not necessary to install *Scala*.
@@ -224,7 +224,7 @@ If you do want to install PySpark and run Jupyter Notebooks on your own machine,
 
 #### References (use with caution, not necessarily up to date or the best)
 
-If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, **Python 3.8+**, **PySpark 3.5.0** with **Hadoop 3.3**. *Scala* is optional.
+If you follow the steps in these references, be aware that they are not up to date so you should install the correct versions: **Java 1.8.**, **Python 3.8+**, **PySpark 3.5.4** with **Hadoop 3.3**. *Scala* is optional.
 
 - Windows: 1) [How to setup PySpark on Windows?](https://saumyagoyal.medium.com/how-to-install-pyspark-on-windows-faf7ac293ecf) and 2) [PySpark Made Easy: Day 1 — Install PySpark locally on windows](https://medium.com/@dipan.saha/getting-started-with-pyspark-day-1-37e5e6fdc14b)
 
@@ -244,18 +244,18 @@ Here we provide detailed instructions only for Windows.
   - Check: open a command prompt and type `java -version`. If you can see the version displayed, congratulations. Otherwise, check the above.
 - Install Python
   - Install [Python 3.8+](https://www.python.org/downloads/). Open a command and type `python --version` to check your version to be 3.8+.
-- Install PySpark (Alternatively, you may try `pip install pyspark==3.5.0`)
-  - Download Spark **3.5.0** for Hadoop **3.3**, i.e. `spark-3.5.0-bin-hadoop3.tgz`.
-  - Extract the `.tgz` file (e.g. using 7zip) into `C:\Spark` so that extracted files are at `C:\Spark\spark-3.5.0-bin-hadoop3`.
+- Install PySpark (Alternatively, you may try `pip install pyspark==3.5.4`)
+  - Download Spark **3.5.4** for Hadoop **3.3**, i.e. `spark-3.5.4-bin-hadoop3.tgz`.
+  - Extract the `.tgz` file (e.g. using 7zip) into `C:\Spark` so that extracted files are at `C:\Spark\spark-3.5.4-bin-hadoop3`.
   - Set the environment variables:
-    - `SPARK_HOME = C:\Spark\spark-3.5.0-bin-hadoop`
-    - `PATH += C:\Spark\spark-3.5.0-bin-hadoop3\bin`
-  - Download [**winutils.exe** for hadoop 3](https://github.com/steveloughran/winutils/blob/master/hadoop-3.0.0/bin/winutils.exe) and move it to `C:\Spark\spark-3.5.0-bin-hadoop3\bin`
+    - `SPARK_HOME = C:\Spark\spark-3.5.4-bin-hadoop`
+    - `PATH += C:\Spark\spark-3.5.4-bin-hadoop3\bin`
+  - Download [**winutils.exe** for hadoop 3](https://github.com/steveloughran/winutils/blob/master/hadoop-3.0.0/bin/winutils.exe) and move it to `C:\Spark\spark-3.5.4-bin-hadoop3\bin`
   - Set the environment variable:
-    - `HADOOP_HOME = C:\Spark\spark-3.5.0-bin-hadoop3`
+    - `HADOOP_HOME = C:\Spark\spark-3.5.4-bin-hadoop3`
     - `PYTHONPATH = %SPARK_HOME%\python;%SPARK_HOME%\python\lib\py4j-<version>-src.zip;%PYTHONPATH%` (just check what py4j version you have in your `spark/python/lib` folder to replace `<version>` ([source](https://stackoverflow.com/questions/53161939/pyspark-error-does-not-exist-in-the-jvm-error-when-initializing-sparkcontext?noredirect=1&lq=1)).
 
-Now open a command prompt and type `pyspark`. You should see pyspark 3.5.0 running as above.
+Now open a command prompt and type `pyspark`. You should see pyspark 3.5.4 running as above.
 
 *Known issue on Windows* There may be a `ProcfsMetricsGetter` warning. If you press `Enter`, the warning will disappear. I did not find a better solution to get rid of it. It does not seem harmful either. If you know how to deal with it. Please let me know. Thanks. [Reference 1](https://stackoverflow.com/questions/63762106/rn-procfsmetricsgetter-exception-when-trying-to-compute-pagesize-as-a-result-r); [Reference 2](https://stackoverflow.com/questions/60257377/encountering-warn-procfsmetricsgetter-exception-when-trying-to-compute-pagesi); [Reference 3](https://stackoverflow.com/questions/61863127/getting-error-while-setting-pyspark-environment).
 
@@ -286,7 +286,7 @@ Run pyspark (optionally, specify to use multiple cores):
 pyspark  # pyspark --master local[4] for 4 cores
 ```
 
-You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/3.5.0/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
+You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/3.5.4/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
 
 Check your SparkSession and SparkContext object and you will see something like
 
@@ -443,7 +443,7 @@ spark-submit Code/LogMining100.py
 You will see lots of logging info output such as
 
 ```sh
-24/01/26 18:33:16 INFO SparkContext: Running Spark version 3.5.0
+24/01/26 18:33:16 INFO SparkContext: Running Spark version 3.5.4
 .....................
 24/01/26 18:33:16 INFO ResourceUtils: ==============================================================
 24/01/26 18:33:16 INFO SparkContext: Submitted application: COM6012 Spark Intro
@@ -583,7 +583,7 @@ I suggest you to remove and re-install the environment. You can do this by
 
 1. Remove the `myspark` environment by running `conda remove --name myspark --all`, following [conda's managing environments documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment) and redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
 2. If the above does not work, delete the `myspark` environment (folder) at `/users/abc1de/.conda/envs/myspark` via the terminal folder window on the left of the screen on MobaXterm or use linux command. Then redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
-3. If the above still does not work, you may have installed `pyspark==3.5.0` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==3.5.0`, you may be prompted with `Requirement already satisfied: pyspark==3.5.0` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==3.5.0` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==3.5.0`.
+3. If the above still does not work, you may have installed `pyspark==3.5.4` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==3.5.4`, you may be prompted with `Requirement already satisfied: pyspark==3.5.4` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==3.5.4` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==3.5.4`.
 
 ## 5. Exercises (reference solutions will be provided on the following Thursday)
 
@@ -602,7 +602,7 @@ You are encouraged to try out in the pyspark shell first to figure out the right
 
 ### More log mining questions
 
-You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.5.0/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
+You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.5.4/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
 
 - How many **unique** hosts on a particular day (e.g., 15th August)?
 - How many **unique** hosts in total (i.e., in August 1995)?
