@@ -4,11 +4,11 @@
 
 ## Study schedule
 
-- [Task 1](#1-connect-to-hpc-and-install-spark): To finish in the lab session on 9th Feb. **Critical**
-- [Task 2](#2-run-pyspark): To finish in the lab session on 9th Feb. **Critical**
-- [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 9th Feb. **Essential**
-- [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 9th Feb. **Essential**
-- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-thursday): To finish by the following Tuesday 18th Feb. ***Exercise***
+- [Task 1](#1-connect-to-hpc-and-install-spark): To finish in the lab session on 13th Feb. **Critical**
+- [Task 2](#2-run-pyspark): To finish in the lab session on 13th Feb. **Critical**
+- [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 13th Feb. **Essential**
+- [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 13th Feb. **Essential**
+- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-wednesday): To finish by the following Tuesday 18th Feb. ***Exercise***
 - [Task 6](#6-additional-ideas-to-explore-optional-no-solutions-will-be-provided): To explore further. *Optional*
 
 **Suggested reading**:
@@ -29,7 +29,7 @@
 
 ### 1.1 HPC Driving License and Connect to Stanage HPC via SSH
 
-Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by Thursday 8th Feb. If you have not done so, please do it as soon as possible.
+Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 13:00 on Thursday 13th Feb. If you have not done so, please do it as soon as possible.
 
 To access Stanage for the first time, you **must** connect the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn). Use your university **username** such as `abc18de` and the associated password to log in.
 
@@ -87,22 +87,22 @@ To connect to Stanage without the VPN, you must first [setup TOTP multifactor au
 During the lab sessions, you can access the *reserved nodes* for this module via
 
 ```sh
-srun --account=default --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash
 ```
 
 Replace `$LAB_ID` with the session number of the lab you are taking. For example, if you are in Lab 1, you should use
 
 ```sh
-srun --account=default --reservation=com6012-1 --time=00:30:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=com6012-1 --time=00:30:00 --pty /bin/bash
 ```
 
-You can also access the *general queue* via `srun --pty bash -i`. If successful, you should see
+The reservation ends by the end of the lab session. You can also access the *general queue* via `srun --pty bash -i`. If successful, you should see
 
 ```sh
 [abc1de@node*** [stanage] ~]$  # *** is the node number
 ```
 
-Otherwise, try `srun --account=default --reservation=com6012-1 --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+Otherwise, try `srun --account=rse-com6012 --reservation=com6012-1 --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
 
 Note: you can only access the reserved nodes during the lab sessions. Outside the lab sessions, you can only access the general queue.
 
@@ -113,12 +113,14 @@ module load Java/17.0.4
 ```
 
 ```sh
-module load Anaconda3/2022.05
+module load Anaconda3/2024.02-1
 ```
 
-#### Create a virtual environment called `myspark` with Python 3.11.7
+#### Create a virtual environment called `myspark` with Python 3.12
 
-`conda create -n myspark python=3.11.7`
+```sh
+conda create -n myspark python=3.12
+```
 
 When you are asked whether to proceed, say `y`. When seeing `Please update conda by running ...`, do NOT try to update conda following the given command. As a regular user in HPC, you will NOT be able to update conda.
 
@@ -168,12 +170,12 @@ Welcome to
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  '_/
-   /__ / .__/\_,_/_/ /_/\_\   version 3.5.0
+   /__ / .__/\_,_/_/ /_/\_\   version 3.5.4
       /_/
 
-Using Python version 3.11.7 (main, Dec 15 2023 18:12:31)
+Using Python version 3.12.8 (main, Dec 11 2024 16:31:09)
 Spark context Web UI available at http://node001.pri.stanage.alces.network:4040
-Spark context available as 'sc' (master = local[*], app id = local-0000000000000).
+Spark context available as 'sc' (master = local[*], app id = local-1738751116147).
 SparkSession available as 'spark'.
 >>> 
 ```
@@ -203,7 +205,7 @@ Instructions on configuring FileZilla for Stanage can be found [here](https://do
 **File recovery**: the Stanage currently does not support file recovery following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
 <!-- your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups. -->
 
-### 1.4 *Optional: Install PySpark on your own machine*  
+### 1.4 *Optional: Install PySpark on your own machine* 
 
 **NOTE: You may skip this part 1.4.**
 
@@ -267,12 +269,12 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 
 ### Get a node and activate myspark
 
-- Get a node via `srun --account=default --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i`.
+- Get a node via `srun --account=rse-com6012 --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i`.
 - Activate the environment by
 
    ```sh
    module load Java/17.0.4
-   module load Anaconda3/2022.05
+   module load Anaconda3/2024.02-1
    source activate myspark
   ```
 
@@ -443,12 +445,25 @@ spark-submit Code/LogMining100.py
 You will see lots of logging info output such as
 
 ```sh
-24/01/26 18:33:16 INFO SparkContext: Running Spark version 3.5.4
+25/02/05 10:31:49 INFO SparkContext: Running Spark version 3.5.4
 .....................
-24/01/26 18:33:16 INFO ResourceUtils: ==============================================================
-24/01/26 18:33:16 INFO SparkContext: Submitted application: COM6012 Spark Intro
+25/02/05 10:31:49 INFO ResourceUtils: ==============================================================
+25/02/05 10:31:49 INFO SparkContext: Submitted application: COM6012 Spark Intro
 .....................
-24/01/26 18:33:17 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 41095.
+25/02/05 10:31:50 INFO Utils: Successfully started service 'sparkDriver' on port 39901.
+.....................
+25/02/05 10:31:50 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+25/02/05 10:31:50 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/YOUR_USERNAME/blockmgr-aa32e501-36bd-4151-8c16-a6b9d9ff31af
+25/02/05 10:31:50 INFO MemoryStore: MemoryStore started with capacity 413.9 MiB
+25/02/05 10:31:50 INFO SparkEnv: Registering OutputCommitCoordinator
+25/02/05 10:31:50 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+25/02/05 10:31:50 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/02/05 10:31:50 INFO Executor: Starting executor ID driver on host node001.pri.stanage.alces.network
+25/02/05 10:31:50 INFO Executor: OS info Linux, 3.10.0-1160.125.1.el7.x86_64, amd64
+25/02/05 10:31:50 INFO Executor: Java version 17.0.4
+25/02/05 10:31:50 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+25/02/05 10:31:50 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@75168a33 for default.
+25/02/05 10:31:50 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33635.
 .....................
 
 
@@ -463,7 +478,7 @@ The output is verbose so I did not show all (see `Output/COM6012_Lab1_SAMPLE.txt
 
 **Question**: How many accesses are from Japan and UK respectively?
 
-Create a file `LogMiningBig.py` under `/users/abc1de/com6012/ScalableML` directory
+Create a file `LogMiningBig.py` under `/users/abc1de/com6012/ScalableML/Code` directory
 
 ```python
 from pyspark.sql import SparkSession
@@ -501,16 +516,16 @@ Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC`
 ```sh
 #!/bin/bash
 #SBATCH --job-name=JOB_NAME  # Replace JOB_NAME with a name you like
-#SBATCH --account=default   
+#SBATCH --account=rse-com6012   
 #SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --nodes=1  # Specify a number of nodes
-#SBATCH --mem=5G  # Request 5 gigabytes of real memory (mem)
+#SBATCH --mem=4G  # Request 4 gigabytes of real memory (mem)
 #SBATCH --output=./Output/COM6012_Lab1.txt  # This is where your output and errors are logged
 #SBATCH --mail-user=username@sheffield.ac.uk  # Request job update email notifications, remove this line if you don't want to be notified
 
 module load Java/17.0.4
-module load Anaconda3/2022.05
+module load Anaconda3/2024.02-1
 
 source activate myspark
 
@@ -520,7 +535,7 @@ spark-submit ./Code/LogMiningBig.py  # . is a relative path, meaning the current
 Please remove the following two lines for the *general queue*.
   
 ```sh
-#SBATCH --account=default 
+#SBATCH --account=rse-com6012 
 #SBATCH --reservation=com6012-$LAB_ID
 ```
 
@@ -585,7 +600,7 @@ I suggest you to remove and re-install the environment. You can do this by
 2. If the above does not work, delete the `myspark` environment (folder) at `/users/abc1de/.conda/envs/myspark` via the terminal folder window on the left of the screen on MobaXterm or use linux command. Then redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
 3. If the above still does not work, you may have installed `pyspark==3.5.4` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==3.5.4`, you may be prompted with `Requirement already satisfied: pyspark==3.5.4` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==3.5.4` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==3.5.4`.
 
-## 5. Exercises (reference solutions will be provided on the following Thursday)
+## 5. Exercises (reference solutions will be provided on the following Wednesday)
 
 The analytic task you are doing above is *Log Mining*. You can imaging nowadays, log files are big and manual analysis will be time consuming. Follow examples above, answer the following questions on **NASA_access_log_Aug95.gz**.
 
