@@ -2,7 +2,7 @@
 
 ## Spring 2025
 
-**by [Shuo Zhou](https://shuo-zhou.github.io/) and [Robert Loftin](https://www.robert-loftin.net/), with [Tahsin Khan](https://www.sheffield.ac.uk/dcs/people/academic/tahsinur-khan) and [Xianyuan Liu](https://xianyuanliu.github.io/)**
+**by [Shuo Zhou](https://shuo-zhou.github.io/) and [Haiping Lu](https://haipinglu.github.io/), with [Tahsin Khan](https://www.sheffield.ac.uk/dcs/people/academic/tahsinur-khan) and [Xianyuan Liu](https://xianyuanliu.github.io/)**
 
 In [this module](http://www.dcs.shef.ac.uk/intranet/teaching/public/modules/msc/com6012.html), we will learn how to do machine learning at large scale using [Apache Spark](https://spark.apache.org/).
 We will use the [High Performance Computing (HPC) cluster systems](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) of our university. If you are NOT on the University's network, you **must** use [VPN (Virtual Private Network)](https://www.sheffield.ac.uk/it-services/vpn) to connect to the HPC.
@@ -11,16 +11,16 @@ This edition uses [**PySpark 3.5.4**](https://spark.apache.org/docs/3.5.4/api/py
 
 * Session 1: Introduction to Spark and HPC (Shuo Zhou)
 * Session 2: RDD, DataFrame, ML pipeline, & parallelization (Shuo Zhou)
-* Session 3: Scalable logistic regression (Shuo Zhou)
-* Session 4: Scalable generalized linear models (Shuo Zhou)
+* Session 3: Scalable logistic regression and Spark configuration (Shuo Zhou)
+* Session 4: Scalable generalized linear models and Spark data types (Shuo Zhou)
 * Session 5: Scalable decision trees and ensemble models (Tahsin Khan)
 * Session 6: Scalable neural networks (Tahsin Khan)
 * Session 7: Scalable matrix factorisation for collaborative filtering in recommender systems (Tahsin Khan)
-* Session 8: Scalable k-means clustering and Spark configuration (Haiping Lu)
-* Session 9: Scalable PCA for dimensionality reduction and Spark data types (Xianyuan Liu)
+* Session 8: Scalable k-means clustering and PCA for dimensionality reduction (Haiping Lu)
+* Session 9: Open-source software engineering practices for reproducible and reusable AI (Xianyuan Liu)
 * Session 10: Apache Spark in the Cloud (Xianyuan Liu)
 
-You can also download the [Spring 2023 version](https://github.com/COM6012/ScalableML/tree/2023-legacy) for preview or reference.
+You can also download the [Spring 2024 version](https://github.com/COM6012/ScalableML/releases/tag/v2024) for preview or reference.
 
 If you do not have one yet, we recommend you to sign up for a [GitHub account](https://github.com/join) to learn using this popular open source software development platform.
 
