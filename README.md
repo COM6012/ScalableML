@@ -15,10 +15,10 @@ This edition uses [**PySpark 3.5.4**](https://spark.apache.org/docs/3.5.4/api/py
 * Session 4: Scalable generalized linear models and Spark data types (Shuo Zhou)
 * Session 5: Scalable decision trees and ensemble models (Tahsin Khan)
 * Session 6: Scalable neural networks (Tahsin Khan)
-* Session 7: Scalable matrix factorisation for collaborative filtering in recommender systems (Tahsin Khan)
-* Session 8: Scalable k-means clustering and PCA for dimensionality reduction (Haiping Lu)
-* Session 9: Open-source software engineering practices for reproducible and reusable AI (Xianyuan Liu)
-* Session 10: Apache Spark in the Cloud (Xianyuan Liu)
+* Session 7: Scalable k-means clustering (Tahsin Khan)
+* Session 8: Scalable matrix factorisation for collaborative filtering in recommender systems and PCA for dimensionality reduction (Haiping Lu)
+* Session 9: Apache Spark in the Cloud (Xianyuan Liu)
+* Session 10: Reproducible and reusable AI  (Xianyuan Liu)
 
 You can also download the [Spring 2024 version](https://github.com/COM6012/ScalableML/releases/tag/v2024) for preview or reference.
 
