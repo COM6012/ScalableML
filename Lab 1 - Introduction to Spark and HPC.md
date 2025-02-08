@@ -29,9 +29,9 @@
 
 ### 1.1 HPC Driving License and Connect to Stanage HPC via SSH
 
-Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 13:00 on Thursday 13th Feb. If you have not done so, please do it as soon as possible.
+Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 11:00 on Thursday 13th Feb. If you have not done so, please do it as soon as possible (50% penalty will be applied).
 
-To access Stanage for the first time, you **must** connect the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn). Use your university **username** such as `abc18de` and the associated password to log in.
+To access Stanage using Eduroam, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Use your university **username** such as `abc18de` and the associated password to log in. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilised.
 
 [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) users, following the [official connection instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh), open a terminal and connect to Stanage via SSH by
 
@@ -61,8 +61,6 @@ If you have problem logging in, do the following in sequence:
 - Check the [Frequently Asked Questions](https://docs.hpc.shef.ac.uk/en/latest/FAQs.html) to see whether you have a similar problem listed there, e.g. `bash-4.x$` being displayed instead of your username at the bash prompt.
 - Change your password through Muse > My Services > Account Settings.
 - Come to the labs on Fridays or office hours on Mondays for in-person help, and online sessions on Wednesdays for online help.
-
-To connect to Stanage without the VPN, you must first [setup TOTP multifactor authentication on the cluster](https://docs.hpc.shef.ac.uk/en/latest/stanage/stanage-mfa-setup.html#stanage-totp-setup). After setting up your Stanage TOTP MFA, **unless** you are on the campus network, you will **still need** to connect to the VPN to access Stanage.
 
 #### MobaXterm tips
 
