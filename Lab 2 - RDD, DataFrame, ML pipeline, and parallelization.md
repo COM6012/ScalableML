@@ -46,26 +46,26 @@ You need to replace `$USER` with your username (using **lowercase** and without 
 Once logged in, we can request 2 cores from reserved resources by
 
 ```sh
-srun --account=default --reservation=com6012-2 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=rse-com6012-2 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
 ```
 
-if the reserved resources are not available, request core from the general queue by
+If the reserved resources are not available, request core from the general queue by
 
 ```sh
 srun --pty --cpus-per-task=2 bash -i
 ```
 
-Now set up our conda environment, using
+If you have created a `myspark.sh` script in Lab 1 (Task 2), Now set up our conda environment using
 
 ```sh
 source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1 Task 2)
 ```
 
-if you created a `myspark.sh` script in Lab 1.  If not, use
+If not, use
 
    ```sh
    module load Java/17.0.4
-   module load Anaconda3/2022.05
+   module load Anaconda3/2024.02-1
    source activate myspark
    ```
 
