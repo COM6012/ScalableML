@@ -31,7 +31,7 @@
 
 Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 11:00 on Thursday 13th Feb. If you have not done so, please do it as soon as possible (50% penalty will be applied).
 
-To access Stanage, log in using SSH with your university **username** such as `abc18de` and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilised.
+To access Stanage, log in using SSH with your university **username** such as `abc1de` and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilised.
 
 [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) users, following the [official connection instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh), open a terminal and connect to Stanage via SSH by
 
@@ -85,13 +85,13 @@ If you have problem logging in, do the following in sequence:
 During the lab sessions, you can access the *reserved nodes* for this module via
 
 ```sh
-srun --account=rse-com6012 --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=rse-com6012-$LAB_ID --time=00:30:00 --pty /bin/bash
 ```
 
 Replace `$LAB_ID` with the session number of the lab you are taking. For example, if you are in Lab 1, you should use
 
 ```sh
-srun --account=rse-com6012 --reservation=com6012-1 --time=00:30:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=rse-com6012-1 --time=00:30:00 --pty /bin/bash
 ```
 
 The reservation ends by the end of the lab session. You can also access the *general queue* via `srun --pty bash -i`. If successful, you should see
@@ -100,7 +100,7 @@ The reservation ends by the end of the lab session. You can also access the *gen
 [abc1de@node*** [stanage] ~]$  # *** is the node number
 ```
 
-Otherwise, try `srun --account=rse-com6012 --reservation=com6012-1 --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
+Otherwise, try `srun --account=rse-com6012 --reservation=rse-com6012-1 --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i` again. You will not be able to run the following commands if you are still on the login node.
 
 Note: you can only access the reserved nodes during the lab sessions. Outside the lab sessions, you can only access the general queue.
 
@@ -203,7 +203,7 @@ Instructions on configuring FileZilla for Stanage can be found [here](https://do
 **File recovery**: the Stanage currently does not support file recovery following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
 <!-- your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups. -->
 
-### 1.4 *Optional: Install PySpark on your own machine* 
+### 1.4 *Optional: Install PySpark on your own machine*
 
 **NOTE: You may skip this part 1.4.**
 
@@ -267,7 +267,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 
 ### Get a node and activate myspark
 
-- Get a node via `srun --account=rse-com6012 --reservation=com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i`.
+- Get a node via `srun --account=rse-com6012 --reservation=rse-com6012-$LAB_ID --time=00:30:00 --pty /bin/bash` or `srun --pty bash -i`.
 - Activate the environment by
 
    ```sh
@@ -515,7 +515,7 @@ Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC`
 #!/bin/bash
 #SBATCH --job-name=JOB_NAME  # Replace JOB_NAME with a name you like
 #SBATCH --account=rse-com6012   
-#SBATCH --reservation=com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
+#SBATCH --reservation=rse-com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=4G  # Request 4 gigabytes of real memory (mem)
@@ -534,7 +534,7 @@ Please remove the following two lines for the *general queue*.
   
 ```sh
 #SBATCH --account=rse-com6012 
-#SBATCH --reservation=com6012-$LAB_ID
+#SBATCH --reservation=rse-com6012-$LAB_ID
 ```
 
 - Get necessary files on your Stanage.
