@@ -1,4 +1,4 @@
-# Lab 2 - RDD, DataFrame, ML Pipeline, and Parallelisation
+# Lab 2 - RDD, DataFrame, ML Pipeline, and Parallelization
 
 [COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
@@ -133,7 +133,7 @@ When a function passed to a Spark operation (such as `map` or `reduce`) is execu
 
 #### [Broadcast variables](https://spark.apache.org/docs/3.5.4/rdd-programming-guide.html#broadcast-variables)
 
-To avoid creating a copy of a **large** variable for each task, an accessible (*read-only*!) variable can be kept on each machine - this is useful for particularly large datasets which may be needed for multiple tasks. The data broadcasted this way is cached in [serialized](https://spark.apache.org/docs/3.5.4/tuning.html#serialized-rdd-storage) form and deserialized before running each task. See [Data Serialisation](https://spark.apache.org/docs/3.5.4/tuning.html#data-serialization) for more details about serialisation.
+To avoid creating a copy of a **large** variable for each task, an accessible (*read-only*!) variable can be kept on each machine - this is useful for particularly large datasets which may be needed for multiple tasks. The data broadcasted this way is cached in [serialized](https://spark.apache.org/docs/3.5.4/tuning.html#serialized-rdd-storage) form and deserialized before running each task. See [Data Serialization](https://spark.apache.org/docs/3.5.4/tuning.html#data-serialization) for more details about serialization.
 
 Broadcast variables are created from a variable $v$ by calling `SparkContext.broadcast(v)`. The broadcast variable is a wrapper around $v$, and its value can be accessed by calling the *value* method.
 
@@ -533,7 +533,7 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 
 ### Linear regression for advertising
 
-4. Add regularisation to the [linear regression for advertising example](#example-linear-regression-for-advertising) and evaluate the prediction performance against the performance without any regularisation. Study at least three different regularisation settings.
+4. Add regularization to the [linear regression for advertising example](#example-linear-regression-for-advertising) and evaluate the prediction performance against the performance without any regularization. Study at least three different regularization settings.
 
 ### Logistic regression for document classification
 

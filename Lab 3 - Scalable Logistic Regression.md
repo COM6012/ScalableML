@@ -1,6 +1,6 @@
 # Lab 3: Scalable logistic regression
 
-[COM6012 Scalable Machine Learning **2024**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
+[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
 ## Study schedule
 
@@ -13,7 +13,7 @@
 
 **Dependencies.** For this lab, we need to install the ``matplotlib`` and `pandas` packages. Make sure you install the packages in the environment **myspark**
 
-Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `com6012-3` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
+Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `rse-com6012-3` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
 
 ```sh
 ssh $USER@stanage.shef.ac.uk
@@ -68,58 +68,7 @@ The particular dataset that we will use wil be referred to is the [Spambase Data
 <!-- Before we work on Logistic Regression, though, let us briefly look at the different file storage systems available in Stanage and different Spark configurations that are necessary to develop a well performing Spark job. -->
 
 ## 1. Spark configuration
-<!-- 
-As you progress to deal with bigger data, you may need to ensure you have enough disk space and also configure Spark properly to ensure enough resources are available for processing your big data. This section looks at various aspects of data storage management and Spark configuration.
 
-### 1.1 Data storage management
-
-#### Move to `/data` from `/home`
-
-As you starting working with larger datasets, we recommend that you use `/home/YOUR_USERNAME` (10G quota) for setting up `conda` environment (as we did already in Lab 1), and that you use `/data/YOUR_USERNAME` (100G) for working on tasks related to COM6012.
-
-After logging into ShARC, do `cd /data/YOUR_USERNAME` to work under this directory. Let us now move all files for our module to there.
-
-This time, let's request four cores using a regular queue and 10GB of memory, following the [qrshx doc](https://docs.hpc.shef.ac.uk/en/latest/referenceinfo/scheduler/SGE/Common-commands/qrshx.html). We activate the environment as usual.
-
-   ```sh
-   qrshx -l rmem=10G -pe smp 4 # request 10GB memory and exit4 CPU cores
-   source myspark.sh # myspark.sh should be under the root directory
-  ```
-
-If the request *could not be scheduled*, try reducing the number of cores (and/or the amount of memory) requested and/or use the reserved queue `-P rse-com6012`.
-
-You can either clone `ScalableML` from GitHub to `/data/abc1de/ScalableML` (again `abc1de` should be your username) via
-
-```sh
-cd /data/abc1de/
-git clone --depth 1 https://github.com/haipinglu/ScalableML
-cd ScalableML
-```
-
-Or you can copy the whole `ScalableML` from `home` to `data` using
-
-```sh
-cp -r /home/abc1de/com6012/ScalableML /data/abc1de/ScalableML
-cd /data/abc1de/ScalableML
-```
-
-You can check your disk space via
-
-```sh
-df -h /home/abc1de
-df -h /data/abc1de
-```
-
-Start pyspark working under `/data/abc1de/ScalableML` now.
-
-```sh
-pyspark --master local[2]
-```
-
-Detailed information about the different storage systems can be found in [this link](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html). 
-
-### 1.2 Spark configuration
--->
 Take a look at the configuration of the Spark application properties [here (the table)](https://spark.apache.org/docs/latest/configuration.html#application-properties). There are also several good references: [set spark context](https://stackoverflow.com/questions/30560241/is-it-possible-to-get-the-current-spark-context-settings-in-pyspark); [set driver memory](https://stackoverflow.com/questions/53606756/how-to-set-spark-driver-memory-in-client-mode-pyspark-version-2-3-1); [set local dir](https://stackoverflow.com/questions/40372655/how-to-set-spark-local-dir-property-from-spark-shell).
 
 Recall that in the provided [`Code/LogMiningBig.py`](Code/LogMiningBig.py), you were asked to set the `spark.local.dir` to `/mnt/parscratch/users/YOUR_USERNAME` as in the following set of instructions
@@ -136,7 +85,7 @@ In the instructions above, we have configured Spark's `spark.local.dir` property
 
 Detailed information about the different storage systems of HPC can be found in [this link](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html).
 
-In shell, we can check *customised* (defaults are not shown) config via `sc`:
+In shell, we can check *customized* (defaults are not shown) config via `sc`:
 
 ```python
 sc._conf.getAll()
@@ -155,7 +104,7 @@ Memory requirements that you request from Stanage are configured in the followin
 #SBATCH --mem-per-cpu=4G # --mem-per-cpu=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
 ```
 
-With the configuration above in the .sh file, we are requesting Stanage for 8GB (2 nodes times 4GB per node) of real memory. If we are working in the `com6012-$Lab_ID` queue, we are requesting access to one of the five reserved [general CPU nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#general-cpu-node-specifications) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node009` to `node013` in the Linux terminal. Each of these nodes has a total of 256 GB memory and 64 cores, i.e. 4 GB per core. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
+With the configuration above in the .sh file, we are requesting Stanage for 8GB (2 nodes times 4GB per node) of real memory. If we are working in the `rse-com6012-$Lab_ID` queue, we are requesting access to one of the five reserved [general CPU nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#general-cpu-node-specifications) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node009` to `node013` in the Linux terminal. Each of these nodes has a total of 256 GB memory and 64 cores, i.e. 4 GB per core. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
 
 ```sh
 #!/bin/bash
@@ -206,7 +155,7 @@ Other configuration properties that we might find useful to change dynamically a
 spark-submit --driver-memory 10g --executor-memory 10g ./Code/LogMiningBig.py  
 ```
 
-Just as before, one needs to be careful that the amount of memory dynamically requested through spark-submit does not go beyond what was requested from Stanage. In the past, we have seen .sh files intended to be run in one of our `com6012-3` nodes with the following configuration
+Just as before, one needs to be careful that the amount of memory dynamically requested through spark-submit does not go beyond what was requested from Stanage. In the past, we have seen .sh files intended to be run in one of our `rse-com6012-3` nodes with the following configuration
 
 ```sh
 #!/bin/bash
@@ -448,19 +397,19 @@ print("Accuracy = %g " % accuracy)
 Accuracy = 0.925362 
 ```
 
-We now save the vector $\mathbf{w}$ obtained without regularisation
+We now save the vector $\mathbf{w}$ obtained without regularization
 
 ```python
 w_no_reg = pipelineModel.stages[-1].coefficients.values
 ```
 
-We now train a second logistic regression classifier using only $\ell_1$ regularisation ($\lambda=0.01$ and $\alpha=1$)
+We now train a second logistic regression classifier using only $\ell_1$ regularization ($\lambda=0.01$ and $\alpha=1$)
 
 ```python
 lrL1 = LogisticRegression(featuresCol='features', labelCol='labels', maxIter=50, regParam=0.01, \
                           elasticNetParam=1, family="binomial")
 
-# Pipeline for the second model with L1 regularisation
+# Pipeline for the second model with L1 regularization
 stageslrL1 = [vecAssembler, lrL1]
 pipelinelrL1 = Pipeline(stages=stageslrL1)
 pipelineModellrL1 = pipelinelrL1.fit(trainingData)
@@ -477,13 +426,13 @@ print("Accuracy = %g " % accuracy)
 Accuracy = 0.913176 
 ```
 
-We now save the vector $\mathbf{w}$ obtained for the L1 regularisation
+We now save the vector $\mathbf{w}$ obtained for the L1 regularization
 
 ```python
 w_L1 = pipelineModellrL1.stages[-1].coefficients.values
 ```
 
-Let us plot the values of the coefficients $\mathbf{w}$ for the no regularisation case and the L1 regularisation case.
+Let us plot the values of the coefficients $\mathbf{w}$ for the no regularization case and the L1 regularization case.
 
 ```python
 import matplotlib 
@@ -491,13 +440,13 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
 ax1.plot(w_no_reg)
-ax1.set_title('No regularisation')
+ax1.set_title('No regularization')
 ax2.plot(w_L1)
-ax2.set_title('L1 regularisation')
+ax2.set_title('L1 regularization')
 plt.savefig("Output/w_with_and_without_reg.png")
 ```
 
-Let us find out which features are preferred by each method. Without regularisation, the most relevant feature is
+Let us find out which features are preferred by each method. Without regularization, the most relevant feature is
 
 ```python
 spam_names[np.argmax(np.abs(w_no_reg))]
@@ -507,7 +456,7 @@ spam_names[np.argmax(np.abs(w_no_reg))]
 'word_freq_cs'
 ```
 
-With L1 regularisation, the most relevant feature is
+With L1 regularization, the most relevant feature is
 
 ```python
 spam_names[np.argmax(np.abs(w_L1))]
@@ -550,11 +499,11 @@ label 1: 0.9367201426024956
 
 ### Exercise 1
 
-Try a pure L2 regularisation and an elastic net regularisation on the same data partitions from above. Compare accuracies and find the most relevant features for both cases. Are these features the same than the one obtained for L1 regularisation?
+Try a pure L2 regularization and an elastic net regularization on the same data partitions from above. Compare accuracies and find the most relevant features for both cases. Are these features the same than the one obtained for L1 regularization?
 
 ### Exercise 2
 
-Instead of creating a logistic regression model trying one type of regularisation at a time, create a [ParamGridBuilder](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.ParamGridBuilder.html) to be used inside a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html) to fine tune the best type of regularisation and the best parameters for that type of regularisation. Use five folds for the CrossValidator.
+Instead of creating a logistic regression model trying one type of regularization at a time, create a [ParamGridBuilder](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.ParamGridBuilder.html) to be used inside a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html) to fine tune the best type of regularization and the best parameters for that type of regularization. Use five folds for the CrossValidator.
 
 ## 4. Additional exercise (optional)
 

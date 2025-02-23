@@ -31,7 +31,7 @@
 
 Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 11:00 on Thursday 13th Feb. If you have not done so, please do it as soon as possible (50% penalty will be applied).
 
-To access Stanage, log in using SSH with your university **username** such as `abc1de` and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilised.
+To access Stanage, log in using SSH with your university **username** such as `abc1de` and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilized.
 
 [Mac OS/X and Linux](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#ssh-client-software-on-mac-os-x-and-linux) users, following the [official connection instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/connecting.html#connecting-to-a-cluster-using-ssh), open a terminal and connect to Stanage via SSH by
 
@@ -567,7 +567,7 @@ Common causes and fixes to `file not found` or `cannot open file` errors
   myfile.sh: ASCII text, with CRLF line terminators  # Output
   ```
 
-  In the above example, it shows the file has "CRLF line terminators", which will not be recognised by Linux/Unix. You can fix it by
+  In the above example, it shows the file has "CRLF line terminators", which will not be recognized by Linux/Unix. You can fix it by
 
   ```sh
   [abc1de@node001 [stanage] HPC]$ dos2unix myfile.sh
