@@ -5,7 +5,7 @@
 **by [Shuo Zhou](https://shuo-zhou.github.io/) and [Haiping Lu](https://haipinglu.github.io/), with [Tahsin Khan](https://www.sheffield.ac.uk/dcs/people/academic/tahsinur-khan) and [Xianyuan Liu](https://xianyuanliu.github.io/)**
 
 In [this module](http://www.dcs.shef.ac.uk/intranet/teaching/public/modules/msc/com6012.html), we will learn how to do machine learning at large scale using [Apache Spark](https://spark.apache.org/).
-We will use the [High Performance Computing (HPC) cluster systems](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) of our university. To access the HPC clusters, log in using SSH with your university username and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilised.
+We will use the [High Performance Computing (HPC) cluster systems](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) of our university. To access the HPC clusters, log in using SSH with your university username and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilized.
 
 This edition uses [**PySpark 3.5.4**](https://spark.apache.org/docs/3.5.4/api/python/index.html), the [latest stable release of Spark](https://spark.apache.org/releases/spark-release-3-5-4.html) (Dec 20, 2024), and has 10 sessions below. You can refer to the [overview slides](https://github.com/COM6012/ScalableML/blob/master/Slides/Overview-COM6012-2025.pdf) for more information, e.g. timetable and assessment information.
 
@@ -16,13 +16,13 @@ This edition uses [**PySpark 3.5.4**](https://spark.apache.org/docs/3.5.4/api/py
 * Session 5: Scalable decision trees and ensemble models (Tahsin Khan)
 * Session 6: Scalable neural networks (Tahsin Khan)
 * Session 7: Scalable k-means clustering (Tahsin Khan)
-* Session 8: Scalable matrix factorisation for collaborative filtering in recommender systems and PCA for dimensionality reduction (Haiping Lu)
+* Session 8: Scalable matrix factorization for collaborative filtering in recommender systems and PCA for dimensionality reduction (Haiping Lu)
 * Session 9: Apache Spark in the Cloud (Xianyuan Liu)
 * Session 10: Reproducible and reusable AI  (Xianyuan Liu)
 
 You can also download the [Spring 2024 version](https://github.com/COM6012/ScalableML/releases/tag/v2024) for preview or reference.
 
-If you do not have one yet, we recommend you to sign up for a [GitHub account](https://github.com/join) to learn using this popular open source software development platform.
+If you do not have a [GitHub account](https://github.com/join) yet, we recommend signing up for one to learn how to use this popular open-source software development platform.
 
 ## An Introduction to Transparent Machine Learning
 

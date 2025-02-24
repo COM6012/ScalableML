@@ -1,4 +1,4 @@
-# Lab 2 - RDD, DataFrame, ML Pipeline, and Parallelisation
+# Lab 2 - RDD, DataFrame, ML Pipeline, and Parallelization
 
 [COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
@@ -133,7 +133,7 @@ When a function passed to a Spark operation (such as `map` or `reduce`) is execu
 
 #### [Broadcast variables](https://spark.apache.org/docs/3.5.4/rdd-programming-guide.html#broadcast-variables)
 
-To avoid creating a copy of a **large** variable for each task, an accessible (*read-only*!) variable can be kept on each machine - this is useful for particularly large datasets which may be needed for multiple tasks. The data broadcasted this way is cached in [serialized](https://spark.apache.org/docs/3.5.4/tuning.html#serialized-rdd-storage) form and deserialized before running each task. See [Data Serialisation](https://spark.apache.org/docs/3.5.4/tuning.html#data-serialization) for more details about serialisation.
+To avoid creating a copy of a **large** variable for each task, an accessible (*read-only*!) variable can be kept on each machine - this is useful for particularly large datasets which may be needed for multiple tasks. The data broadcasted this way is cached in [serialized](https://spark.apache.org/docs/3.5.4/tuning.html#serialized-rdd-storage) form and deserialized before running each task. See [Data Serialization](https://spark.apache.org/docs/3.5.4/tuning.html#data-serialization) for more details about serialization.
 
 Broadcast variables are created from a variable $v$ by calling `SparkContext.broadcast(v)`. The broadcast variable is a wrapper around $v$, and its value can be accessed by calling the *value* method.
 
@@ -166,12 +166,14 @@ accum.value
 
 ## 2. DataFrame
 
-Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html) in Spark version 2.0 . Again, these are objects that can be worked on in parallel. The available operations are:
+Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html) in Spark version 2.0. Again, these are objects that can be worked on in parallel. The available operations are:
 
 - **transformations**: produce new datasets
 - **actions**: computations which return results
 
-We will start with creating dataframes and datasets, showing how we can print their contents. We create a dataframe in the cell below and print out some info (we can also modify the output before printing):
+In PySpark, there is no separate Dataset API as there is in Spark for Scala and Java. PySpark primarily provides the DataFrame API to perform structured data processing.
+
+We will begin by creating DataFrames, and then demonstrate how to print their contents. In the cell below, we create a DataFrame and display some information (with the option to modify the output before printing):
 
 From RDD to DataFrame
 
@@ -533,7 +535,7 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 
 ### Linear regression for advertising
 
-4. Add regularisation to the [linear regression for advertising example](#example-linear-regression-for-advertising) and evaluate the prediction performance against the performance without any regularisation. Study at least three different regularisation settings.
+4. Add regularization to the [linear regression for advertising example](#example-linear-regression-for-advertising) and evaluate the prediction performance against the performance without any regularization. Study at least three different regularization settings.
 
 ### Logistic regression for document classification
 
