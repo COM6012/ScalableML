@@ -22,7 +22,7 @@ This edition uses [**PySpark 3.5.4**](https://spark.apache.org/docs/3.5.4/api/py
 
 You can also download the [Spring 2024 version](https://github.com/COM6012/ScalableML/releases/tag/v2024) for preview or reference.
 
-If you do not have one yet, we recommend you to sign up for a [GitHub account](https://github.com/join) to learn using this popular open source software development platform.
+If you do not have a [GitHub account](https://github.com/join) yet, we recommend signing up for one to learn how to use this popular open-source software development platform.
 
 ## An Introduction to Transparent Machine Learning
 

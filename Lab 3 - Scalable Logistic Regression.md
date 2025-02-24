@@ -37,14 +37,14 @@ Now set up our conda environment, using
 source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1 Task 2)
 ```
 
-if you created a `myspark.sh` script in Lab 1.  If not, use
+If you have not created a `myspark.sh` script in Lab 1, use
 
 ```sh
 module load Java/17.0.4
 ```
 
 ```sh
-module load Anaconda3/2024.05
+module load Anaconda3/2024.02-1
 ```
 
 ```sh
@@ -104,7 +104,7 @@ Memory requirements that you request from Stanage are configured in the followin
 #SBATCH --mem-per-cpu=4G # --mem-per-cpu=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
 ```
 
-With the configuration above in the .sh file, we are requesting Stanage for 8GB (2 nodes times 4GB per node) of real memory. If we are working in the `rse-com6012-$Lab_ID` queue, we are requesting access to one of the five reserved [general CPU nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#general-cpu-node-specifications) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node009` to `node013` in the Linux terminal. Each of these nodes has a total of 256 GB memory and 64 cores, i.e. 4 GB per core. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
+With the configuration above in the .sh file, we are requesting Stanage for 8GB (2 cores times 4GB per cores) of real memory. If we are working in the `rse-com6012-$Lab_ID` queue, we are requesting access to one of the five reserved [general CPU nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#general-cpu-node-specifications) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node009` to `node013` in the Linux terminal. Each of these nodes has a total of 256 GB memory and 64 cores, i.e. 4 GB per core. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
 
 ```sh
 #!/bin/bash
@@ -238,7 +238,7 @@ Finally, the number of worker threads requested through spark-submit needs to ma
 #SBATCH --reservation=rse-com6012-3  
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --cpus-per-task=10
-#SBATCH --mem-per-cpu=20G 
+#SBATCH --mem-per-cpu=4G 
 #SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
@@ -511,4 +511,4 @@ Instead of creating a logistic regression model trying one type of regularizatio
 
 Create a logistic regression classifier that runs on the [default of credit cards](http://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients) dataset. Several of the features in this dataset are categorical. Use the tools provided by PySpark (pyspark.ml.feature) for treating categorical variables.
 
-Note also that this dataset has a different format to the Spambase dataset above - you will need to convert from XLS format to, say, CSV, before using the data. You can use any available tool for this: for example, Excell has an export option, or there is a command line tool <tt>xls2csv</tt> available on Linux.
+Note also that this dataset has a different format to the Spambase dataset above - you will need to convert from XLS format to, say, CSV, before using the data. You can use any available tool for this: for example, Excell has an export option, or there is a command line tool `xls2csv` available on Linux.

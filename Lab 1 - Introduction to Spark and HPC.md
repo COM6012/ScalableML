@@ -65,7 +65,7 @@ If you have problem logging in, do the following in sequence:
 #### MobaXterm tips
 
 - You can save the host, username (and password if your computer is secure) as a **Session** if you want to save time in future.
-- You can edit `settings --> keyboard shortcuts` to customise the keyboard shortcuts, e.g. change the paste shortcut from the default `Shift + Insert` to our familiar `Ctrl + V`.
+- You can edit `settings --> keyboard shortcuts` to customize the keyboard shortcuts, e.g. change the paste shortcut from the default `Shift + Insert` to our familiar `Ctrl + V`.
 <!--- You can DRAG your file or folder to the left directory pane of MobaXterm.-->
 - You can open multiple sessions (but do not open more than what you need as these are shared resources).
 <!--- - YOu can directly open a file to edit and then save it.-->

@@ -166,12 +166,14 @@ accum.value
 
 ## 2. DataFrame
 
-Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html) in Spark version 2.0 . Again, these are objects that can be worked on in parallel. The available operations are:
+Along with the introduction of `SparkSession`, the `resilient distributed dataset` (RDD) was replaced by [`dataset`](https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Dataset.html) in Spark version 2.0. Again, these are objects that can be worked on in parallel. The available operations are:
 
 - **transformations**: produce new datasets
 - **actions**: computations which return results
 
-We will start with creating dataframes and datasets, showing how we can print their contents. We create a dataframe in the cell below and print out some info (we can also modify the output before printing):
+In PySpark, there is no separate Dataset API as there is in Spark for Scala and Java. PySpark primarily provides the DataFrame API to perform structured data processing.
+
+We will begin by creating DataFrames, and then demonstrate how to print their contents. In the cell below, we create a DataFrame and display some information (with the option to modify the output before printing):
 
 From RDD to DataFrame
 
