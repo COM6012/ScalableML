@@ -24,6 +24,8 @@ You can also download the [Spring 2024 version](https://github.com/COM6012/Scala
 
 If you do not have a [GitHub account](https://github.com/join) yet, we recommend signing up for one to learn how to use this popular open-source software development platform.
 
+We use US spelling in the slides and lab notes for consistency with the naming conventions in Spark.
+
 ## An Introduction to Transparent Machine Learning
 
 Shuo Zhou and Haiping Lu developed a course on [An Introduction to Transparent Machine Learning](https://pykale.github.io/transparentML/) with [Prof. Haiping Lu](https://haipinglu.github.io/), part of the [Alan Turing Institute’s online learning courses in responsible AI](https://www.turing.ac.uk/funding-call-online-learning-courses-responsible-ai). If interested, you can refer to this introductory course with emphasis on transparency in machine learning to assist you in your learning of scalable machine learning.
