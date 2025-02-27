@@ -1,4 +1,4 @@
-# Lab 3: Scalable logistic regression
+# Lab 3: Spark configuration and scalable logistic regression
 
 [COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
@@ -133,7 +133,6 @@ In the past, we have seen .sh files intended to be run in one of our `rse-com601
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --cpus-per-task=2 
 #SBATCH --mem-per-cpu=4G
-#SBATCH --nodes=2
 #SBATCH --output=./Output/output.txt  # This is where your output and errors are logged
 
 module load Java/17.0.4
@@ -175,7 +174,7 @@ source activate myspark
 spark-submit --driver-memory 20g --executor-memory 30g ./Code/LogMiningBig.py  
 ```
 
-**Do you see a problem with the memory configuration in this .sh file?** This script is asking Stanage for each core to have 20GB. This is fine because the script is requesting 200GB in total (10 times 20GB) which is lower than the maximum of 1024GB. However, although spark-submit is requesting the same amount of 20GB per node for the `driver-memory`, the `executor-memory` is asking for 30G. There will not be any core with a real memory of 30G so the `executor-memory` request needs to be a maximum of 20G.
+**Do you see a problem with the memory configuration in this .sh file?** This script is asking Stanage for each core to have 20GB. This is fine because the script is requesting 200GB in total (10 times 20GB) which is lower than the maximum of 256GB. However, although spark-submit is requesting the same amount of 20GB per core for the `driver-memory`, the `executor-memory` is asking for 30G. There will not be any core with a real memory of 30G so the `executor-memory` request needs to be a maximum of 20G.
 
 Another property that may be useful to change dynamically is `--master local`. So far, we have set the number of worker threads in the `SparkSession.builder` inside the Python script, for example,
 
