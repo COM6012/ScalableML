@@ -540,6 +540,10 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 ### Logistic regression for document classification
 
 5. Construct another test dataset for the [machine learning pipeline for document classification example](#example-machine-learning-pipeline-for-document-classification) with three test document samples: `"pyspark hadoop"`; `"spark a b c"`; `"mapreduce spark"` and report the prediction probabilities and the predicted labels for these three sample.
+[Answer:
+(4, spark hadoop) --> prob=[0.8551194341387968,0.14488056586120324], prediction=0.000000
+(5, spark a b c) --> prob=[0.017552839599023443,0.9824471604009766], prediction=1.000000
+(6, mapreduce spark) --> prob=[0.8551194341387968,0.14488056586120324], prediction=0.000000]
 
 ## 5. Additional ideas to explore (*optional*)
 
