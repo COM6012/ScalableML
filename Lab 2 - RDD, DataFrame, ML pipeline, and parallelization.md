@@ -530,8 +530,8 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 
     Load the Aug95 NASA access log data in Lab 1 and create a DataFrame with FIVE columns by **specifying** the schema according to the description in the downloaded html file. Use this DataFrame for the following questions.
 
-2. Find out the number of **unique** hosts in total (i.e. in August 1995)?
-3. Find out the most frequent visitor, i.e. the host with the largest number of visits.
+2. Find out the number of **unique** hosts in total (i.e. in August 1995)? [Answer: 75060 Unique Hosts]
+3. Find out the most frequent visitor, i.e. the host with the largest number of visits. [Answer: "edams.ksc.nasa.gov]
 
 ### Linear regression for advertising
 
