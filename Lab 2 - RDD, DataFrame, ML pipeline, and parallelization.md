@@ -536,6 +536,7 @@ Starting from this lab, you need to use *as many DataFrame functions as possible
 ### Linear regression for advertising
 
 4. Add regularization to the [linear regression for advertising example](#example-linear-regression-for-advertising) and evaluate the prediction performance against the performance without any regularization. Study at least three different regularization settings.
+[Answer: Adding increasing regularisation parameters (0.1, 0.2, 0.5) increases each of the predictions each time. Not really sure what else to put here without just copy pasting it all in?]
 
 ### Logistic regression for document classification
 
