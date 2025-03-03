@@ -13,7 +13,7 @@
 
 **Dependencies.** For this lab, we need to install the ``matplotlib`` and `pandas` packages. Make sure you install the packages in the environment **myspark**
 
-Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `rse-com6012-3` queue with two nodes, and activate the **myspark** environment. First log into the Stanage cluster
+Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `rse-com6012-3` queue with the reserved **five** nodes, and activate the **myspark** environment. First log into the Stanage cluster
 
 ```sh
 ssh $USER@stanage.shef.ac.uk
