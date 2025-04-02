@@ -227,7 +227,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-**Do you see a problem with the number of worker threads in the configuration for these two files?** While spark-submit is requesting 5 worker threads, the SparkSession is requesting 2 cores. According to Spark documentation "Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file." (see [this link](https://spark.apache.org/docs/3.5.0/configuration.html#dynamically-loading-spark-properties)) meaning that the job will run with 2 cores and no 5 cores as intended in spark-submit.
+**Do you see a problem with the number of worker threads in the configuration for these two files?** While spark-submit is requesting 5 worker threads, the SparkSession is requesting 2 cores. According to Spark documentation "Properties set directly on the SparkConf take highest precedence, then flags passed to spark-submit or spark-shell, then options in the spark-defaults.conf file." (see [this link](https://spark.apache.org/docs/3.5.4/configuration.html#dynamically-loading-spark-properties)) meaning that the job will run with 2 cores and no 5 cores as intended in spark-submit.
 
 Finally, the number of worker threads requested through spark-submit needs to match the number of cores requested from Stanage with `#SBATCH --cpus-per-task=nn` in the .sh file. In the past, we have seen the following instructions in the .sh file
 

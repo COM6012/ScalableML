@@ -8,21 +8,21 @@
 
 ### Suggested reading
 
-- Chapters *Clustering* and *RFM Analysis* of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf) 
-- [Clustering in Spark](https://spark.apache.org/docs/3.5.0/ml-clustering.html)
-- [PySpark API on clustering](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.clustering.KMeans.html)
+- Chapters *Clustering* and *RFM Analysis* of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf)
+- [Clustering in Spark](https://spark.apache.org/docs/3.5.4/ml-clustering.html)
+- [PySpark API on clustering](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.clustering.KMeans.html)
 - [PySpark code on clustering](https://github.com/apache/spark/blob/master/python/pyspark/ml/clustering.py)
 - [k-means clustering on Wiki](https://en.wikipedia.org/wiki/K-means_clustering)
-- [k-means++ on Wiki](https://en.wikipedia.org/wiki/K-means%2B%2B) 
+- [k-means++ on Wiki](https://en.wikipedia.org/wiki/K-means%2B%2B)
 - [k-means|| paper](http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf)
 
 ## 1. $k$-means clustering
 
 [k-means](http://en.wikipedia.org/wiki/K-means_clustering) is one of the most commonly used clustering algorithms that clusters the data points into a predefined number of clusters. The Spark MLlib implementation includes a parallelized variant of the [k-means++](https://en.wikipedia.org/wiki/K-means%2B%2B) method called [k-means||](http://theory.stanford.edu/~sergei/papers/vldb12-kmpar.pdf).
 
-`KMeans` is implemented as an `Estimator` and generates a [`KMeansModel`](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.clustering.KMeansModel.html) as the base model.
+`KMeans` is implemented as an `Estimator` and generates a [`KMeansModel`](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.clustering.KMeansModel.html) as the base model.
 
-[API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.clustering.KMeans.html): `class pyspark.ml.clustering.KMeans(featuresCol='features', predictionCol='prediction', k=2, initMode='k-means||', initSteps=2, tol=0.0001, maxIter=20, seed=None, distanceMeasure='euclidean', weightCol=None)`
+[API](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.clustering.KMeans.html): `class pyspark.ml.clustering.KMeans(featuresCol='features', predictionCol='prediction', k=2, initMode='k-means||', initSteps=2, tol=0.0001, maxIter=20, seed=None, distanceMeasure='euclidean', weightCol=None)`
 
 The following parameters are available:
 
@@ -48,7 +48,7 @@ You need to replace `$USER` with your username (using **lowercase** and without 
 Once logged in, we can request 2 cpu cores from reserved resources by
 
 ```sh
-srun --account=default --reservation=com6012-8 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=rse-com6012-8 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
 ```
 
 if the reserved resources are not available, request core from the general queue by
@@ -67,7 +67,7 @@ if you created a `myspark.sh` script in Lab 1.  If not, use
 
 ```sh
 module load Java/17.0.4
-module load Anaconda3/2022.05
+module load Anaconda3/2024.02-1
 source activate myspark
 ```
 
@@ -160,11 +160,11 @@ summary.trainingCost  #sum of squared distances of points to their nearest cente
 # 2.0
 ```
 
-You can check out the [KMeansSummary API](https://spark.apache.org/docs/3.5.0/api/java/org/apache/spark/ml/clustering/KMeansSummary.html) for details of the summary information, e.g., we can find out that the training cost is the sum of squared distances to the nearest centroid for all points in the training dataset.
+You can check out the [KMeansSummary API](https://spark.apache.org/docs/3.5.4/api/java/org/apache/spark/ml/clustering/KMeansSummary.html) for details of the summary information, e.g., we can find out that the training cost is the sum of squared distances to the nearest centroid for all points in the training dataset.
 
 ### Save and load an algorithm/model
 
-We can save an algorithm/model in a temporary location (see [API on save](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.PipelineModel.html?highlight=pipelinemodel%20save#pyspark.ml.PipelineModel.save)) and then load it later.
+We can save an algorithm/model in a temporary location (see [API on save](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.PipelineModel.html?highlight=pipelinemodel%20save#pyspark.ml.PipelineModel.save)) and then load it later.
 
 Save and load the $k$-means algorithm (settings):
 
@@ -258,7 +258,7 @@ dfFeatureVec.show(5, False)
 
 #### Determine $k$ via silhouette analysis
 
-We can perform a [Silhouette Analysis](https://en.wikipedia.org/wiki/Silhouette_(clustering)) to determine $k$ by running multiple $k$-means with different $k$ and evaluate the clustering results. See [the ClusteringEvaluator API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.evaluation.ClusteringEvaluator.html), where `silhouette` is the default metric. You can also refer to this [scikit-learn notebook on the same topic](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html). Other ways of determining the best $k$ can be found on [a dedicated wiki page](https://en.wikipedia.org/wiki/Determining_the_number_of_clusters_in_a_data_set).
+We can perform a [Silhouette Analysis](https://en.wikipedia.org/wiki/Silhouette_(clustering)) to determine $k$ by running multiple $k$-means with different $k$ and evaluate the clustering results. See [the ClusteringEvaluator API](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.evaluation.ClusteringEvaluator.html), where `silhouette` is the default metric. You can also refer to this [scikit-learn notebook on the same topic](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html). Other ways of determining the best $k$ can be found on [a dedicated wiki page](https://en.wikipedia.org/wiki/Determining_the_number_of_clusters_in_a_data_set).
 
 ```python
 import numpy as np

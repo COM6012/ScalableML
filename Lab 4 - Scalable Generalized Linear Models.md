@@ -61,13 +61,13 @@ Remember to `cd` into your `ScalableML` directory before you start the PySpark s
 
 ## 1. Data Types in RDD-based API
 
-To deal with data efficiently, Spark considers different [data types](https://spark.apache.org/docs/3.5.0/mllib-data-types.html). In particular, MLlib supports local vectors and matrices stored on a single machine, as well as distributed matrices backed by one or more RDDs. Local vectors and local matrices are simple data models that serve as public interfaces. The underlying linear algebra operations are provided by [Breeze](http://www.scalanlp.org/). A training example used in supervised learning is called a “labeled point” in MLlib.
+To deal with data efficiently, Spark considers different [data types](https://spark.apache.org/docs/3.5.4/mllib-data-types.html). In particular, MLlib supports local vectors and matrices stored on a single machine, as well as distributed matrices backed by one or more RDDs. Local vectors and local matrices are simple data models that serve as public interfaces. The underlying linear algebra operations are provided by [Breeze](http://www.scalanlp.org/). A training example used in supervised learning is called a “labeled point” in MLlib.
 
-### [Local vector](https://spark.apache.org/docs/3.5.0/mllib-data-types.html#local-vector):  Dense vs Sparse
+### [Local vector](https://spark.apache.org/docs/3.5.4/mllib-data-types.html#local-vector):  Dense vs Sparse
 
 > A local vector has integer-typed and 0-based indices and double-typed values, stored on a single machine. MLlib supports two types of local vectors: dense and sparse. A dense vector is backed by a double array representing its entry values, while a sparse vector is backed by two parallel arrays: indices and values. For example, a vector (1.0, 0.0, 3.0) can be represented in dense format as [1.0, 0.0, 3.0] or in sparse format as (3, [0, 2], [1.0, 3.0]), where 3 is the size of the vector.
 
-Check out the [Vector in RDD API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.mllib.linalg.Vectors.html?highlight=mllib%20linalg%20vectors#pyspark.mllib.linalg.Vectors) or [Vector in DataFrame API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.linalg.Vector.html?highlight=ml%20linalg%20vector#pyspark.ml.linalg.Vector) (see method `.Sparse()`) and [SparseVector in RDD API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.mllib.linalg.SparseVector.html?highlight=sparsevector#pyspark.mllib.linalg.SparseVector) or [SparseVector in DataFrame API](https://spark.apache.org/docs/3.5.0/api/python/reference/api/pyspark.ml.linalg.SparseVector.html?highlight=sparsevector#pyspark.ml.linalg.SparseVector). The official example is below
+Check out the [Vector in RDD API](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.mllib.linalg.Vectors.html?highlight=mllib%20linalg%20vectors#pyspark.mllib.linalg.Vectors) or [Vector in DataFrame API](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.linalg.Vector.html?highlight=ml%20linalg%20vector#pyspark.ml.linalg.Vector) (see method `.Sparse()`) and [SparseVector in RDD API](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.mllib.linalg.SparseVector.html?highlight=sparsevector#pyspark.mllib.linalg.SparseVector) or [SparseVector in DataFrame API](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.ml.linalg.SparseVector.html?highlight=sparsevector#pyspark.ml.linalg.SparseVector). The official example is below
 
 ```python
 import numpy as np
@@ -92,7 +92,7 @@ sv1.toArray()
 # array([1., 0., 3.])
 ```
 
-### [Labeled point](https://spark.apache.org/docs/3.5.0/mllib-data-types.html#labeled-point)
+### [Labeled point](https://spark.apache.org/docs/3.5.4/mllib-data-types.html#labeled-point)
 
 > A labeled point is a local vector, either dense or sparse, associated with a label/response. In MLlib, labeled points are used in supervised learning algorithms. We use a double to store a label, so we can use labeled points in both regression and classification. For binary classification, a label should be either 0 (negative) or 1 (positive). For multiclass classification, labels should be class indices starting from zero: 0, 1, 2, ....
 
@@ -120,7 +120,7 @@ neg.features.toArray()
 # array([1., 0., 3.])
 ```
 
-### [Local matrix](https://spark.apache.org/docs/3.5.0/mllib-data-types.html#local-matrix)
+### [Local matrix](https://spark.apache.org/docs/3.5.4/mllib-data-types.html#local-matrix)
 
 > A local matrix has integer-typed row and column indices and double-typed values, stored on a single machine. MLlib supports dense matrices, whose entry values are stored in a single double array in column-major order, and sparse matrices, whose non-zero entry values are stored in the Compressed Sparse Column (CSC) format in column-major order. For example, we create a dense matrix ((1.0, 2.0), (3.0, 4.0), (5.0, 6.0)) and a sparse matrix ((9.0, 0.0), (0.0, 8.0), (0.0, 6.0)) in the following:
 
@@ -140,7 +140,7 @@ print(sm)
 # (1,1) 8.0
 ```
 
-See [Scala API for Matrices.sparse](https://spark.apache.org/docs/3.5.0/api/scala/org/apache/spark/mllib/linalg/Matrices$.html) and from its [source code](https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/mllib/linalg/Matrices.scala), we can see it creates a CSC [SparseMatrix](https://spark.apache.org/docs/3.5.0/api/scala/org/apache/spark/mllib/linalg/SparseMatrix.html).
+See [Scala API for Matrices.sparse](https://spark.apache.org/docs/3.5.4/api/scala/org/apache/spark/mllib/linalg/Matrices$.html) and from its [source code](https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/mllib/linalg/Matrices.scala), we can see it creates a CSC [SparseMatrix](https://spark.apache.org/docs/3.5.4/api/scala/org/apache/spark/mllib/linalg/SparseMatrix.html).
 
 Here the [compressed sparse column (CSC or CCS) format](https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_column_(CSC_or_CCS)) is used for sparse matrix representation. You can learn it from this [simple explanation](https://stackoverflow.com/questions/44825193/how-to-create-a-sparse-cscmatrix-using-spark?answertab=votes#tab-top). To learn more about CSC, you may refer to a [top video](https://www.youtube.com/watch?v=fy_dSZb-Xx8) and a [top post with animation](https://matteding.github.io/2019/04/25/sparse-matrices/#compressed-sparse-matrices).
 > values are read first by column, a row index is stored for each value, and column pointers are stored. For example, CSC is (val, row_ind, col_ptr), where val is an array of the (top-to-bottom, then left-to-right) non-zero values of the matrix; row_ind is the row indices corresponding to the values; and, col_ptr is the list of val indexes where each column starts.
@@ -153,7 +153,7 @@ print(dsm)
 #              [0., 6.]])
 ```
 
-### [Distributed matrix](https://spark.apache.org/docs/3.5.0/mllib-data-types.html#distributed-matrix)
+### [Distributed matrix](https://spark.apache.org/docs/3.5.4/mllib-data-types.html#distributed-matrix)
 
 > A distributed matrix has long-typed row and column indices and double-typed values, stored distributively in one or more RDDs. It is very important to choose the right format to store large and distributed matrices. Converting a distributed matrix to a different format may require a global shuffle, which is quite expensive. Four types of distributed matrices have been implemented so far.
 

@@ -2,8 +2,6 @@
 
 ### Modified by Tahsin Khan, 12th March 2024
 
-
-
 ## Study schedule
 
 - [Section 1](#1-decision-trees-in-pyspark): To finish in the lab session on 13th March. **Essential**
