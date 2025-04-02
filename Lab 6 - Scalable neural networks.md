@@ -1,4 +1,4 @@
-# Lab 6: Scalable neural networks
+# Lab 6: Scalable Neural Networks
 
 
 ## Study schedule

@@ -1,4 +1,4 @@
-# Lab 3: Spark configuration and scalable logistic regression
+# Lab 3: Spark Configuration and Scalable Logistic Regression
 
 [COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 

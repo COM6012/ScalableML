@@ -1,4 +1,4 @@
-# Lab 5: Scalable decision trees and ensemble methods
+# Lab 5: Scalable Decision Trees and Ensemble Methods
 
 ### Modified by Tahsin Khan, 12th March 2024
 

@@ -1,4 +1,4 @@
-# Lab 7: $k$-means clustering
+# Lab 7: $k$-means Clustering
 
 ## Study schedule
 
