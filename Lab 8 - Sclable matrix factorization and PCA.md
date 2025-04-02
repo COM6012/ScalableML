@@ -1,4 +1,4 @@
-# Lab 8: Matrix Factorization for Collaborative Filtering in Recommender Systems and PCA for dimensionality reduction
+# Lab 8: Matrix Factorization for Collaborative Filtering in Recommender Systems and PCA for Dimensionality Reduction
 
 [COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Shuo Zhou, Xianyuan Liu, and Haiping Lu, 3rd April 2025
 
