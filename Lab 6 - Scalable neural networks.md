@@ -73,14 +73,14 @@ We now create the training and test sets.
 trainingData, testData = rawdata.randomSplit([0.7, 0.3], 42)
 ```
 
-We create instances for the vector assembler and the neural network. 
+We create instances for the vector assembler and the neural network.
 
 ```python
 from pyspark.ml.feature import VectorAssembler
 vecAssembler = VectorAssembler(inputCols = spam_names[0:ncolumns-1], outputCol = 'features')
 ```
 
-The class that implements the neural network model is called the [MultilayerPerceptronClassifier](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html) The multilayer perceptron implemented in Spark ML only allows for sigmoidal activation functions in the intermediate layers and the softmax function in the output layer. We can then use the model for binary and multi-class classification. 
+The class that implements the neural network model is called the [MultilayerPerceptronClassifier](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html) The multilayer perceptron implemented in Spark ML only allows for sigmoidal activation functions in the intermediate layers and the softmax function in the output layer. We can then use the model for binary and multi-class classification.
 
 The architecture of the network is specified through the argument ``layers`` which is a list. The length of the list is equivalent to the number of hidden layers plus two additional numbers that indicate the number of inputs and the number of outputs. The number of inputs is the first element of the list and the number of outputs is the last element of the list.
 
