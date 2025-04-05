@@ -1,5 +1,7 @@
 # Lab 6: Scalable Neural Networks
 
+[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Tahsin Khan at The University of Sheffield, 20th March 2025.
+
 ## Study schedule
 
 - [Section 1](#1-shallow-neural-networks-in-pyspark): To finish by by 20th March. **Essential**
@@ -37,7 +39,6 @@ spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "true")
 ```
 
 The following code is used to load the dataset and properly set the corresponding dataframe.
-
 
 ```python
 # We load the dataset and the names of the features
