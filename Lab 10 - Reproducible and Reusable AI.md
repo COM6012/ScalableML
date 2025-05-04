@@ -41,7 +41,7 @@ Before deploying a container, we first need an image that includes the environme
     ```sh
     apptainer pull $IMAGE_NAME.sif docker://ghcr.io/zarizk7/abide-demo:master
     ```
-    It will pull and build an image with a `*.sif` extension. If the `$IMAGE_NAME` is left blank, by default it will be set to `$REPO_$TAG`, where `$REPO` is the repository name and `$TAG` is the image's version. Once the image has been pulled, we can find it on our working/specified directory.
+    It will pull and build an image with a `*.sif` extension. If `$IMAGE_NAME` is left blank, by default it will be set to `$REPO_$TAG`, where `$REPO` is the repository name and `$TAG` is the image's version. Once the image has been pulled, we can find it on our working/specified directory.
     
     For the rest of the steps, we assume that the image is stored at `/mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif`
 
@@ -56,14 +56,14 @@ Before deploying a container, we first need an image that includes the environme
     apptainer run \
         /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif \
         --input-dir /mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset \
-        --output-dir /users/$USER/abide-demo-out \
+        --output-dir $HOME/outputs/abide-demo \
         --random-state 0
     ```
     To ensure that the results obtained are reproducible, we will need to set an integer value for `--random-state`. Without it being set, we will not be able to get consistent results as some algorithms used for the model and evaluation is a stochastic method.
 
     Optionally, to trace the container's process we may also add `--verbose 1` flag which will print the current step being run.
 
-    > Remember to run `mkdir -p /users/$USER/abide-demo-out` first before deploying the container in case we have not created any directory. 
+    > Remember to run `mkdir -p $HOME/outputs/abide-demo` first before deploying the container in case we have not created any directory. 
 
 6. After the container finished running, the output directory will contain:
    - `args.yaml`: All of the arguments defined during the container's deployment time.
@@ -77,14 +77,22 @@ Before deploying a container, we first need an image that includes the environme
 Alternatively, we can use `sbatch` to run the Apptainer command to run the workflow. It is useful when we expect a long runtime as `srun` session will disconnect after certain time idling. Suppose that we already have the Apptainer image pulled (step 1-3 done), we can create a shell file for sbatch to run. An example include:
 
 ```sh
-#!/bin/sh
+#!/bin/bash
 
-mkdir -p /users/$USER/abide-demo-out
+#SBATCH --job-name=abide-demo
+#SBATCH --account=rse-com6012
+#SBATCH --reservation=rse-com6012-10
+#SBATCH --cpus-per-task=2
+#SBATCH --time=01:00:00
+
+OUTPUT_DIR=$HOME/outputs/abide-demo
+
+mkdir -p $OUTPUT_DIR
 
 apptainer run \
     /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif \
     --input-dir /mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset \
-    --output-dir /users/$USER/abide-demo-out \
+    --output-dir $OUTPUT_DIR \
     --random-state 0
 ```
 
@@ -94,9 +102,9 @@ Lets say the shell script name is `run-abide-demo.sh`. Before running the script
 chmod +x run-abide-demo.sh
 ```
 
-Then to run the container with `sbatch` we can simply call:
+Then to deploy the container with `sbatch` we can simply call:
 ```sh
-sbatch --job-name=abide-demo --account=rse-com6012 --reservation=rse-com6012-10 --cpus-per-task=2 --time=01:00:00 run-abide-demo.sh
+sbatch run-abide-demo.sh
 ```
 
 To check the job's status, we can run:
@@ -107,7 +115,7 @@ which shows the progress of current/previous jobs.
 
 If we want to check the logs during the job's runtime, use command:
 ```sh
-cat abide-demo-$JOB_NUMBER.out
+cat slurm-$JOB_NUMBER.out
 ```
 where `$JOB_NUMBER` is the job number given when calling `sbatch`
 
