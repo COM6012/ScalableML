@@ -94,10 +94,23 @@ Lets say the shell script name is `run-abide-demo.sh`. Before running the script
 chmod +x run-abide-demo.sh
 ```
 
-
 Then to run the container with `sbatch` we can simply call:
 ```
-sbatch --account=rse-com6012 --reservation=rse-com6012-10 --cpus-per-task=2 --time=01:00:00 run-abide-demo.sh
+sbatch --job-name=abide-demo --account=rse-com6012 --reservation=rse-com6012-10 --cpus-per-task=2 --time=01:00:00 run-abide-demo.sh
 ```
+
+To check the job's status, we can run:
+```
+sacct
+```
+which shows the progress of current/previous jobs.
+
+If we want to check the logs during the job's runtime, use command:
+```
+cat abide-demo-$JOB_NUMBER.out
+```
+where `$JOB_NUMBER` is the job number given when calling `sbatch`
+
+Once the job is shown to be `COMPLETED` in `sacct`, we will expect the same output described in step 6.
 
 ## 3. Building your own image
