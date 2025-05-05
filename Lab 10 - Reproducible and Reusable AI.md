@@ -11,12 +11,12 @@
 - [Google Colab frequently asked questions](https://research.google.com/colaboratory/faq.html)
 - [Introduction to Apptainer](https://apptainer.org/docs/user/main/introduction.html)
 
-## 1. Google Colab
+## ☁️ 1. Google Colab
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xianyuanliu/alloy-property-extraction-demo/blob/main/NLP_for_Materials.ipynb)
 
-## 2. Containerised ML workflow for multi-site autism classification
+## 📦 2. Containerised ML workflow for multi-site autism classification
 
-### 2.1. Introduction to containers for AI
+### 💡 2.1. Introduction to containers for AI
 
 Reproducing AI/ML experiments is often challenging due to a range of factors that can influence results, such as the operating system, programming language versions, library dependencies, and random seed settings.
 Frequently, the original code is tightly coupled to a specific environment and setup, making it difficult to run elsewhere.
@@ -31,7 +31,7 @@ Alternatives that do not require elevated access include [Apptainer](https://app
 
 In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
 
-### 2.2. Setting up the container
+### 🔧 2.2. Setting up the container
 
 Before deploying a container, we first need a container image that includes the environment and the code/program to be executed. 
 > A _container image_ is a packaged snapshot of an environment, including the application code, libraries, and dependencies needed to run a program.
@@ -67,13 +67,17 @@ Before deploying a container, we first need a container image that includes the 
    To use the pre-built image, we can skip the pull step and directly run the container.
    For the rest of the steps, we assume that the image is stored at this directory. 
 
-4. After we pull and build the Apptainer image, we can deploy a container using the image to train and evaluate the model. With a container-/script-based code for model training/evaluation, there usually going to be many flags/variables that we can set. To see the available flags, we can call:
+### 🧐 2.3 Exploring the container
+
+### ▶️️ 2.4. Running the container
+
+1. After we pull and build the Apptainer image, we can deploy a container using the image to train and evaluate the model. With a container-/script-based code for model training/evaluation, there usually going to be many flags/variables that we can set. To see the available flags, we can call:
    ```sh
    apptainer run /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif -h
    ```
    We will find that there are many flags/variables that can be set to do experiment. The required ones are `--input-dir` and `--output-dir`, specifying the path to the dataset and output directory respectively.
 
-5.  Assuming that the dataset is in `/mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset`, to deploy the container for training and evaluation, we can run command:
+2. Assuming that the dataset is in `/mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset`, to deploy the container for training and evaluation, we can run command:
     ```sh
     mkdir $HOME/outputs/abide-demo
     ```
@@ -88,14 +92,23 @@ Before deploying a container, we first need a container image that includes the 
    ```
    To ensure that the results obtained are reproducible, we will need to set an integer value for `--random-state`. Without it being set, we will not be able to get consistent results as some algorithms used for the model and evaluation is a stochastic method.
 
-6. After the container finished running, the output directory will contain:
+3. After the container finished running, the output directory will contain:
    - `args.yaml`: All of the arguments defined during the container's deployment time.
    - `cv_results.csv`: Cross-validation runtime, prediction scores, and hyperparameters.
    - `inputs.npz`: Features extracted from the data used to train the model.
    - `model.joblib`: A trained model using the optimal hyperparameter settings identified during the tuning process.
    - `phenotypes.csv`: Preprocessed phenotypic information of the subjects used for domain adaptation.
-  
-## 2.3. Using `sbatch` for executing code
+
+4. To check the results, we provide a python file `xx.py` to parse the scores from `cv_results.csv`. 
+We can run it via 
+   ```sh
+   To be added
+   ```
+   and we should see the scores which is the same as we provided at the beginning of the lab session.
+
+### 🧾 2.5. Running with `sbatch` (optional)
+Provides the same functionality as in section 2.4, but implemented differently. 
+Can be skipped if you are not interested in using `sbatch` to run the container.
 
 Alternatively, we can use `sbatch` to run the Apptainer command to run the workflow. 
 It is useful when we expect a long runtime as `srun` session will disconnect after certain time idling. 
@@ -149,4 +162,27 @@ where `$JOB_NUMBER` is the job number given when calling `sbatch`
 
 Once the job is shown to be `COMPLETED` in `sacct`, we will expect the same output described in step 6.
 
-## 3. Building your own image
+### 🎲 2.6. Changing random seeds
+To change the random seed, we can simply change the `--random-state` flag to a different integer value.
+For example, to set the random seed to 1, we can run:
+```sh
+apptainer run \
+    /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif \
+    --input-dir /mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset \
+    --output-dir $HOME/outputs/abide-demo \
+    --random-state 1 \
+    --verbose 1
+```
+The output will be saved in the same directory as before, but with a different random seed. 
+    We can check the results by running the python script `xx.py` again to see the scores.
+```sh
+To be added python xx.py
+```
+The scores should be different from the previous run, as we have changed the random seed. 
+This is because the random seed initialises the random number generator, which introduces controlled randomness into the training process of many machine learning models.
+
+📌 Please do consider the random seed when you are running the model, as it is important for reproducibility.
+Note that the random seed is not the only factor that can affect the reproducibility of the results. 
+What other factors can affect the reproducibility of the results we talked in the lecture?
+
+## 🛠️ 3. Building your own image
