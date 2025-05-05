@@ -11,14 +11,14 @@
 - [Google Colab frequently asked questions](https://research.google.com/colaboratory/faq.html)
 - [Introduction to Apptainer](https://apptainer.org/docs/user/main/introduction.html)
 
-## ☁️ 1. Use Google Colab to extract alloy data from scientific PDFs
+## 1. Use Google Colab to extract alloy data from scientific PDFs
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xianyuanliu/alloy-property-extraction-demo/blob/main/NLP_for_Materials.ipynb)
 
 This lab task aims to use Large Language Models (LLMs)
 to extract alloy data from a dummy scientific PDF via [Google Colab](https://colab.research.google.com/), based on our current research, 
 adapted from our recent presentation at the [TOTEMIC Training School 2025](https://github.com/xianyuanliu/alloy-property-extraction-demo).
 <br /> Please note that this is a demonstration only. It does not use real data, and the approach may not perform as expected when applied to actual scientific documents.
-> Google Colab is a free cloud-based Jupyter notebook environment that allows you to write and execute Python code in your browser. It provides access to powerful hardware, including GPUs and TPUs, making it an excellent choice for machine learning tasks.
+> ☁️ Google Colab is a free cloud-based Jupyter notebook environment that allows you to write and execute Python code in your browser. It provides access to powerful hardware, including GPUs and TPUs, making it an excellent choice for machine learning tasks.
 
 ### 🔧 1.1. Setup Guide
 All steps are run on **Google Colab**. You do not need to install anything locally.
@@ -35,7 +35,7 @@ Once ready, [open in Colab](https://colab.research.google.com/github/xianyuanliu
 
 Enjoy 🎉
 
-## 📦 2. Containerised ML workflow for multi-site autism classification
+## 2. Containerised ML workflow for multi-site autism classification
 
 ### 💡 2.1. Introduction to containers for AI
 
@@ -55,7 +55,7 @@ In this guide, we will use **Apptainer**, as it is the container platform availa
 ### 🔧 2.2. Setting up the container
 
 Before deploying a container, we first need a container image that includes the environment and the code/program to be executed. 
-> A _container image_ is a packaged snapshot of an environment, including the application code, libraries, and dependencies needed to run a program.
+> 📦 A _container image_ is a packaged snapshot of an environment, including the application code, libraries, and dependencies needed to run a program.
 1. First, log in to the HPC using SSH. In this case, we are using the Stanage cluster.
     ```sh
     ssh $USER@stanage.shef.ac.uk
@@ -240,4 +240,4 @@ This is because the random seed initialises the random number generator, which i
 Note that the random seed is not the only factor that can affect the reproducibility of the results. 
 What other factors can affect the reproducibility of the results we talked in the lecture?
 
-## 🛠️ 3. Building your own image
+## 3. Building your own image
