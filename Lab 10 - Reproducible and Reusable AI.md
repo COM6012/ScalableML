@@ -3,16 +3,37 @@
 [COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Xianyuan Liu, and Lalu Muhammad Riza Rizky, 8th May 2025
 
 ## Study Schedule
-- [Task 1](#1-Google-Colab): To finish in the lab session on 8th May. **Essential**
-- [Task 2](#2-Containerised-ML-workflow-for-multi-site-autism-classification): To finish in the lab session on 8th May. **Essential**
-- [Task 3](#3-Building-your-own-image): To explore further. *Optional*
+- [Task 1](#1-use-google-colab-to-extract-alloy-data-from-scientific-pdfs): To finish in the lab session on 8th May. **Essential**
+- [Task 2](#2-containerised-ml-workflow-for-multi-site-autism-classification): To finish in the lab session on 8th May. **Essential**
+- [Task 3](#3-building-your-own-image): To explore further. *Optional*
 
 ### Suggested reading
 - [Google Colab frequently asked questions](https://research.google.com/colaboratory/faq.html)
 - [Introduction to Apptainer](https://apptainer.org/docs/user/main/introduction.html)
 
-## ☁️ 1. Google Colab
+## ☁️ 1. Use Google Colab to extract alloy data from scientific PDFs
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xianyuanliu/alloy-property-extraction-demo/blob/main/NLP_for_Materials.ipynb)
+
+This lab task aims to use Large Language Models (LLMs)
+to extract alloy data from a dummy scientific PDF via [Google Colab](https://colab.research.google.com/), based on our current research, 
+adapted from our recent presentation at the [TOTEMIC Training School 2025](https://github.com/xianyuanliu/alloy-property-extraction-demo).
+<br /> Please note that this is a demonstration only. It does not use real data, and the approach may not perform as expected when applied to actual scientific documents.
+> Google Colab is a free cloud-based Jupyter notebook environment that allows you to write and execute Python code in your browser. It provides access to powerful hardware, including GPUs and TPUs, making it an excellent choice for machine learning tasks.
+
+### 🔧 1.1. Setup Guide
+All steps are run on **Google Colab**. You do not need to install anything locally.
+1. Make sure to access the GPU by 
+going to `Runtime > Change RunTime type > T4 GPU`.
+
+2. [Sign up for Hugging Face](https://huggingface.co/join) for free to obtain a token to access the LLaMa models via the Transformers Library.
+
+3. Request access to the LLaMa model that we are going to use in this demonstration [LLaMa-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct).
+
+### 📖 1.2. Usage Guide
+Please begin by reading the [Usage Guide](https://github.com/xianyuanliu/alloy-property-extraction-demo?tab=readme-ov-file#usage-guide) to familiarise yourself with the overall process.
+Once ready, open the Colab and run the notebook code cells step by step extract the alloy names and phase proprties.
+
+Enjoy 🎉
 
 ## 📦 2. Containerised ML workflow for multi-site autism classification
 
