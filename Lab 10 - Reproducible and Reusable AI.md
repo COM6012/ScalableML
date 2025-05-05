@@ -154,12 +154,12 @@ Before deploying a container, we first need a container image that includes the 
    - `model.joblib`: A trained model using the optimal hyperparameter settings identified during the tuning process.
    - `phenotypes.csv`: Preprocessed phenotypic information of the subjects used for domain adaptation.
 
-4. To check the results, we provide a python file `xx.py` to parse the scores from `cv_results.csv`. 
+4. To check the results, we provide a python file `get_top_score.py` to parse the scores from `cv_results.csv`. 
 We can run it via 
    ```sh
-   To be added
+   python /mnt/parscratch/users/ac1xxliu/public/lab10-data/get_top_score.py $HOME/outputs/abide-demo
    ```
-   and we should see the scores which is the same as we provided at the beginning of the lab session.
+    The output will be the top 5 scores from the cross-validation results, which are saved in `cv_results.csv`.
 
 ### 🧾 2.5. Running with `sbatch` (optional)
 Provides the same functionality as in section 2.4, but implemented differently. 
@@ -229,15 +229,15 @@ apptainer run \
     --verbose 1
 ```
 The output will be saved in the same directory as before, but with a different random seed. 
-    We can check the results by running the python script `xx.py` again to see the scores.
+    We can check the results by running the `get_top_score.py` again to see the scores.
 ```sh
-To be added python xx.py
+   python /mnt/parscratch/users/ac1xxliu/public/lab10-data/get_top_score.py $HOME/outputs/abide-demo
 ```
 The scores should be different from the previous run, as we have changed the random seed. 
 This is because the random seed initialises the random number generator, which introduces controlled randomness into the training process of many machine learning models.
 
-📌 Please do consider the random seed when you are running the model, as it is important for reproducibility.
+📌 Please do consider the random seed when you are reproducing the model.
 Note that the random seed is not the only factor that can affect the reproducibility of the results. 
-What other factors can affect the reproducibility of the results we talked in the lecture?
+What other factors can affect the reproducibility of the results we talked in the lecture? 🤔
 
 ## 3. Building your own image
