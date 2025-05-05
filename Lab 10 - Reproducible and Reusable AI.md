@@ -37,6 +37,11 @@ Enjoy 🎉
 
 ## 2. Containerised ML workflow for multi-site autism classification
 
+The lab task aims to reproduce the work in our recent research [1], 
+which proposes a second-order functional connectivity measure called Tangent Pearson describing the ''tangent correlation of correlation'' of brain region activity.
+This study also explores the use of domain adaptation for integrating multi-site neuroimaging data evaluated for autism classification. 
+The internal codebase reimplements the methodology using PyKale [2].
+
 ### 💡 2.1. Introduction to containers for AI
 
 Reproducing AI/ML experiments is often challenging due to a range of factors that can influence results, such as the operating system, programming language versions, library dependencies, and random seed settings.
@@ -51,8 +56,6 @@ Although [Docker](https://www.docker.com/) is the most widely used platform for 
 Alternatives that do not require elevated access include [Apptainer](https://apptainer.org/) and [Podman](https://podman.io/).
 
 In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
-
-The container image that we will use reproduces the work of [1], which proposes a second-order functional connectivity measure called Tangent Pearson describing the ‘tangent correlation of correlation’ of brain region activity and explores the use of domain adaptation for integrating multi-site neuroimaging data evaluated on the ABIDE [2] dataset for autism classification. Its internal codebase reimplements [1] using PyKale [3] and Nilearn [4].
 
 ### 🔧 2.2. Setting up the container
 
@@ -249,32 +252,37 @@ Note that the random seed is not the only factor that can affect the reproducibi
 What other factors can affect the reproducibility of the results we talked in the lecture? 💭
 
 ## 🛠️ 3. Build and publish your own image
+**Note**: This is an open-ended exercise. No solutions will be provided.
 
-We will build and publish a container image to Docker Hub as an exercise.
+This task challenges you to apply what you have learned by building and publishing your own container image to either Docker Hub or GitHub Container Registry (GHCR).
 
-The prerequisite for this exercise are as follows:
-- Ensure that Docker is already installed on your host machine.
-- Create a [Docker account](https://app.docker.com/signup).
-- Clone the container's [source code](https://github.com/zaRizk7/abide-demo).
+### Prerequisites
+Before you begin, ensure the following:
+- Docker is already installed on your host machine.
+- You have created a [Docker account](https://app.docker.com/signup).
+- You have cloned the container's [source code](https://github.com/zaRizk7/abide-demo) or other source code you want to use.
 
-⚠️ **There will be no solutions for this exercise.**
+### Task breakdown
+Complete the following steps in order. Use the linked documentation for guidance where needed:
+- Add another cross-validation split to the source code
+  - Refer to [model_selection.splitters](https://scikit-learn.org/stable/api/sklearn.model_selection.html#splitters) in scikit-learn.
+- (Optional) Add additional classifiers with their hyperparameter grid to the source code.
+  - Refer to [scikit-learn api](https://scikit-learn.org/stable/api) documentation.
+- Test your code locally
+  - Ensure the code runs correctly outside a container.
+- Update dependencies in the container
+  - Update the `requirements.txt` file to include the specific versions of the dependencies, such as `scikit-learn==1.6.1`.
+- Build the Docker image
+  - Follow [Docker's build and push tutorial](https://docs.docker.com/get-started/introduction/build-and-push-first-image/).
+- Run the containerised code
+  - Check that the output is correct and consistent with the non-container version.
+- Publish your image
+  - Push the image to Docker Hub (or GHCR if preferred).
 
-Tasks
-- Add another cross-validation split to the source code. Refer to [scikit-learn](https://scikit-learn.org/stable/api/sklearn.model_selection.html#splitters) documentation.
-- Add additional classifiers with their hyperparameter grid to the source code. Refer to [scikit-learn](https://scikit-learn.org/stable/api) documentation.
-- Add `scikit-learn=1.6.1` to the `requirements.txt`
-- Modify the `Dockerfile` to use a different Python version. Refer to [Python](https://hub.docker.com/_/python)'s docker page.
-- Ensure that the code can be run locally.
-- Build the Docker image. Refer to [Docker's tutorial](https://docs.docker.com/get-started/introduction/build-and-push-first-image/).
-- Run the containerised code and check if the output remains consistent.
-- Publish/push the image to Docker Hub.
+You can also explore other models on [GitHub Topics](https://github.com/topics) or [HuggingFace Models](https://huggingface.co/models) to find one that interests you and try building a container image for it.
 
 ## 📖 References
 
 [1] *Kunda, Mwiza, Shuo Zhou, Gaolang Gong, and Haiping Lu*. **Improving Multi-Site Autism Classification via Site-Dependence Minimization and Second-Order Functional Connectivity**. IEEE Transactions on Medical Imaging 42, no. 1 (January 2023): 55–65. https://doi.org/10.1109/TMI.2022.3203899.
 
-[2] *Nielsen, Jared A., Brandon A. Zielinski, P. Thomas Fletcher, Andrew L. Alexander, Nicholas Lange, Erin D. Bigler, Janet E. Lainhart, and Jeffrey S. Anderson*. **Multisite Functional Connectivity MRI Classification of Autism: ABIDE Results**. Frontiers in Human Neuroscience 7 (25 September 2013): 599. https://doi.org/10.3389/fnhum.2013.00599.
-
-[3] *Lu, Haiping, Xianyuan Liu, Shuo Zhou, Robert Turner, Peizhen Bai, Raivo E. Koot, Mustafa Chasmai, Lawrence Schobs, and Hao Xu*. **PyKale**. In Proceedings of the 31st ACM International Conference on Information & Knowledge Management. New York, NY, USA: ACM, 2022. https://doi.org/10.1145/3511808.3557676.
-
-[4] *Nilearn contributors, Ahmad Chamma, Aina Frau-Pascual, Alex Rothberg, Alexandre Abadie, Alexandre Abraham, Alexandre Gramfort, et al*. **Nilearn**. Zenodo, 2025. https://doi.org/10.5281/ZENODO.8397156.
+[2] *Lu, Haiping, Xianyuan Liu, Shuo Zhou, Robert Turner, Peizhen Bai, Raivo E. Koot, Mustafa Chasmai, Lawrence Schobs, and Hao Xu*. **PyKale**. In Proceedings of the 31st ACM International Conference on Information & Knowledge Management. New York, NY, USA: ACM, 2022. https://doi.org/10.1145/3511808.3557676.
