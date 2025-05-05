@@ -1,12 +1,15 @@
 # Lab 10: Reproducible and Reusable AI
 
-[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by ..., DD May 2025
+[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Xianyuan Liu, and Lalu Muhammad Riza Rizky, 8th May 2025
 
 ## Study Schedule
+- [Task 1](#1-Google-Colab): To finish in the lab session on 8th May. **Essential**
+- [Task 2](#2-Containerised-ML-workflow-for-multi-site-autism-classification): To finish in the lab session on 8th May. **Essential**
+- [Task 3](#3-Building-your-own-image): To explore further. *Optional*
 
 ### Suggested reading
 
-## 1. Google Colab: 
+## 1. Google Colab
 
 ## 2. Containerised ML workflow for multi-site autism classification
 
