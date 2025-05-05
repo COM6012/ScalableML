@@ -251,7 +251,7 @@ Can you try it and see if the results match your earlier output?
 Note that the random seed is not the only factor that can affect the reproducibility of the results. 
 What other factors can affect the reproducibility of the results we talked in the lecture? 💭
 
-## 🛠️ 3. Build and publish your own image
+## 3. Build and publish your own image
 **Note**: This is an open-ended exercise. No solutions will be provided.
 
 This task challenges you to apply what you have learned by building and publishing your own container image to either Docker Hub or GitHub Container Registry (GHCR).
