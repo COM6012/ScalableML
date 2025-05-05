@@ -65,9 +65,43 @@ Before deploying a container, we first need a container image that includes the 
    /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif
    ```
    To use the pre-built image, we can skip the pull step and directly run the container.
-   For the rest of the steps, we assume that the image is stored at this directory. 
+   For the rest of the steps, we assume that the image is stored in this directory. 
 
 ### 🧐 2.3 Exploring the container
+1. Before we enter the container, we can check the system version via
+   ```sh
+    cat /etc/os-release
+   ```
+   This will show the operating system version `CentOS Linux 7 (Core)`.
+   
+   Check our current python version and scikit-learn version on the HPC node by running:
+   ```sh
+    python --version; pip list | grep scikit-learn
+   ```
+   The output is `Python 3.11.7` and `scikit-learn 1.2.2`. Please remember these versions, as we will compare them with the versions inside the container later.
+
+2. Then, we use the `apptainer shell` command to enter the container's shell environment.
+   This allows us to interact with the container as if we were inside it.
+   ```sh
+   apptainer shell /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif
+   ```
+   Now, we can check the system version in the container via the same command:
+   ```sh
+   cat /etc/os-release
+   ```
+   🤔 Any difference?
+
+   Then, check the python version and scikit-learn version inside the container by running:
+   ```sh
+    python --version; pip list | grep scikit-learn
+   ```
+   Different again!
+   
+   You can also list the installed libraries in the container by running:
+   ```sh
+   pip list 
+   ```
+   To exit the container, we can simply type `exit` or press `Ctrl+D`.
 
 ### ▶️️ 2.4. Running the container
 
