@@ -4,8 +4,8 @@
 
 ## Study schedule
 
-- [Task 1](#1-movie-recommendation-via-collaborative-filtering): To finish in the lab session on 3rd April . **Essential**
-- [Task 2](#2-pca): To finish in the lab session on 3rd April . **Essential**
+- [Task 1](#1-movie-recommendation-via-collaborative-filtering): To finish in the lab session on 3rd April. **Essential**
+- [Task 2](#2-pca): To finish in the lab session on 3rd April. **Essential**
 - [Task 3](#3-exercises): To finish by 29th April. ***Exercise***
 - [Task 4](#4-additional-ideas-to-explore-optional): To explore further. *Optional*
 
