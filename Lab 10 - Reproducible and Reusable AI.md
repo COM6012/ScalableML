@@ -8,8 +8,11 @@
 - [Task 3](#3-Building-your-own-image): To explore further. *Optional*
 
 ### Suggested reading
+- [Google Colab frequently asked questions](https://research.google.com/colaboratory/faq.html)
+- [Introduction to Apptainer](https://apptainer.org/docs/user/main/introduction.html)
 
 ## 1. Google Colab
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/xianyuanliu/alloy-property-extraction-demo/blob/main/NLP_for_Materials.ipynb)
 
 ## 2. Containerised ML workflow for multi-site autism classification
 
