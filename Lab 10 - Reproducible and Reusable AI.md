@@ -160,6 +160,7 @@ We can run it via
    python /mnt/parscratch/users/ac1xxliu/public/lab10-data/get_top_score.py $HOME/outputs/abide-demo
    ```
     The output will be the top 5 scores from the cross-validation results, which are saved in `cv_results.csv`.
+<br /> Please make a note of the output values, as we will compare them with the results obtained after changing the random seed.
 
 ### 🧾 2.5. Running with `sbatch` (optional)
 Provides the same functionality as in section 2.4, but implemented differently. 
@@ -228,16 +229,21 @@ apptainer run \
     --random-state 1 \
     --verbose 1
 ```
+
 The output will be saved in the same directory as before, but with a different random seed. 
     We can check the results by running the `get_top_score.py` again to see the scores.
 ```sh
    python /mnt/parscratch/users/ac1xxliu/public/lab10-data/get_top_score.py $HOME/outputs/abide-demo
 ```
-The scores should be different from the previous run, as we have changed the random seed. 
-This is because the random seed initialises the random number generator, which introduces controlled randomness into the training process of many machine learning models.
+Compare the output with that from 2.4. 
+The top 5 scores should be different, as the random seed initialises the random number generator, introducing controlled randomness into the training process of many machine learning models.
+<br /><br /> 🤔 What happens if we reset the random seed to 0?
+Can you try it and see if the results match your earlier output?
+
+
 
 📌 Please do consider the random seed when you are reproducing the model.
 Note that the random seed is not the only factor that can affect the reproducibility of the results. 
-What other factors can affect the reproducibility of the results we talked in the lecture? 🤔
+What other factors can affect the reproducibility of the results we talked in the lecture? 💭
 
 ## 3. Building your own image
