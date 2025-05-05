@@ -18,15 +18,20 @@
 
 ### 2.1. Introduction to containers for AI
 
-Reproducing AI/ML experiments is often difficult because many things can affect the results, like the operating system, programming language version, or library versions used. Often, the original code only works in one specific setup. To get similar results, people might have to spend a lot of time changing the code or setting up the right environment. This takes time away from more useful work, like developing models, and instead forces practitioners to spend time just trying to reproduce existing results.
+Reproducing AI/ML experiments is often challenging due to a range of factors that can influence results, such as the operating system, programming language versions, library dependencies, and random seed settings.
+Frequently, the original code is tightly coupled to a specific environment and setup, making it difficult to run elsewhere.
+As a result, researchers often spend much time adapting code or setting up environments to replicate existing results — time that could be used to develop new models.
 
-**Containers** are a convenient tool for addressing the reproducibility issues common in AI/ML experiments. They allow practitioners to define and package a specific combination of environments, such as operating systems, libraries, and dependencies, ensuring that experiments can be reproduced exactly. Moreover, because the entire codebase is encapsulated within the container, it can be easily reused to run different experiments, saving time and effort.
+
+**[Containers](https://en.wikipedia.org/wiki/Containerization_(computing))** are a convenient tool for addressing the reproducibility issues common in AI/ML experiments. They allow practitioners to define and package a specific combination of environments, such as operating systems, libraries, and dependencies, ensuring that experiments can be reproduced exactly. Moreover, because the entire codebase is encapsulated within the container, it can be easily reused to run different experiments, saving time and effort.
+
+This section explains how to deploy containers in a high-performance computing (HPC) environment.
+Although [Docker](https://www.docker.com/) is the most widely used platform for container deployment, it is often not supported on HPC systems due to security concerns, as it requires root privileges.
+Alternatives that do not require elevated access include [Apptainer](https://apptainer.org/) and [Podman](https://podman.io/). In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
 
 ### 2.2. Setting up the container
 
 Before deploying a container, we first need an image that includes the environment and the code/program to be executed. 
-
-> The instructions in this section focus on how to deploy containers in a high-performance computing (HPC) environment. While Docker is the most widely used platform for container deployment, it is often not supported on HPC systems due to security concerns, as it requires root privileges. Alternatives that do not require root access include Apptainer and Podman. In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
 
 1. First, log in to the HPC using SSH. In this case, we are using the UoS's Stanage HPC system.
     ```sh
