@@ -27,25 +27,26 @@ As a result, researchers often spend much time adapting code or setting up envir
 
 This section explains how to deploy containers in a high-performance computing (HPC) environment.
 Although [Docker](https://www.docker.com/) is the most widely used platform for container deployment, it is often not supported on HPC systems due to security concerns, as it requires root privileges.
-Alternatives that do not require elevated access include [Apptainer](https://apptainer.org/) and [Podman](https://podman.io/). In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
+Alternatives that do not require elevated access include [Apptainer](https://apptainer.org/) and [Podman](https://podman.io/).
+
+In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
 
 ### 2.2. Setting up the container
 
-Before deploying a container, we first need an image that includes the environment and the code/program to be executed. 
+Before deploying a container, we first need a container image that includes the environment and the code/program to be executed. 
 
-1. First, log in to the HPC using SSH. In this case, we are using the UoS's Stanage HPC system.
+1. First, log in to the HPC using SSH. In this case, we are using the Stanage cluster.
     ```sh
     ssh $USER@stanage.shef.ac.uk
     ```
-    Please replace `$USER` with your UoS account username and follow the instructions provided to gain access.
+    Please replace `$USER` with your username (using **lowercase** and without `$`).
 
-2. Once logged in, we need to request a worker node from the reserved resources by running:
-    ```sh
-    srun --account=rse-com6012 --reservation=rse-com6012-10 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
-    ```
-    The command requests a worker node for a one hour interactive bash session with two CPU cores reserved for the COM6012 course's lab 10.
+2. Once logged in, we can request a core from the general queue by
+   ```sh
+   srun --pty --cpus-per-task=2 bash -i
+   ```
 
-3. Next, we need to pull and build the container image from a registry. Commonly used registries include [Docker Hub](https://hub.docker.com) and [GitHub Container Registry (GHCR)](https://ghcr.io). In our case, we will pull an image from GHCR that is used to train and evaluate an autism classifier with a multi-site dataset called ABIDE.
+3. Next, we pull and build the Apptainer container image from a registry. Commonly used registries include [Docker Hub](https://hub.docker.com) and [GitHub Container Registry (GHCR)](https://ghcr.io). In our case, we will pull an image from GHCR that is used to train and evaluate an autism classifier with a multi-site dataset called ABIDE.
    > Given the time needed to pull and build the image, this step is considered **optional** for this lab session. The pre-built image can be found at `/mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif`.
 
     To pull and build the image, we can run:
