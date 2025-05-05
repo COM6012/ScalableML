@@ -34,7 +34,7 @@ In this guide, we will use **Apptainer**, as it is the container platform availa
 ### 2.2. Setting up the container
 
 Before deploying a container, we first need a container image that includes the environment and the code/program to be executed. 
-
+> A _container image_ is a packaged snapshot of an environment, including the application code, libraries, and dependencies needed to run a program.
 1. First, log in to the HPC using SSH. In this case, we are using the Stanage cluster.
     ```sh
     ssh $USER@stanage.shef.ac.uk
@@ -43,19 +43,29 @@ Before deploying a container, we first need a container image that includes the 
 
 2. Once logged in, we can request a core from the general queue by
    ```sh
-   srun --pty --cpus-per-task=2 bash -i
+   srun --pty bash -i
    ```
 
-3. Next, we pull and build the Apptainer container image from a registry. Commonly used registries include [Docker Hub](https://hub.docker.com) and [GitHub Container Registry (GHCR)](https://ghcr.io). In our case, we will pull an image from GHCR that is used to train and evaluate an autism classifier with a multi-site dataset called ABIDE.
-   > Given the time needed to pull and build the image, this step is considered **optional** for this lab session. The pre-built image can be found at `/mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif`.
+3. Next, we pull and build the Apptainer container image from a registry. Commonly used registries include [Docker Hub](https://hub.docker.com) and [GitHub Container Registry (GHCR)](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry). In our case, we will pull an image from GHCR that is used to train and evaluate an autism classifier with a multi-site dataset called ABIDE.
+   > A _registry_ is a storage and distribution system for these container images. 
+   > Think of it like a version-controlled library or repository for containers. 
+   > Developers build images locally and then push them to a registry so others can download (or pull) and run them in any compatible container runtime.
 
-    To pull and build the image, we can run:
-    ```sh
-    apptainer pull $IMAGE_NAME.sif docker://ghcr.io/zarizk7/abide-demo:master
-    ```
-    It will pull and build an image with a `*.sif` extension. If `$IMAGE_NAME` is left blank, by default it will be set to `$REPO_$TAG`, where `$REPO` is the repository name and `$TAG` is the image's version. Once the image has been pulled, we can find it on our working/specified directory.
-    
-    For the rest of the steps, we assume that the image is stored at `/mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif`
+   In a real-world setting, the container image is typically pulled directly from a remote registry and built on the user's system. This is done using the following command:
+   ```sh
+     apptainer pull $IMAGE_NAME.sif docker://ghcr.io/zarizk7/abide-demo:master
+   ```
+   It will pull and build an image with a `*.sif` extension. You could replace `$IMAGE_NAME` with a name of your choice, such as `abide-demo`.
+   If `$IMAGE_NAME` is left blank, by default it will be set to `$REPO_$TAG`, where `$REPO` is the repository name and `$TAG` is the image's version. 
+   Once the image has been pulled, we can find it in our working/specified directory.
+
+   However, as the image is quite large, pulling and building it can take up to 30 minutes. Therefore, this step is **optional** for the lab session.
+   To save time, we provide a pre-built image on the HPC for you to use, which is stored at 
+   ```
+   /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif
+   ```
+   To use the pre-built image, we can skip the pull step and directly run the container.
+   For the rest of the steps, we assume that the image is stored at this directory. 
 
 4. After we pull and build the Apptainer image, we can deploy a container using the image to train and evaluate the model. With a container-/script-based code for model training/evaluation, there usually going to be many flags/variables that we can set. To see the available flags, we can call:
    ```sh
@@ -65,17 +75,18 @@ Before deploying a container, we first need a container image that includes the 
 
 5.  Assuming that the dataset is in `/mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset`, to deploy the container for training and evaluation, we can run command:
     ```sh
-    apptainer run \
+    mkdir $HOME/outputs/abide-demo
+    ```
+   to create an output directory for the results, and then run:
+   ```sh
+   apptainer run \
         /mnt/parscratch/users/ac1xxliu/public/lab10-data/abide-demo.sif \
         --input-dir /mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset \
         --output-dir $HOME/outputs/abide-demo \
-        --random-state 0
-    ```
-    To ensure that the results obtained are reproducible, we will need to set an integer value for `--random-state`. Without it being set, we will not be able to get consistent results as some algorithms used for the model and evaluation is a stochastic method.
-
-    Optionally, to trace the container's process we may also add `--verbose 1` flag which will print the current step being run.
-
-    > Remember to run `mkdir -p $HOME/outputs/abide-demo` first before deploying the container in case we have not created any directory. 
+        --random-state 0 \
+        --verbose 1
+   ```
+   To ensure that the results obtained are reproducible, we will need to set an integer value for `--random-state`. Without it being set, we will not be able to get consistent results as some algorithms used for the model and evaluation is a stochastic method.
 
 6. After the container finished running, the output directory will contain:
    - `args.yaml`: All of the arguments defined during the container's deployment time.
@@ -86,15 +97,24 @@ Before deploying a container, we first need a container image that includes the 
   
 ## 2.3. Using `sbatch` for executing code
 
-Alternatively, we can use `sbatch` to run the Apptainer command to run the workflow. It is useful when we expect a long runtime as `srun` session will disconnect after certain time idling. Suppose that we already have the Apptainer image pulled (step 1-3 done), we can create a shell file for sbatch to run. An example include:
+Alternatively, we can use `sbatch` to run the Apptainer command to run the workflow. 
+It is useful when we expect a long runtime as `srun` session will disconnect after certain time idling. 
+Suppose that we already have the Apptainer image pulled (steps 1-3 done), we can create a shell file for sbatch to run. 
+An example includes the following:
+
+First, we create a shell script `run-abide-demo.sh` via `nano` or `vim`.
+
+An example using `vim` is shown below.
+```
+cd $HOME
+vim run-abide-demo.sh
+```
+Press `i` to enter the insert mode, and then copy and paste (`ctrl+shift+v`) the following code into the file.
 
 ```sh
 #!/bin/bash
 
 #SBATCH --job-name=abide-demo
-#SBATCH --account=rse-com6012
-#SBATCH --reservation=rse-com6012-10
-#SBATCH --cpus-per-task=2
 #SBATCH --time=01:00:00
 
 OUTPUT_DIR=$HOME/outputs/abide-demo
@@ -107,14 +127,9 @@ apptainer run \
     --output-dir $OUTPUT_DIR \
     --random-state 0
 ```
+Then press `esc` to exit the insert mode, and type `:wq` to save and quit.
 
-Lets say the shell script name is `run-abide-demo.sh`. Before running the script with `sbatch`, we need to change the permission of the shell script to allow it to be executable by calling:
-
-```sh
-chmod +x run-abide-demo.sh
-```
-
-Then to deploy the container with `sbatch` we can simply call:
+Next, deploy the container with `sbatch` we can simply call:
 ```sh
 sbatch run-abide-demo.sh
 ```
@@ -123,7 +138,8 @@ To check the job's status, we can run:
 ```sh
 sacct
 ```
-which shows the progress of current/previous jobs.
+which shows the progress of current/previous jobs. 
+If it shows `RUNNING`, it means the job is still running. 
 
 If we want to check the logs during the job's runtime, use command:
 ```sh
