@@ -31,7 +31,7 @@ going to `Runtime > Change RunTime type > T4 GPU`.
 
 ### 📖 1.2. Usage Guide
 Please begin by reading the [Usage Guide](https://github.com/xianyuanliu/alloy-property-extraction-demo?tab=readme-ov-file#usage-guide) to familiarise yourself with the overall process.
-Once ready, open the Colab and run the notebook code cells step by step extract the alloy names and phase proprties.
+Once ready, [open in Colab](https://colab.research.google.com/github/xianyuanliu/alloy-property-extraction-demo/blob/main/NLP_for_Materials.ipynb) and run the notebook code cells step by step extract the alloy names and phase proprties.
 
 Enjoy 🎉
 
