@@ -333,7 +333,7 @@ The output will be saved in the same directory as before, but with a different r
     We can check the results by running the `get_top_score.py` again to see the scores.
 
 ```sh
-   python /mnt/parscratch/users/ac1xxliu/public/lab10-data/get_top_score.py $HOME/outputs/abide-demo
+python /mnt/parscratch/users/ac1xxliu/public/lab10-data/get_top_score.py $HOME/outputs/abide-demo
 ```
 
 Compare the output with that from 2.4.
@@ -387,6 +387,6 @@ You can also explore other models on [GitHub Topics](https://github.com/topics) 
 
 ## 📖 References
 
-[1] *Kunda, Mwiza, Shuo Zhou, Gaolang Gong, and Haiping Lu*. **Improving Multi-Site Autism Classification via Site-Dependence Minimization and Second-Order Functional Connectivity**. IEEE Transactions on Medical Imaging 42, no. 1 (January 2023): 55–65. [https://doi.org/10.1109/TMI.2022.3203899](https://doi.org/10.1109/TMI.2022.3203899).
+[1] Mwiza Kunda, Shuo Zhou, Gaolang Gong, and Haiping Lu. Improving Multi-Site Autism Classification via Site-Dependence Minimization and Second-Order Functional Connectivity. *IEEE Transactions on Medical Imaging* 42(1): 55–65. [https://doi.org/10.1109/TMI.2022.3203899](https://doi.org/10.1109/TMI.2022.3203899).
 
-[2] *Lu, Haiping, Xianyuan Liu, Shuo Zhou, Robert Turner, Peizhen Bai, Raivo E. Koot, Mustafa Chasmai, Lawrence Schobs, and Hao Xu*. **PyKale**. In Proceedings of the 31st ACM International Conference on Information & Knowledge Management. New York, NY, USA: ACM, 2022. [https://doi.org/10.1145/3511808.3557676](https://doi.org/10.1145/3511808.3557676).
+[2] Haiping Lu, Xianyuan Liu, Shuo Zhou, Robert Turner, Peizhen Bai, Raivo E. Koot, Mustafa Chasmai, Lawrence Schobs, and Hao Xu. **PyKale**. In *Proceedings of the 31st ACM International Conference on Information & Knowledge Management.* New York, NY, USA: ACM, 2022. [https://doi.org/10.1145/3511808.3557676](https://doi.org/10.1145/3511808.3557676).
