@@ -53,7 +53,7 @@ Reproducing AI/ML experiments is often challenging due to a range of factors tha
 Frequently, the original code is tightly coupled to a specific environment and setup, making it difficult to run elsewhere.
 As a result, researchers often spend much time adapting code or setting up environments to replicate existing results — time that could be used to develop new models.
 
-**[Containers](https://en.wikipedia.org/wiki/Containerization_(computing))** are a convenient tool for addressing the reproducibility issues common in AI/ML experiments. They allow practitioners to define and package a specific combination of environments, such as operating systems, libraries, and dependencies, ensuring that experiments can be reproduced exactly. Moreover, because the entire codebase is encapsulated within the container, it can be easily reused to run different experiments, saving time and effort.
+*[Containers](https://en.wikipedia.org/wiki/Containerization_(computing))* are a convenient tool for addressing the reproducibility issues common in AI/ML experiments. They allow practitioners to define and package a specific combination of environments, such as operating systems, libraries, and dependencies, ensuring that experiments can be reproduced exactly. Moreover, because the entire codebase is encapsulated within the container, it can be easily reused to run different experiments, saving time and effort.
 
 This section explains how to deploy containers in a high-performance computing (HPC) environment.
 Although [Docker](https://www.docker.com/) is the most widely used platform for container deployment, it is often not supported on HPC systems due to security concerns, as it requires root privileges.
@@ -164,13 +164,8 @@ Before deploying a container, we first need a container image that includes the 
 
    We will find that there are many flags/variables that can be set to do experiment. The required ones are `--input-dir` and `--output-dir`, specifying the path to the dataset and output directory respectively.
 
-2. Assuming that the dataset is in `/mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset`, to deploy the container for training and evaluation, we can run command:
-
-    ```sh
-    mkdir $HOME/outputs/abide-demo
-    ```
-
-   to create an output directory for the results, and then run:
+2. Assuming that the dataset is in `/mnt/parscratch/users/ac1xxliu/public/lab10-data/dataset`, to deploy the container for training and evaluation, we can run the following command.
+The output folder will be created automatically at `$HOME/outputs/abide-demo`.
 
    ```sh
    apptainer run \
@@ -302,8 +297,10 @@ What other factors can affect the reproducibility of the results we talked in th
 **Note**: This is an open-ended exercise. No solutions will be provided.
 
 This task challenges you to apply what you have learned by building and publishing your own container image to either Docker Hub or GitHub Container Registry (GHCR).
+If you are using our provided [source code](https://github.com/zaRizk7/abide-demo), please review the [`deploy-image.yml`](https://github.com/zaRizk7/abide-demo/blob/master/.github/workflows/deploy-image.yml) workflow file. 
+Think about how you might adapt it to suit your own containerised workflow.
 
-### Prerequisites
+### Preparation
 
 Before you begin, ensure the following:
 
@@ -311,9 +308,10 @@ Before you begin, ensure the following:
 - You have created a [Docker account](https://app.docker.com/signup).
 - You have cloned the container's [source code](https://github.com/zaRizk7/abide-demo) or other source code you want to use.
 
-### Task breakdown
+### Potential task breakdown 
 
-Complete the following steps in order. Use the linked documentation for guidance where needed:
+If you want to change provided [source code](https://github.com/zaRizk7/abide-demo) for building and publishing your own image, you can 
+complete the following tasks we set for you. Use the linked documentation for guidance where needed:
 
 - Add another cross-validation split to the source code
   - Refer to [model_selection.splitters](https://scikit-learn.org/stable/api/sklearn.model_selection.html#splitters) in scikit-learn.
@@ -330,7 +328,8 @@ Complete the following steps in order. Use the linked documentation for guidance
 - Publish your image
   - Push the image to Docker Hub (or GHCR if preferred).
 
-You can also explore other models on [GitHub Topics](https://github.com/topics) or [HuggingFace Models](https://huggingface.co/models) to find one that interests you and try building a container image for it.
+You can also explore other models on [GitHub Topics](https://github.com/topics) or [HuggingFace Models](https://huggingface.co/models) to find one that interests you and try building a container image with your defined breakdown tasks.
+
 
 ## 📖 References
 
