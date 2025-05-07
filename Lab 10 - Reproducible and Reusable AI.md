@@ -1,6 +1,8 @@
 # Lab 10: Reproducible and Reusable AI
 
-[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Xianyuan Liu, and Lalu Muhammad Riza Rizky, 8th May 2025
+[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Xianyuan Liu, Lalu Muhammad Riza Rizky, and Shuo Zhou, 8th May 2025
+
+Reproducible and reusable research is essential for validating results, building upon previous work, and ensuring that findings can be trusted and applied in real-world scenarios. Today, reproducibility and reusability are core principles in AI and machine learning research, enabling the development of impactful and credible studies. In this lab, you will learn how to use Google Colab and containers to reproduce the experimental results of recent research.
 
 ## Study Schedule
 
@@ -42,10 +44,19 @@ Enjoy 🎉
 
 ## 2. Containerised ML workflow for multi-site autism classification
 
-The lab task aims to reproduce the work in our recent research [1],
+In this section, you will use a container to reproduce part of the experimental results of a recent research paper:
+
+> Kunda, M., Zhou, S., Gong, G., & Lu, H. (2022). [Improving multi-site autism classification via site-dependence minimization and second-order functional connectivity.](https://ieeexplore.ieee.org/abstract/document/9874890) *IEEE Transactions on Medical Imaging*, 42(1), 55-65.
+
+This paper is adapted from a MSc dissertation by Mwiza Kunda, which was supervised by Haiping Lu and co-supervised by Shuo Zhou. This is an example showing the research done within a MSc dissertation project at Sheffield can be published in a top_tier journal.
+
+This work uses machine learning to classify autism spectrum disorder (ASD) using functional magnetic resonance imaging (fMRI) data from the [Autism Brain Imaging Data Exchange (ABIDE) I dataset](https://fcon_1000.projects.nitrc.org/indi/abide/abide_I.html). We have built a container image that contains the code and dependencies needed to reproduce the results of this study. Follow the instructions below to run the container and reproduce the results.
+> ⚠️ **Disclaimer**: The container image is not the same as the one used in the original research paper. It is a reimplementation of the methodology using PyKale [[2](#-references)], an open-source Python library created and maintained by the machine learning research team at Sheffield.
+
+<!-- The lab task aims to reproduce the work in our recent research [1],
 which proposes a second-order functional connectivity measure called Tangent Pearson describing the ''tangent correlation of correlation'' of brain region activity.
 This study also explores the use of domain adaptation for integrating multi-site neuroimaging data evaluated for autism classification.
-The internal codebase reimplements the methodology using PyKale [2].
+The internal codebase reimplements the methodology using PyKale [2]. -->
 
 ### 💡 2.1. Introduction to containers for AI
 
@@ -55,11 +66,15 @@ As a result, researchers often spend much time adapting code or setting up envir
 
 *[Containers](https://en.wikipedia.org/wiki/Containerization_(computing))* are a convenient tool for addressing the reproducibility issues common in AI/ML experiments. They allow practitioners to define and package a specific combination of environments, such as operating systems, libraries, and dependencies, ensuring that experiments can be reproduced exactly. Moreover, because the entire codebase is encapsulated within the container, it can be easily reused to run different experiments, saving time and effort.
 
-This section explains how to deploy containers in a high-performance computing (HPC) environment.
-Although [Docker](https://www.docker.com/) is the most widely used platform for container deployment, it is often not supported on HPC systems due to security concerns, as it requires root privileges.
-Alternatives that do not require elevated access include [Apptainer](https://apptainer.org/) and [Podman](https://podman.io/).
+This section demonstrates how to deploy and run pre-built containers in a high-performance computing (HPC) environment.
 
-In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems.
+[Docker](https://www.docker.com/) is the most widely used platform for container deployment. However, it is typically not supported on HPC systems, including the HPC at Sheffield, due to security concerns, as it requires root permission.
+
+An alternative to Docker is [Apptainer](https://apptainer.org/), which is a container platform designed for HPC environments. It allows users to run containers without requiring root access, making it suitable for shared computing resources. [Apptainer](https://docs.hpc.shef.ac.uk/en/latest/stanage/software/apps/apptainer.html) is supported on the Stanage.
+
+<!-- Alternatives that do not require elevated access include [Apptainer](https://apptainer.org/) and [Podman](https://podman.io/). -->
+
+<!-- In this guide, we will use **Apptainer**, as it is the container platform available on the University of Sheffield’s (UoS) HPC systems. -->
 
 ### 🔧 2.2. Setting up the container
 
