@@ -9,14 +9,14 @@ We will use the [High Performance Computing (HPC) cluster systems](https://docs.
 
 This edition uses [**PySpark 3.5.4**](https://spark.apache.org/docs/3.5.4/api/python/index.html), the [latest stable release of Spark](https://spark.apache.org/releases/spark-release-3-5-4.html) (Dec 20, 2024), and has 10 sessions below. You can refer to the [overview slides](https://github.com/COM6012/ScalableML/blob/master/Slides/Overview-COM6012-2025.pdf) for more information, e.g. timetable and assessment information.
 
-* Session 1: Introduction to Spark and HPC (Shuo Zhou)
-* Session 2: RDD, DataFrame, ML pipeline, & parallelization (Shuo Zhou)
-* Session 3: Scalable logistic regression and Spark configuration (Shuo Zhou)
-* Session 4: Scalable generalized linear models and Spark data types (Shuo Zhou)
-* Session 5: Scalable decision trees and ensemble models (Tahsin Khan)
-* Session 6: Scalable neural networks (Tahsin Khan)
-* Session 7: Scalable k-means clustering (Tahsin Khan)
-* Session 8: Scalable matrix factorization for collaborative filtering in recommender systems and PCA for dimensionality reduction (Haiping Lu)
+* Session 1: Introduction to Spark and HPC [[Slides](Slides/Lecture%201-COM6012-2025.pdf)][[Lab notes](Lab%201%20-%20Introduction%20to%20Spark%20and%20HPC.md)] (Shuo Zhou)
+* Session 2: RDD, DataFrame, ML pipeline, & parallelization [[Slides](Slides/Lecture%202-COM6012-2025.pdf)][[Lab notes](Lab%202%20-%20RDD,%20DataFrame,%20ML%20pipeline,%20and%20parallelization.md)] (Shuo Zhou)
+* Session 3: Scalable logistic regression and Spark configuration [[Slides](Slides/Lecture%203-COM6012-2025.pdf)][[Lab notes](Lab%203%20-%20Spark%20configuration%20and%20scalable%20logistic%20regression.md)] (Shuo Zhou)
+* Session 4: Scalable generalized linear models and Spark data types [[Slides](Slides/Lecture%204-COM6012-2025.pdf)][[Lab notes](Lab%204%20-%20Scalable%20Generalized%20Linear%20Models.md)] (Shuo Zhou)
+* Session 5: Scalable decision trees and ensemble models [[Slides](Slides/Lecture%205-COM6012-2025.pdf)][[Lab notes](Lab%205-%20Scalable%20Decision%20trees.md)] (Tahsin Khan)
+* Session 6: Scalable neural networks [[Slides](Slides/Lecture%206-COM6012-2025.pdf)][[Lab notes](Lab%206%20-%20Scalable%20neural%20networks.md)] (Tahsin Khan)
+* Session 7: Scalable k-means clustering [[Slides](Slides/Lecture%207-COM6012-2025.pdf)][[Lab notes](Lab%207%20-%20Scalable%20k-means%20clustering.md)] (Tahsin Khan)
+* Session 8: Scalable matrix factorization for collaborative filtering in recommender systems and PCA for dimensionality reduction [[Slides](Slides/Lecture%208-COM6012-2025.pdf)][[Lab notes](Lab%208%20-%20Sclable%20matrix%20factorization%20and%20PCA.md)] (Haiping Lu)
 * Session 9: Apache Spark in the Cloud (Xianyuan Liu)
 * Session 10: Reproducible and reusable AI  (Xianyuan Liu)
 
