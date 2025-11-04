@@ -16,7 +16,7 @@
 - [Spark Overview](https://spark.apache.org/docs/latest/index.html)
 - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html) (Choose **Python** rather than the default *Scala*)
 - Chapters 2 to 4 of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf) (several sections in Chapter 3 can be safely skipped)
-- Reference: [PySpark documentation](https://spark.apache.org/docs/3.5.4/api/python/index.html)
+- Reference: [PySpark documentation](https://spark.apache.org/docs/4.0.1/api/python/index.html)
 - Reference: [PySpark source code](https://github.com/apache/spark/tree/master/python)
 
 **Note - Please READ before proceeding**:
@@ -130,16 +130,16 @@ source activate myspark
 
 The prompt says to use `conda activate myspark` but it does not always work. You **must** see `(myspark)` in front, before proceeding. Otherwise, you did not get the proper environment. Check the above steps.
 
-#### Install pyspark 3.5.4 using `pip`
+#### Install pyspark 4.0.1 using `pip`
 
 ```sh
-pip install pyspark==3.5.4
+pip install pyspark==4.0.1
 ```
 
 When you are asked whether to proceed, say `y`. You should see the last line of the output as
 
 ```sh
-Successfully installed py4j-0.10.9.7 pyspark-3.5.4
+Successfully installed py4j-0.10.9.7 pyspark-4.0.1
 ```
 
 [`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
@@ -160,7 +160,7 @@ If you found that you’ve messed your environment up and encountered seemingly 
 pyspark
 ```
 
-You should see spark version **3.5.4** displayed like below
+You should see spark version **4.0.1** displayed like below
 
 ```sh
 ......
@@ -202,7 +202,7 @@ Instructions on configuring FileZilla for Stanage can be found [here](https://do
 
 **File recovery**: the Stanage currently does not support file recovery following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots).
 <!-- your files on HPC are regularly backed up as snapshots so you could recover files from them following the instructions on [recovering files from snapshots](https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#recovering-files-from-snapshots). Please note that recovery of files and folders on Stanage is not possible as the Stanage cluster does not currently have snapshots or backups. -->
-
+<!-- 
 ### 1.4 *Optional: Install PySpark on your own machine*
 
 **NOTE: You may skip this part 1.4.**
@@ -213,7 +213,7 @@ Installation of PySpark on your own machine is more complicated than installing 
 
 - Install [**Java 8**](https://www.java.com/en/download/manual.jsp), i.e. java version *1.8.xxx*. Most instructions online ask you to install *Java SDK*, which is heavier. *Java JRE* is lighter and sufficient for pyspark.
 - Install Python **3.8+** (if not yet)
-- Install PySpark **3.5.4** with **Hadoop 3.3**
+- Install PySpark **4.0.1** with **Hadoop 3.3**
 - Set up the proper environments (see references below)
 
 As far as I know, it is not necessary to install *Scala*.
@@ -257,7 +257,7 @@ Here we provide detailed instructions only for Windows.
 
 Now open a command prompt and type `pyspark`. You should see pyspark 3.5.4 running as above.
 
-*Known issue on Windows* There may be a `ProcfsMetricsGetter` warning. If you press `Enter`, the warning will disappear. I did not find a better solution to get rid of it. It does not seem harmful either. If you know how to deal with it. Please let me know. Thanks. [Reference 1](https://stackoverflow.com/questions/63762106/rn-procfsmetricsgetter-exception-when-trying-to-compute-pagesize-as-a-result-r); [Reference 2](https://stackoverflow.com/questions/60257377/encountering-warn-procfsmetricsgetter-exception-when-trying-to-compute-pagesi); [Reference 3](https://stackoverflow.com/questions/61863127/getting-error-while-setting-pyspark-environment).
+*Known issue on Windows* There may be a `ProcfsMetricsGetter` warning. If you press `Enter`, the warning will disappear. I did not find a better solution to get rid of it. It does not seem harmful either. If you know how to deal with it. Please let me know. Thanks. [Reference 1](https://stackoverflow.com/questions/63762106/rn-procfsmetricsgetter-exception-when-trying-to-compute-pagesize-as-a-result-r); [Reference 2](https://stackoverflow.com/questions/60257377/encountering-warn-procfsmetricsgetter-exception-when-trying-to-compute-pagesi); [Reference 3](https://stackoverflow.com/questions/61863127/getting-error-while-setting-pyspark-environment). -->
 
 **From this point on, we will assume that you are using the HPC terminal unless otherwise stated**. Run PySpark shell on your own machine can do the same job.
 
@@ -286,7 +286,7 @@ Run pyspark (optionally, specify to use multiple cores):
 pyspark  # pyspark --master local[4] for 4 cores
 ```
 
-You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/3.5.4/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/3.5.4/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
+You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/4.0.1/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/4.0.1/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
 
 Check your SparkSession and SparkContext object and you will see something like
 
@@ -596,7 +596,7 @@ I suggest you to remove and re-install the environment. You can do this by
 
 1. Remove the `myspark` environment by running `conda remove --name myspark --all`, following [conda's managing environments documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment) and redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
 2. If the above does not work, delete the `myspark` environment (folder) at `/users/abc1de/.conda/envs/myspark` via the terminal folder window on the left of the screen on MobaXterm or use linux command. Then redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
-3. If the above still does not work, you may have installed `pyspark==3.5.4` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==3.5.4`, you may be prompted with `Requirement already satisfied: pyspark==3.5.4` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==3.5.4` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==3.5.4`.
+3. If the above still does not work, you may have installed `pyspark==4.0.1` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==4.0.1`, you may be prompted with `Requirement already satisfied: pyspark==4.0.1` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==4.0.1` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==4.0.1`.
 
 ## 5. Exercises (reference solutions will be provided on the following Wednesday)
 
@@ -615,7 +615,7 @@ You are encouraged to try out in the pyspark shell first to figure out the right
 
 ### More log mining questions
 
-You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/3.5.4/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
+You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/4.0.1/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
 
 - How many **unique** hosts on a particular day (e.g., 15th August)?
 - How many **unique** hosts in total (i.e., in August 1995)?
