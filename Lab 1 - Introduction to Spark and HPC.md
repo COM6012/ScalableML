@@ -1,14 +1,14 @@
 # Lab 1 - Introduction to (Py)Spark and (Sheffield)HPC
 
-[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
+[COM6012 Scalable Machine Learning **2026**](https://github.com/COM6012/ScalableML) by [Shuo Zhou](https://shuo-zhou.github.io/) at The University of Sheffield
 
 ## Study schedule
 
-- [Task 1](#1-connect-to-hpc-and-install-spark): To finish in the lab session on 13th Feb. **Critical**
-- [Task 2](#2-run-pyspark): To finish in the lab session on 13th Feb. **Critical**
-- [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 13th Feb. **Essential**
-- [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 13th Feb. **Essential**
-- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-wednesday): To finish by the following Tuesday 18th Feb. ***Exercise***
+- [Task 1](#1-connect-to-hpc-and-install-spark): To finish in the lab session on 11th Feb. **Critical**
+- [Task 2](#2-run-pyspark): To finish in the lab session on 11th Feb. **Critical**
+- [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 11th Feb. **Essential**
+- [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 11th Feb. **Essential**
+- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-wednesday): To finish by the following Monday 16th Feb. ***Exercise***
 - [Task 6](#6-additional-ideas-to-explore-optional-no-solutions-will-be-provided): To explore further. *Optional*
 
 **Suggested reading**:
