@@ -16,7 +16,7 @@
 - [Spark Overview](https://spark.apache.org/docs/latest/index.html)
 - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html) (Choose **Python** rather than the default *Scala*)
 - Chapters 2 to 4 of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf) (several sections in Chapter 3 can be safely skipped)
-- Reference: [PySpark documentation](https://spark.apache.org/docs/4.0.1/api/python/index.html)
+- Reference: [PySpark 4.1.0 documentation](https://spark.apache.org/docs/4.1.0/api/python/index.html)
 - Reference: [PySpark source code](https://github.com/apache/spark/tree/master/python)
 
 **Note - Please READ before proceeding**:
@@ -114,10 +114,10 @@ module load Java/17.0.4
 module load Anaconda3/2024.02-1
 ```
 
-#### Create a virtual environment called `myspark` with Python 3.12
+#### Create a virtual environment called `myspark` with Python 3.13
 
 ```sh
-conda create -n myspark python=3.12
+conda create -n myspark python=3.13
 ```
 
 When you are asked whether to proceed, say `y`. When seeing `Please update conda by running ...`, do NOT try to update conda following the given command. As a regular user in HPC, you will NOT be able to update conda.
@@ -130,16 +130,16 @@ source activate myspark
 
 The prompt says to use `conda activate myspark` but it does not always work. You **must** see `(myspark)` in front, before proceeding. Otherwise, you did not get the proper environment. Check the above steps.
 
-#### Install pyspark 4.0.1 using `pip`
+#### Install pyspark 4.1.0 using `pip`
 
 ```sh
-pip install pyspark==4.0.1
+pip install pyspark==4.1.0
 ```
 
-When you are asked whether to proceed, say `y`. You should see the last line of the output as
+You should see the last line of the output as
 
 ```sh
-Successfully installed py4j-0.10.9.7 pyspark-4.0.1
+Successfully installed py4j-0.10.9.9 pyspark-4.1.0
 ```
 
 [`py4j`](https://www.py4j.org/) enables Python programmes to Java objects. We need it because Spark is written in scala, which is a Java-based language.
@@ -160,7 +160,7 @@ If you found that you’ve messed your environment up and encountered seemingly 
 pyspark
 ```
 
-You should see spark version **4.0.1** displayed like below
+You should see spark version **4.1.0** displayed like below
 
 ```sh
 ......
@@ -168,12 +168,12 @@ Welcome to
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  '_/
-   /__ / .__/\_,_/_/ /_/\_\   version 3.5.4
+   /__ / .__/\_,_/_/ /_/\_\   version 4.1.0
       /_/
 
-Using Python version 3.12.8 (main, Dec 11 2024 16:31:09)
+Using Python version 3.13.5 (main, Jun 12 2025 16:09:02)
 Spark context Web UI available at http://node001.pri.stanage.alces.network:4040
-Spark context available as 'sc' (master = local[*], app id = local-1738751116147).
+Spark context available as 'sc' (master = local[*], app id = local-1769974318182).
 SparkSession available as 'spark'.
 >>> 
 ```
@@ -213,7 +213,7 @@ Installation of PySpark on your own machine is more complicated than installing 
 
 - Install [**Java 8**](https://www.java.com/en/download/manual.jsp), i.e. java version *1.8.xxx*. Most instructions online ask you to install *Java SDK*, which is heavier. *Java JRE* is lighter and sufficient for pyspark.
 - Install Python **3.8+** (if not yet)
-- Install PySpark **4.0.1** with **Hadoop 3.3**
+- Install PySpark **4.1.0** with **Hadoop 3.3**
 - Set up the proper environments (see references below)
 
 As far as I know, it is not necessary to install *Scala*.
@@ -286,7 +286,7 @@ Run pyspark (optionally, specify to use multiple cores):
 pyspark  # pyspark --master local[4] for 4 cores
 ```
 
-You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/4.0.1/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/4.0.1/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
+You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/4.1.0/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
 
 Check your SparkSession and SparkContext object and you will see something like
 
@@ -349,7 +349,13 @@ Code  Data  HPC  Lab 1 - Introduction to Spark and HPC.md  Output  README.md  Sl
 /users/abc1de/com6012/ScalableML
 ```
 
-You can see that files on the GitHub has been downloaded to your HPC directory `/users/abc1de/com6012/ScalableML`. In some cases, you may only see the conda environment `(myspark)` only, without the `[abc1de@node*** [stanage] ~]$` part. You can still proceed with `ls` and `cd` commands. Now start spark shell by `pyspark` (again you should see the splash) and now we
+You can see that files on the GitHub has been downloaded to your HPC directory `/users/abc1de/com6012/ScalableML`. In some cases, you may only see the conda environment `(myspark)` only, without the `[abc1de@node*** [stanage] ~]$` part. You can still proceed with `ls` and `cd` commands. Now start spark shell by
+
+```pyspark
+pyspark
+```
+
+again you should see the splash, and now we
 
 - read the log file `NASA_Aug95_100.txt` under the folder `Data`
 - count the number of lines
@@ -443,32 +449,56 @@ spark-submit Code/LogMining100.py
 You will see lots of logging info output such as
 
 ```sh
-25/02/05 10:31:49 INFO SparkContext: Running Spark version 3.5.4
-.....................
-25/02/05 10:31:49 INFO ResourceUtils: ==============================================================
-25/02/05 10:31:49 INFO SparkContext: Submitted application: COM6012 Spark Intro
-.....................
-25/02/05 10:31:50 INFO Utils: Successfully started service 'sparkDriver' on port 39901.
-.....................
-25/02/05 10:31:50 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
-25/02/05 10:31:50 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/YOUR_USERNAME/blockmgr-aa32e501-36bd-4151-8c16-a6b9d9ff31af
-25/02/05 10:31:50 INFO MemoryStore: MemoryStore started with capacity 413.9 MiB
-25/02/05 10:31:50 INFO SparkEnv: Registering OutputCommitCoordinator
-25/02/05 10:31:50 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
-25/02/05 10:31:50 INFO Utils: Successfully started service 'SparkUI' on port 4040.
-25/02/05 10:31:50 INFO Executor: Starting executor ID driver on host node001.pri.stanage.alces.network
-25/02/05 10:31:50 INFO Executor: OS info Linux, 3.10.0-1160.125.1.el7.x86_64, amd64
-25/02/05 10:31:50 INFO Executor: Java version 17.0.4
-25/02/05 10:31:50 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
-25/02/05 10:31:50 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@75168a33 for default.
-25/02/05 10:31:50 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33635.
-.....................
+26/02/01 19:56:58 INFO SparkContext: Running Spark version 4.1.0
+26/02/01 19:56:58 INFO SparkContext: OS info Linux, 3.10.0-1160.142.1.el7.x86_64, amd64
+26/02/01 19:56:58 INFO SparkContext: Java version 17.0.4+8
+26/02/01 19:56:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/02/01 19:56:58 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in standalone/kubernetes and LOCAL_DIRS in YARN).
+26/02/01 19:56:58 INFO ResourceUtils: ==============================================================
+26/02/01 19:56:58 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/02/01 19:56:58 INFO ResourceUtils: ==============================================================
+26/02/01 19:56:58 INFO SparkContext: Submitted application: COM6012 Spark Intro
+26/02/01 19:56:58 INFO SecurityManager: Changing view acls to: your_username
+26/02/01 19:56:58 INFO SecurityManager: Changing modify acls to: your_username
+26/02/01 19:56:58 INFO SecurityManager: Changing view acls groups to: your_username
+26/02/01 19:56:58 INFO SecurityManager: Changing modify acls groups to: your_username
+26/02/01 19:56:58 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: your_username groups with view permissions: EMPTY; users with modify permissions: your_username; groups with modify permissions: EMPTY; RPC SSL disabled
+26/02/01 19:56:58 INFO Utils: Successfully started service 'sparkDriver' on port 45008.
+26/02/01 19:56:58 INFO SparkEnv: Registering MapOutputTracker
+26/02/01 19:56:58 INFO SparkEnv: Registering BlockManagerMaster
+26/02/01 19:56:58 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/02/01 19:56:58 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/02/01 19:56:58 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/02/01 19:56:58 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/your_username/blockmgr-ecfb3543-b130-4f31-93d7-545210c77f9e
+26/02/01 19:56:58 INFO SparkEnv: Registering OutputCommitCoordinator
+26/02/01 19:56:59 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/02/01 19:56:59 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/02/01 19:56:59 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/02/01 19:56:59 INFO ResourceProfile: Limiting resource is cpu
+26/02/01 19:56:59 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/02/01 19:56:59 INFO SecurityManager: Changing view acls to: your_username
+26/02/01 19:56:59 INFO SecurityManager: Changing modify acls to: your_username
+26/02/01 19:56:59 INFO SecurityManager: Changing view acls groups to: your_username
+26/02/01 19:56:59 INFO SecurityManager: Changing modify acls groups to: your_username
+26/02/01 19:56:59 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: your_username groups with view permissions: EMPTY; users with modify permissions: your_username; groups with modify permissions: EMPTY; RPC SSL disabled
+26/02/01 19:56:59 INFO Executor: Starting executor ID driver on host node001.pri.stanage.alces.network
+26/02/01 19:56:59 INFO Executor: OS info Linux, 3.10.0-1160.142.1.el7.x86_64, amd64
+26/02/01 19:56:59 INFO Executor: Java version 17.0.4+8
+26/02/01 19:56:59 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/02/01 19:56:59 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@1ee4605 for default.
+26/02/01 19:56:59 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 41878.
+26/02/01 19:56:59 INFO NettyBlockTransferService: Server created on node001.pri.stanage.alces.network:41878
+26/02/01 19:56:59 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/02/01 19:56:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, node001.pri.stanage.alces.network, 41878, None)
+26/02/01 19:56:59 INFO BlockManagerMasterEndpoint: Registering block manager node001.pri.stanage.alces.network:41878 with 413.9 MiB RAM, BlockManagerId(driver, node001.pri.stanage.alces.network, 41878, None)
+26/02/01 19:56:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, node001.pri.stanage.alces.network, 41878, None)
+26/02/01 19:56:59 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, node001.pri.stanage.alces.network, 41878, None)
 
 
 Hello Spark: There are 11 hosts from Japan.
 ```
 
-The output is verbose so I did not show all (see `Output/COM6012_Lab1_SAMPLE.txt` for the verbose output example). We can set the log level easily after `sparkContext` is created but not before (it is a bit complicated). I leave two blank lines before printing the result so it is early to see.
+We can set the log level easily after `sparkContext` is created but not before (it is a bit complicated). I leave two blank lines before printing the result so it is early to see.
 
 ## 4. Big Data Log Mining with Spark
 
@@ -509,13 +539,13 @@ See [how to submit batch jobs to Stanage](https://docs.hpc.shef.ac.uk/en/latest/
 
 Interactive mode will be good for learning, exploring and debugging, with smaller data. For big data, it will be more convenient to use batch processing. You submit the job to the node to join a queue. Once allocated, your job will run, with output properly recorded. This is done via a shell script.
 
-Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC` directory for *reserved nodes* and change `$LAB_ID` and `username`
+Create a file `Lab1_SubmitBatch.sh` under `/users/abc1de/com6012/ScalableML/HPC` directory for *reserved nodes*. For using *general queue* outside the lab sessions, please remove the two lines in the script as indicated in the comments.
 
 ```sh
 #!/bin/bash
 #SBATCH --job-name=JOB_NAME  # Replace JOB_NAME with a name you like
-#SBATCH --account=rse-com6012   
-#SBATCH --reservation=rse-com6012-$LAB_ID  # Replace $LAB_ID with your lab session number
+#SBATCH --account=rse-com6012  # Remove this line for the *general queue*
+#SBATCH --reservation=rse-com6012-1  # Replace 1 with the real Lab_ID in the future lab sessions, or remove this line for the *general queue*
 #SBATCH --time=00:30:00  # Change this to a longer time if you need more time
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --mem=4G  # Request 4 gigabytes of real memory (mem)
@@ -530,19 +560,7 @@ source activate myspark
 spark-submit ./Code/LogMiningBig.py  # . is a relative path, meaning the current directory
 ```
 
-Please remove the following two lines for the *general queue*.
-  
-```sh
-#SBATCH --account=rse-com6012 
-#SBATCH --reservation=rse-com6012-$LAB_ID
-```
-
-- Get necessary files on your Stanage.
-- Start a session with command `srun --pty bash -i`.
-- Go to the `/users/abc1de/com6012/ScalableML` directory to submit your job via the `sbatch` command (can be run at the **login node**).
-- The output file will be under `Output`.
-
-Use the following commands to submit your job
+Go to the `/users/abc1de/com6012/ScalableML` directory to submit your job via the following `sbatch` command (can be run at the **login node**)
 
 ```sh
 sbatch HPC/Lab1_SubmitBatch.sh
@@ -596,9 +614,9 @@ I suggest you to remove and re-install the environment. You can do this by
 
 1. Remove the `myspark` environment by running `conda remove --name myspark --all`, following [conda's managing environments documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#removing-an-environment) and redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
 2. If the above does not work, delete the `myspark` environment (folder) at `/users/abc1de/.conda/envs/myspark` via the terminal folder window on the left of the screen on MobaXterm or use linux command. Then redo Lab 1 (i.e. install everything) to see whether you can run spark-submit in batch mode again.
-3. If the above still does not work, you may have installed `pyspark==4.0.1` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==4.0.1`, you may be prompted with `Requirement already satisfied: pyspark==4.0.1` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==4.0.1` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==4.0.1`.
+3. If the above still does not work, you may have installed `pyspark==4.1.0` wrongly, e.g. before but not after activating the `myspark` environment. If you made this mistake, when reinstalling `pyspark==4.1.0`, you may be prompted with `Requirement already satisfied: pyspark==4.1.0` and `Requirement already satisfied: py4j==0.10.9.5`. To fix the problem, you can try uninstall `pyspark` and `py4j` before activating `myspark` environment by `pip uninstall pyspark==4.1.0` and `pip uninstall py4j==0.10.9.5` and then activate the `myspark` environment by `source activate myspark` and reinstall pyspark by `pip install pyspark==4.1.0`.
 
-## 5. Exercises (reference solutions will be provided on the following Wednesday)
+## 5. Exercises (reference solutions will be provided on the following Tuesday)
 
 The analytic task you are doing above is *Log Mining*. You can imaging nowadays, log files are big and manual analysis will be time consuming. Follow examples above, answer the following questions on **NASA_access_log_Aug95.gz**.
 
@@ -615,7 +633,7 @@ You are encouraged to try out in the pyspark shell first to figure out the right
 
 ### More log mining questions
 
-You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/4.0.1/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
+You are encouraged to explore these more challenging questions by consulting the [`pyspark.sql` APIs](https://spark.apache.org/docs/4.1.0/api/python/reference/pyspark.sql/index.html) to learn more. We will not provide solutions but Session 2 will make answering these questions easier.
 
 - How many **unique** hosts on a particular day (e.g., 15th August)?
 - How many **unique** hosts in total (i.e., in August 1995)?
