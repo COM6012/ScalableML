@@ -8,14 +8,14 @@
 - [Task 2](#2-run-pyspark): To finish in the lab session on 11th Feb. **Critical**
 - [Task 3](#3-log-mining-with-spark---example): To finish in the lab session on 11th Feb. **Essential**
 - [Task 4](#4-big-data-log-mining-with-spark): To finish in the lab session on 11th Feb. **Essential**
-- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-wednesday): To finish by the following Monday 16th Feb. ***Exercise***
+- [Task 5](#5-exercises-reference-solutions-will-be-provided-on-the-following-tuesday): To finish by the following Monday 16th Feb. ***Exercise***
 - [Task 6](#6-additional-ideas-to-explore-optional-no-solutions-will-be-provided): To explore further. *Optional*
 
 **Suggested reading**:
 
 - [Spark Overview](https://spark.apache.org/docs/latest/index.html)
 - [Spark Quick Start](https://spark.apache.org/docs/latest/quick-start.html) (Choose **Python** rather than the default *Scala*)
-- Chapters 2 to 4 of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf) (several sections in Chapter 3 can be safely skipped)
+- Chapters 2 and 4 of [Learning Apache Spark with Python](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf)
 - Reference: [PySpark 4.1.0 documentation](https://spark.apache.org/docs/4.1.0/api/python/index.html)
 - Reference: [PySpark source code](https://github.com/apache/spark/tree/master/python)
 
@@ -566,7 +566,7 @@ Go to the `/users/abc1de/com6012/ScalableML` directory to submit your job via th
 sbatch HPC/Lab1_SubmitBatch.sh
 ```
 
-Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named `COM6012_Lab1_SAMPLE.txt` is in the GitHub `Output` folder for your reference. The results are
+Check your output file, which is **`COM6012_Lab1.txt`** in the `Output` folder specified with option **`-o`** above. You can change it to a name you like. A sample output file named [`COM6012_Lab1_SAMPLE.txt`](Output/COM6012_Lab1_SAMPLE.txt) is in the GitHub `Output` folder for your reference. The results are
 
 ```txt
 Hello Spark: There are 35924 hosts from UK.
