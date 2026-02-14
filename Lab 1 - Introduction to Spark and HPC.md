@@ -283,7 +283,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 Run pyspark (optionally, specify to use multiple cores):
 
 ```sh
-pyspark  # pyspark --master local[4] for 4 cores
+pyspark
 ```
 
 You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/4.1.0/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
@@ -438,9 +438,7 @@ spark.stop()
 
 <!-- `https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas` -->
 
-Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory, such as `C:\temp` in Windows.
-
-Actually, the file has been created for you under the folder `Code` so you can just run it
+Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. Actually, the file has been created for you under the folder `Code` so you can just run it
 
 ```sh
 spark-submit Code/LogMining100.py

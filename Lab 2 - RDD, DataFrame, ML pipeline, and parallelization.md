@@ -12,7 +12,7 @@
 
 ### Suggested reading
 
-- Chapters 5 and 6, and especially **Section 9.1** (of Chapter 9)  of [PySpark tutorial](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf)
+- Chapters 5 and 6, and especially **Section 9.1** (of Chapter 9)  of this PySpark tutorial [Learning Apache Spark with Python](https://runawayhorse001.github.io/LearningApacheSpark/pyspark.pdf)
 - [RDD Programming Guide](https://spark.apache.org/docs/4.1.0/rdd-programming-guide.html): Most are useful to know in this module.
 - [Spark SQL, DataFrames and Datasets Guide](https://spark.apache.org/docs/4.1.0/sql-programming-guide.html): `Overview` and `Getting Started` recommended (skipping those without Python example).
 - [Machine Learning Library (MLlib) Guide](https://spark.apache.org/docs/4.1.0/ml-guide.html)
@@ -46,7 +46,7 @@ You need to replace `$USER` with your username (using **lowercase** and without 
 Once logged in, we can request 2 cores from reserved resources by
 
 ```sh
-srun --account=rse-com6012 --reservation=rse-com6012-2 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=rse-com6012-2 --cpus-per-task=2 --time=00:30:00 --pty /bin/bash
 ```
 
 If the reserved resources are not available, request core from the general queue by
@@ -55,7 +55,7 @@ If the reserved resources are not available, request core from the general queue
 srun --pty --cpus-per-task=2 bash -i
 ```
 
-If you have created a `myspark.sh` script in Lab 1 (Task 2), Now set up our conda environment using
+If you have created a `myspark.sh` script in [Lab 1 (Task 2)](https://github.com/COM6012/ScalableML/blob/master/Lab%201%20-%20Introduction%20to%20Spark%20and%20HPC.md#get-a-node-and-activate-myspark), Now set up our conda environment using
 
 ```sh
 source myspark.sh # assuming you copied HPC/myspark.sh to your root directory (see Lab 1 Task 2)
@@ -69,12 +69,12 @@ If not, use
    source activate myspark
    ```
 
-Now we can start the PySpark shell by
+Now we can start the PySpark interactive shell by
 
    ```sh
    conda install -y numpy # install numpy, to be used in Task 3. This ONLY needs to be done ONCE. NOT every time.
    cd com6012/ScalableML # our main working directory
-   pyspark --master local[2] # start pyspark with 2 cores requested above.
+   pyspark --master local[2] # start pyspark with 2 cores requested above by specifying the master parameter 'local[k]'.
   ```
 
 If you are experiencing a `segmentation fault` when entering the `pyspark` interactive shell, run `export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8` to fix it. It is recommended to add this line to your `myspark.sh` file.
@@ -122,10 +122,10 @@ def inside(p):
 NUM_SAMPLES = 10000000
 count = sc.parallelize(range(0, NUM_SAMPLES),8).filter(inside).count()
 print("Pi is roughly %f" % (4.0 * count / NUM_SAMPLES))
-# Pi is roughly 3.141811
+# Pi is roughly 3.142717
 ```
 
-Note that we did not control the seed above so you are not likely to get exactly the same number `3.139747`. You can change `NUM_SAMPLES` to see the difference in precision and time cost.
+Note that we did not control the seed above so you are not likely to get exactly the same number `3.142717`. You can change `NUM_SAMPLES` to see the difference in precision and time cost.
 
 ### [Shared Variables](https://spark.apache.org/docs/4.1.0/rdd-programming-guide.html#shared-variables)
 
@@ -299,7 +299,7 @@ df2.describe().show()
 - **Pipeline**. A Pipeline chains multiple Transformers and Estimators together to specify an ML workflow.
 - **Parameter**. Transformers and Estimators share a common API for specifying parameters.
 
-A list of some of the available ML features is available [here](http://spark.apache.org/docs/4.1.0/ml-features.html).
+A list of some of the available ML features is available at: [Extracting, transforming and selecting features](http://spark.apache.org/docs/4.1.0/ml-features.html).
 
 **Clarification on whether Estimator is a transformer**. See [Estimators](https://spark.apache.org/docs/4.1.0/ml-pipeline.html#estimators)
 > An Estimator abstracts the concept of a learning algorithm or any algorithm that fits or trains on data. Technically, an Estimator implements a method fit(), which accepts a DataFrame and produces a Model, which is a Transformer. For example, a learning algorithm such as LogisticRegression is an Estimator, and calling fit() trains a LogisticRegressionModel, which is a Model and hence a **Transformer**.
