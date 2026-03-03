@@ -6,7 +6,7 @@
 
 - [Section 1](#1-data-types-in-rdd-based-api): To finish in the lab session on 4th March. **Essential**
 - [Section 2](#2-glms-in-pyspark): To finish by 4th March. **Essential**
-- [Section 3](#3-exercises): To finish before the next Tuesday 9th March. ***Exercise***
+- [Section 3](#3-exercises): To finish before the next Monday 9th March. ***Exercise***
 - [Section 4](#4-additional-exercise-optional): To explore further. *Optional*
 
 ### Suggested reading
@@ -29,7 +29,7 @@ You need to replace `$USER` with your username (using **lowercase** and without 
 srun --account=rse-com6012 --reservation=rse-com6012-4 --time=01:00:00 --pty /bin/bash
 ```
 
-if the reserved resources are not available, start an interactive session from the general queue by
+**if the reserved resources are not available**, start an interactive session from the general queue by
 
 ```sh
 srun --pty bash -i
@@ -45,13 +45,7 @@ if you created a `myspark.sh` script in Lab 1.  If not, use
 
 ```sh
 module load Java/17.0.4
-```
-
-```sh
 module load Anaconda3/2024.02-1
-```
-
-```sh
 source activate myspark
 ```
 
@@ -67,7 +61,15 @@ To deal with data efficiently, Spark considers different [data types](https://sp
 
 > A local vector has integer-typed and 0-based indices and double-typed values, stored on a single machine. MLlib supports two types of local vectors: dense and sparse. A dense vector is backed by a double array representing its entry values, while a sparse vector is backed by two parallel arrays: indices and values. For example, a vector (1.0, 0.0, 3.0) can be represented in dense format as [1.0, 0.0, 3.0] or in sparse format as (3, [0, 2], [1.0, 3.0]), where 3 is the size of the vector.
 
-Check out the [Vector in RDD API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.mllib.linalg.Vectors.html#vectors) or [Vector in DataFrame API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.ml.linalg.Vector.html#vector) (see method `.Sparse()`) and [SparseVector in RDD API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.mllib.linalg.SparseVector.html#sparsevector) or [SparseVector in DataFrame API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.ml.linalg.SparseVector.html#sparsevector). The official example is below
+Check out the [Vector in RDD API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.mllib.linalg.Vectors.html#vectors) or [Vector in DataFrame API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.ml.linalg.Vector.html#vector) (see method `.Sparse()`) and [SparseVector in RDD API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.mllib.linalg.SparseVector.html#sparsevector) or [SparseVector in DataFrame API](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.ml.linalg.SparseVector.html#sparsevector).
+
+Start a PySpark shell first:
+
+```sh
+pyspark
+```
+
+The official example is below
 
 ```python
 import numpy as np
@@ -187,12 +189,16 @@ rowsRDD.collect()
 
 In this Lab, we will look at Poisson regression over the [Bike Sharing Dataset](https://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset). We will compare the performance of several models and algorithms on this dataset, including: Poisson Regression, Linear Regression implemented with IRLS and Linear Regression with general regularization.
 
+If you are using the PySpark shell, please ensure you are in the `ScalableML` directory to execute the code below. If not, please use `ctrl+d` to exit the PySpark shell, `cd` into the `ScalableML` directory, and start the PySpark shell again by running the `pyspark` command.
+
 We start by loading the data. Here we use the hourly recordings only.
 
 ```python
 rawdata = spark.read.csv('./Data/hour.csv', header=True)
 rawdata.cache()
 ```
+
+You will see the output below:
 
 ```bash
 DataFrame[instant: string, dteday: string, season: string, yr: string, mnth: string, hr: string, holiday: string, weekday: string, workingday: string, weathersit: string, temp: string, atemp: string, hum: string, windspeed: string, casual: string, registered: string, cnt: string]
@@ -246,6 +252,8 @@ for i in range(new_ncolumns):
 new_rawdata.printSchema()
 ```
 
+You will see the schema with data types of the dataset printed as below:
+
 ```bash
 root
   |-- season: double (nullable = true)
@@ -274,6 +282,8 @@ We now create the training and test data
 ```python
 new_schemaNames[0:new_ncolumns-3]
 ```
+
+You will see the new schema names printed as below:
 
 ```bash
 ['season',
@@ -322,13 +332,13 @@ We now want to proceed to apply Poisson Regression over our dataset. We will use
 <tr><td>Tweedie</td><td>Zero-inflated continuous</td><td>Power link function</td></tr>
 </table> -->
 
-| Family   | Response Type                | Supported Links                  |
+| Family   | Response Type               | Supported Links                  |
 |----------|-----------------------------|----------------------------------|
-| Gaussian | Continuous                   | Identity, Log, Inverse          |
-| Binomial | Binary                        | Logit, Probit, CLogLog          |
-| Poisson  | Count                         | Log, Identity, Sqrt             |
-| Gamma    | Continuous                    | Inverse, Identity, Log          |
-| Tweedie  | Zero-inflated continuous      | Power link function             |
+| Gaussian | Continuous                  | Identity, Log, Inverse           |
+| Binomial | Binary                      | Logit, Probit, CLogLog           |
+| Poisson  | Count                       | Log, Identity, Sqrt              |
+| Gamma    | Continuous                  | Inverse, Identity, Log           |
+| Tweedie  | Zero-inflated continuous    | Power link function              |
 
 ```python
 from pyspark.ml.regression import GeneralizedLinearRegression
@@ -361,13 +371,19 @@ rmse = evaluator.evaluate(predictions)
 print("RMSE = %g " % rmse)
 ```
 
+You will see the RMSE printed as below:
+
 ```bash
 RMSE = 142.214 
 ```
 
+To view the coefficients of the fitted model, we can use the code below
+
 ```python
 pipelineModel.stages[-1].coefficients
 ```
+
+The coefficients of the fitted model will be printed as below:
 
 ```bash
 DenseVector([0.133, 0.4267, 0.002, 0.0477, -0.1086, 0.005, 0.015, -0.0633, 0.7031, 0.6608, -0.746, 0.2307])
