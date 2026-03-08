@@ -15,8 +15,6 @@
 
 ## Introduction
 
-Unlike linear regression, where the output is assumed to follow a Gaussian distribution, in [generalized linear models](https://en.wikipedia.org/wiki/Generalized_linear_model) (GLMs) the response variable $y$ follows some distribution from the [exponential family of distributions](https://en.wikipedia.org/wiki/Exponential_family).
-
 Before you continue, open a new terminal in [Stanage](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html), use the `rse-com6012-4` queue, and activate the **myspark** environment. First log into the Stanage cluster
 
 ```sh
@@ -186,6 +184,8 @@ rowsRDD.collect()
 ```
 
 ## 2. GLMs in PySpark
+
+Unlike linear regression, where the output is assumed to follow a Gaussian distribution, in [generalized linear models](https://en.wikipedia.org/wiki/Generalized_linear_model) (GLMs) the response variable $y$ follows some distribution from the [exponential family of distributions](https://en.wikipedia.org/wiki/Exponential_family).
 
 In this Lab, we will look at Poisson regression over the [Bike Sharing Dataset](https://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset). We will compare the performance of several models and algorithms on this dataset, including: Poisson Regression, Linear Regression implemented with IRLS and Linear Regression with general regularization.
 
