@@ -1,6 +1,6 @@
-# Lab 7: $k$-means Clustering
+# Lab 8: $k$-means Clustering
 
-[COM6012 Scalable Machine Learning **2025**](https://github.com/COM6012/ScalableML) by Tahsin Khan at The University of Sheffield, 27th March 2025.
+[COM6012 Scalable Machine Learning **2026**](https://github.com/COM6012/ScalableML) by Tahsin Khan at The University of Sheffield, 29th April 2026.
 
 ## Study schedule
 
