@@ -36,7 +36,8 @@ In this lab we build a complete end-to-end machine learning pipeline on Databric
 > **Important notes for Free Edition serverless:**
 > - `spark` is **pre-provided** in every Databricks notebook — never call `SparkSession.builder.getOrCreate()`
 > - `mlflow.spark.autolog()` is **not supported** on serverless clusters — parameters and metrics are logged manually in this lab
-> - Serverless sessions can **time out** during long operations — a checkpoint cell is provided in Section 2 to recover without re-downloading data
+> - Serverless sessions can **time out** during long operations — if this happens, detach and reattach Serverless compute, then use Run All to re-execute the notebook from the top
+> - All variables (including `df_train_raw`) are lost when a session resets completely — there is no way to recover without re-running from the first cell
 
 ## 1. Environment Setup and Data Loading
 
@@ -90,7 +91,7 @@ df_train_raw.printSchema()
 
 #### Step 3 — Feature Engineering and Sampling
 
-> **⏱ Note:** The cells in this step will take **2–4 minutes** to run on Databricks Free Edition. This is expected behaviour. Spark uses lazy evaluation — no computation happens when transformations are defined. Execution is triggered by the first `.count()` call, at which point Spark applies all filters, computes new columns, splits the data, and samples it in a single pass. Allow the cell to complete before moving on.
+> **Note:** The cells in this step will take **2–4 minutes** to run on Databricks Free Edition. This is expected behaviour. Spark uses lazy evaluation — no computation happens when transformations are defined. Execution is triggered by the first `.count()` call, at which point Spark applies all filters, computes new columns, splits the data, and samples it in a single pass. Allow the cell to complete before moving on.
 
 ```python
 feature_cols = [
@@ -130,12 +131,12 @@ def prepare_features(df):
 df_baseline   = prepare_features(df_train_raw)
 df_production = prepare_features(df_production_raw)
 
-# 2% sample — sufficient for meaningful ML and drift analysis
+# 1% sample — sufficient for meaningful ML and drift analysis
 # Kept small to avoid serverless session timeouts on Free Edition
 train_full, test_all      = df_baseline.randomSplit([0.8, 0.2], seed=42)
-train_df                  = train_full.sample(fraction=0.02, seed=42)
-test_df                   = test_all.sample(fraction=0.02, seed=42)
-df_production_sample      = df_production.sample(fraction=0.02, seed=42)
+train_df                  = train_full.sample(fraction=0.01, seed=42)
+test_df                   = test_all.sample(fraction=0.01, seed=42)
+df_production_sample      = df_production.sample(fraction=0.01, seed=42)
 
 print(f"Training rows (sample):   {train_df.count():,}")
 print(f"Test rows (sample):       {test_df.count():,}")
@@ -151,7 +152,7 @@ train_df.groupBy("label").count().orderBy("label").show()
 
 > **Q1.2** Why do we use January (winter) as baseline and June (summer) as the production drift period? What seasonal and behavioural factors would shift the tip distribution between these months?
 
-> **Q1.3** We sample 2% of the data. What are the trade-offs of this decision for (a) model quality, (b) drift detection sensitivity, and (c) runtime?
+> **Q1.3** We sample 1% of the data. What are the trade-offs of this decision for (a) model quality, (b) drift detection sensitivity, and (c) runtime?
 
 ## 2. MLflow Experiment Tracking
 
@@ -172,12 +173,12 @@ print(f"Tracking URI: {mlflow.get_tracking_uri()}")
 
 #### Step 2 — Session Checkpoint
 
-> **If you see a `SESSION_NOT_FOUND` or `INVALID_CONNECT_URL` error** at any point in Sections 2–4, run this checkpoint cell to rebuild all DataFrames in the new session. You do not need to re-download the data. Do not call `SparkSession.builder` — `spark` is automatically available after the session reconnects.
+> **If you see a `SESSION_NOT_FOUND`, `INVALID_CONNECT_URL`, or `NO_ACTIVE_SESSION` error**, the serverless session has reset completely and all variables are lost. The only recovery is to detach and reattach Serverless compute from the notebook toolbar, then click **Run All** to re-execute the entire notebook from the top — including the data download. The checkpoint cell below is only useful if `df_train_raw` still exists in memory (i.e. a partial timeout). Before running it, verify with: `print(df_train_raw.count())`. If that raises a `NameError`, use Run All instead.
 
 ```python
-# Checkpoint cell — run this if SESSION_NOT_FOUND or INVALID_CONNECT_URL occurs
-# Rebuilds all DataFrames without re-downloading the source data
-# spark is pre-provided in Databricks — no SparkSession creation needed
+# Checkpoint cell — only run this if df_train_raw is still defined
+# If df_train_raw is not defined, use Run All from the top instead
+# Verify first: print(df_train_raw.count())
 
 from pyspark.sql.functions import col, hour, dayofweek, month, when, unix_timestamp
 
@@ -185,9 +186,9 @@ df_baseline   = prepare_features(df_train_raw)
 df_production = prepare_features(df_production_raw)
 
 train_full, test_all      = df_baseline.randomSplit([0.8, 0.2], seed=42)
-train_df                  = train_full.sample(fraction=0.02, seed=42)
-test_df                   = test_all.sample(fraction=0.02, seed=42)
-df_production_sample      = df_production.sample(fraction=0.02, seed=42)
+train_df                  = train_full.sample(fraction=0.01, seed=42)
+test_df                   = test_all.sample(fraction=0.01, seed=42)
+df_production_sample      = df_production.sample(fraction=0.01, seed=42)
 
 print("DataFrames rebuilt successfully.")
 print(f"Training rows: {train_df.count():,}")
@@ -214,14 +215,14 @@ with mlflow.start_run(run_name="random-forest-baseline") as run:
     mlflow.set_tag("model_type",  "random_forest")
     mlflow.set_tag("data_period", "jan-2019")
 
-    mlflow.log_param("num_trees",        20)
-    mlflow.log_param("max_depth",         5)
-    mlflow.log_param("sample_fraction", 0.02)
+    mlflow.log_param("num_trees",        10)
+    mlflow.log_param("max_depth",         4)
+    mlflow.log_param("sample_fraction", 0.01)
 
     assembler = VectorAssembler(inputCols=feature_cols, outputCol="features")
     rf = RandomForestClassifier(
         featuresCol="features", labelCol="label",
-        numTrees=20, maxDepth=5, seed=42)
+        numTrees=10, maxDepth=4, seed=42)
     pipeline = Pipeline(stages=[assembler, rf])
     model    = pipeline.fit(train_df)
     preds    = model.transform(test_df)
@@ -248,14 +249,14 @@ from pyspark.ml.classification import GBTClassifier
 with mlflow.start_run(run_name="gbt-baseline") as run:
     mlflow.set_tag("model_type", "gradient_boosted_trees")
 
-    mlflow.log_param("max_iter",         10)
-    mlflow.log_param("max_depth",         5)
-    mlflow.log_param("sample_fraction", 0.02)
+    mlflow.log_param("max_iter",          5)
+    mlflow.log_param("max_depth",         4)
+    mlflow.log_param("sample_fraction", 0.01)
 
     assembler_g = VectorAssembler(inputCols=feature_cols, outputCol="features")
     gbt = GBTClassifier(
         featuresCol="features", labelCol="label",
-        maxIter=10, maxDepth=5, seed=42)
+        maxIter=5, maxDepth=4, seed=42)
     model_gbt = Pipeline(stages=[assembler_g, gbt]).fit(train_df)
     preds_gbt = model_gbt.transform(test_df)
 
@@ -389,7 +390,7 @@ for feat in continuous_features:
     ks, pv = stats.ks_2samp(
         pdf_baseline[feat].dropna(), pdf_production[feat].dropna())
     drift_results[feat] = {"ks_stat": ks, "p_value": pv}
-    print(f"{feat:<25} {ks:>10.4f} {pv:>12.6f} {'YES ⚠️' if pv < 0.05 else 'no':>8}")
+    print(f"{feat:<25} {ks:>10.4f} {pv:>12.6f} {'YES' if pv < 0.05 else 'no':>8}")
 ```
 
 #### Step 4 — Population Stability Index (PSI)
@@ -408,7 +409,7 @@ print("\nPSI Results")
 print("=" * 47)
 for feat in continuous_features:
     psi = compute_psi(pdf_baseline, pdf_production, feat)
-    status = "Stable ✓" if psi < 0.10 else ("Warning ⚠️" if psi < 0.20 else "DRIFT 🚨")
+    status = "Stable" if psi < 0.10 else ("Warning" if psi < 0.20 else "DRIFT")
     print(f"{feat:<25} {psi:>8.4f}  {status}")
 ```
 
@@ -492,10 +493,10 @@ print(f"\nBaseline windows within range:       {base_in_range:.1f}%")
 print(f"Production windows within range:     {prod_in_range:.1f}%")
 
 if prod_in_range < 60:
-    print("\n⚠️  DRIFT ALERT: fewer than 60% of production windows within acceptable range.")
+    print("\nDRIFT ALERT: fewer than 60% of production windows within acceptable range.")
     print("   Recommended action: investigate feature distributions, trigger retraining.")
 else:
-    print("\n✓  Production performance broadly within acceptable range.")
+    print("\nProduction performance broadly within acceptable range.")
 ```
 
 #### Step 7 — Log All Drift Metrics to MLflow
@@ -681,13 +682,13 @@ train_c, test_c = df_combined.randomSplit([0.8, 0.2], seed=42)
 with mlflow.start_run(run_name="rf-retrained-combined") as retrain_run:
     mlflow.set_tag("trigger",     "drift_detected")
     mlflow.set_tag("data_period", "jan + jun 2019")
-    mlflow.log_param("num_trees", 20)
-    mlflow.log_param("max_depth",  5)
+    mlflow.log_param("num_trees", 10)
+    mlflow.log_param("max_depth",  4)
 
     model_r = Pipeline(stages=[
         VectorAssembler(inputCols=feature_cols, outputCol="features"),
         RandomForestClassifier(featuresCol="features", labelCol="label",
-                               numTrees=20, maxDepth=5, seed=42)
+                               numTrees=10, maxDepth=4, seed=42)
     ]).fit(train_c)
 
     auc_r      = auc_eval.evaluate(model_r.transform(test_c))
@@ -714,9 +715,9 @@ print(f"\nRetrained model registered as v{v.version}, alias: 'challenger'")
 
 ## Appendix A — Troubleshooting
 
-**Free Edition compute quota exceeded.** Compute resumes tomorrow. Data and notebooks are preserved. Reduce the sample fraction to `0.01` if needed.
+**Free Edition compute quota exceeded.** Compute resumes tomorrow. Data and notebooks are preserved. Reduce the sample fraction to `0.005` if needed.
 
-**Session timeout (SESSION_NOT_FOUND or INVALID_CONNECT_URL).** Run the checkpoint cell in Section 2, Step 2 to rebuild all DataFrames without re-downloading data. Do not call `SparkSession.builder` — `spark` is automatically available after the session reconnects. If the error persists, detach and reattach Serverless compute from the notebook toolbar, then run all cells from the top.
+**Session timeout (SESSION_NOT_FOUND, INVALID_CONNECT_URL, or NO_ACTIVE_SESSION).** The serverless session has reset completely and all variables are lost. Detach and reattach Serverless compute from the notebook toolbar, then click **Run All** to re-execute the entire notebook from the top. The data will need to be re-downloaded. The checkpoint cell in Section 2 Step 2 can only help if `df_train_raw` is still in memory — verify with `print(df_train_raw.count())` before using it.
 
 **SparkSession error (INVALID_CONNECT_URL).** Do not call `SparkSession.builder.getOrCreate()` in Databricks notebooks. The `spark` variable is pre-provided automatically in every notebook session.
 
