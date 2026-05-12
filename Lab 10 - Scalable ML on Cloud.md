@@ -1,5 +1,6 @@
-# Lab 10: Scalable Machine Learning in the Cloud
+# Lab 10: Distributed Machine Learning on the Cloud with Databricks
 
+COM6012 Scalable Machine Learning 2026 ([github/COM6012/ScalableML](https://github.com/COM6012/ScalableML)) by Tahsin Khan at The University of Sheffield
 
 ## Study schedule
 
@@ -7,7 +8,7 @@
 - [Section 2](#2-mlflow-experiment-tracking): To finish in the lab session. **Critical**
 - [Section 3](#3-model-registration-and-batch-inference): To finish in the lab session. **Essential**
 - [Section 4](#4-drift-detection-statistics-visualisation-and-interpretable-metrics): To finish in the lab session. **Essential**
-- [Section 5](#5-incremental-inference-simulation-and-lakehouse-monitoring): To explore further. *Optional*
+- [Section 5](#5-incremental-inference-simulation-and-lakehouse-monitoring): To finish before the following session. ***Exercise***
 - [Section 6](#6-retraining-on-combined-data): To explore further. *Optional*
 
 ## Introduction
@@ -19,7 +20,7 @@ In this lab we build a complete end-to-end machine learning pipeline on Databric
 | Element | Detail |
 |---|---|
 | Task type | Binary classification |
-| Target | `tip_amount / fare_amount > 0.20` -> label = 1 (generous) |
+| Target | `tip_amount / fare_amount > 0.20` → label = 1 (generous) |
 | Features | Trip distance, fare, passenger count, pickup hour, day of week, pickup zone, payment type, trip duration |
 | Training period | January 2019 (winter baseline) |
 | Production period | June 2019 (summer — drift scenario) |
@@ -27,17 +28,23 @@ In this lab we build a complete end-to-end machine learning pipeline on Databric
 
 **Note on payment type.** Cash trips (`payment_type=2`) have `tip_amount=0` by convention — cash tips are not digitally recorded. This makes `payment_type` a very strong predictor and is worth bearing in mind when interpreting model outputs.
 
-**Prerequisites.** You will need a Databricks Free Edition account — sign up at [login.databricks.com](https://login.databricks.com) (no credit card required).
+**Prerequisites.** You should have completed Labs 1–9. You will need a Databricks Free Edition account — sign up at [signup.databricks.com](https://signup.databricks.com) (no credit card required).
 
 > **Databricks Free Edition (2026)**
-> Databricks Free Edition includes MLflow, Unity Catalog, Delta Lake, Python notebooks, and serverless compute. It uses **serverless compute only** — no cluster to configure or start. R and Scala are not supported. Daily compute quotas apply.
+> Databricks Community Edition was **retired on January 1, 2026** and replaced by **Free Edition**. Free Edition includes MLflow, Unity Catalog, Delta Lake, Python notebooks, and serverless compute. It uses **serverless compute only** — no cluster to configure or start. R and Scala are not supported. Daily compute quotas apply.
+>
+> **Important notes for Free Edition serverless:**
+> - `spark` is **pre-provided** in every Databricks notebook — never call `SparkSession.builder.getOrCreate()`
+> - `mlflow.spark.autolog()` is **not supported** on serverless clusters — parameters and metrics are logged manually in this lab
+> - Serverless sessions can **time out** during long operations — if this happens, detach and reattach Serverless compute, then use Run All to re-execute the notebook from the top
+> - All variables (including `df_train_raw`) are lost when a session resets completely — there is no way to recover without re-running from the first cell
 
 ## 1. Environment Setup and Data Loading
 
 #### Step 1 — Create a notebook
 
-1. Log in to your Databricks Free Edition workspace at [login.databricks.com](https://login.databricks.com)
-2. In the left sidebar, click **+ New -> Notebook**
+1. Log in to your Databricks Free Edition workspace at [signup.databricks.com](https://signup.databricks.com)
+2. In the left sidebar, click **+ New → Notebook**
 3. Name it `lab10_[your_username]`, language: **Python**
 4. In the **Connect** dropdown, select **Serverless** — this is the only compute option in Free Edition; it starts automatically with no configuration required
 
@@ -45,16 +52,17 @@ In this lab we build a complete end-to-end machine learning pipeline on Databric
 
 The NYC Taxi and Limousine Commission (TLC) publishes all trip records at [nyc.gov/site/tlc](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page). We load one month per period using **pandas**, which handles HTTPS URLs natively. Spark cannot read directly from HTTPS URLs because its HTTP filesystem does not implement the directory-listing operation that `spark.read` requires. We therefore download via pandas and convert to a Spark DataFrame.
 
+Note that `spark` is already available in Databricks notebooks — we use it directly without any import or instantiation.
+
 ```python
 import pandas as pd
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, hour, dayofweek, month, when, unix_timestamp
 
-spark = SparkSession.builder.getOrCreate()
+# spark is pre-provided in Databricks notebooks — do not call SparkSession.builder
 
 base_url = "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{}.parquet"
 
-# Each file is around 150 MB — allow 30–60 seconds per download
+# Each file is ~150 MB — allow 30–60 seconds per download
 print("Downloading Jan 2019 (training period)...")
 df_train_raw = spark.createDataFrame(
     pd.read_parquet(base_url.format("2019-01"))
@@ -70,9 +78,20 @@ print(f"Production rows (Jun 2019): {df_production_raw.count():,}")
 df_train_raw.printSchema()
 ```
 
+> **If internet access is unavailable in your workspace**, download the two files directly from your browser and upload them to a Unity Catalog Volume:
+> 1. Download from your browser:
+>    - `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2019-01.parquet`
+>    - `https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2019-06.parquet`
+> 2. In Databricks: **Catalog → your schema → Create Volume** → Upload both files
+> 3. Then load with:
+> ```python
+> df_train_raw      = spark.read.parquet("/Volumes/ml/com6012/lab10_data/yellow_tripdata_2019-01.parquet")
+> df_production_raw = spark.read.parquet("/Volumes/ml/com6012/lab10_data/yellow_tripdata_2019-06.parquet")
+> ```
+
 #### Step 3 — Feature Engineering and Sampling
 
-> **Note:** The cells in this step will take **2 - 4 minutes** to run on Databricks Free Edition. This is expected behaviour. Spark uses lazy evaluation — no computation happens when transformations are defined. Execution is triggered by the first `.count()` call, at which point Spark applies all filters, computes new columns, splits the data, and samples it in a single pass. Allow the cell to complete before moving on.
+> **Note:** The cells in this step will take **2–4 minutes** to run on Databricks Free Edition. This is expected behaviour. Spark uses lazy evaluation — no computation happens when transformations are defined. Execution is triggered by the first `.count()` call, at which point Spark applies all filters, computes new columns, splits the data, and samples it in a single pass. Allow the cell to complete before moving on.
 
 ```python
 feature_cols = [
@@ -112,11 +131,12 @@ def prepare_features(df):
 df_baseline   = prepare_features(df_train_raw)
 df_production = prepare_features(df_production_raw)
 
-# 5% sample — sufficient for meaningful ML and drift analysis in a 2-hour lab
+# 1% sample — sufficient for meaningful ML and drift analysis
+# Kept small to avoid serverless session timeouts on Free Edition
 train_full, test_all      = df_baseline.randomSplit([0.8, 0.2], seed=42)
-train_df                  = train_full.sample(fraction=0.05, seed=42)
-test_df                   = test_all.sample(fraction=0.05, seed=42)
-df_production_sample      = df_production.sample(fraction=0.05, seed=42)
+train_df                  = train_full.sample(fraction=0.01, seed=42)
+test_df                   = test_all.sample(fraction=0.01, seed=42)
+df_production_sample      = df_production.sample(fraction=0.01, seed=42)
 
 print(f"Training rows (sample):   {train_df.count():,}")
 print(f"Test rows (sample):       {test_df.count():,}")
@@ -132,21 +152,49 @@ train_df.groupBy("label").count().orderBy("label").show()
 
 > **Q1.2** Why do we use January (winter) as baseline and June (summer) as the production drift period? What seasonal and behavioural factors would shift the tip distribution between these months?
 
-> **Q1.3** We sample 5% of the data. What are the trade-offs of this decision for (a) model quality, (b) drift detection sensitivity, and (c) runtime?
+> **Q1.3** We sample 1% of the data. What are the trade-offs of this decision for (a) model quality, (b) drift detection sensitivity, and (c) runtime?
 
 ## 2. MLflow Experiment Tracking
 
 #### Step 1 — Set up MLflow
 
 ```python
-import mlflow, mlflow.spark
+import mlflow
 
-# Replace abc1xyz with your username
-mlflow.set_experiment("/Shared/com6012-lab10/abc1xyz-taxi-tip")
+# Use your personal workspace path — replace the email with your own
+# To find your path, run: import os; os.getcwd()
+# It will return something like /Workspace/Users/your-email@domain.com
+# Use the email portion below — do NOT include /Workspace in the MLflow path
+mlflow.set_experiment("/Users/your-email@domain.com/com6012-lab10-taxi-tip")
 print(f"Tracking URI: {mlflow.get_tracking_uri()}")
 ```
 
-#### Step 2 — Train Random Forest with Autologging
+> **Note:** MLflow will print a message saying the experiment does not exist and is being created — this is expected on the first run.
+
+#### Step 2 — Session Checkpoint
+
+> **If you see a `SESSION_NOT_FOUND`, `INVALID_CONNECT_URL`, or `NO_ACTIVE_SESSION` error**, the serverless session has reset completely and all variables are lost. The only recovery is to detach and reattach Serverless compute from the notebook toolbar, then click **Run All** to re-execute the entire notebook from the top — including the data download. The checkpoint cell below is only useful if `df_train_raw` still exists in memory (i.e. a partial timeout). Before running it, verify with: `print(df_train_raw.count())`. If that raises a `NameError`, use Run All instead.
+
+```python
+# Checkpoint cell — only run this if df_train_raw is still defined
+# If df_train_raw is not defined, use Run All from the top instead
+# Verify first: print(df_train_raw.count())
+
+from pyspark.sql.functions import col, hour, dayofweek, month, when, unix_timestamp
+
+df_baseline   = prepare_features(df_train_raw)
+df_production = prepare_features(df_production_raw)
+
+train_full, test_all      = df_baseline.randomSplit([0.8, 0.2], seed=42)
+train_df                  = train_full.sample(fraction=0.01, seed=42)
+test_df                   = test_all.sample(fraction=0.01, seed=42)
+df_production_sample      = df_production.sample(fraction=0.01, seed=42)
+
+print("DataFrames rebuilt successfully.")
+print(f"Training rows: {train_df.count():,}")
+```
+
+#### Step 3 — Train Random Forest
 
 ```python
 from pyspark.ml import Pipeline
@@ -156,7 +204,8 @@ from pyspark.ml.evaluation import (
     BinaryClassificationEvaluator, MulticlassClassificationEvaluator
 )
 
-mlflow.spark.autolog()
+# mlflow.spark.autolog() is not supported on Free Edition serverless
+# Parameters and metrics are logged manually below
 
 auc_eval = BinaryClassificationEvaluator(labelCol="label", metricName="areaUnderROC")
 acc_eval = MulticlassClassificationEvaluator(labelCol="label", metricName="accuracy")
@@ -166,9 +215,14 @@ with mlflow.start_run(run_name="random-forest-baseline") as run:
     mlflow.set_tag("model_type",  "random_forest")
     mlflow.set_tag("data_period", "jan-2019")
 
+    mlflow.log_param("num_trees",        10)
+    mlflow.log_param("max_depth",         4)
+    mlflow.log_param("sample_fraction", 0.01)
+
     assembler = VectorAssembler(inputCols=feature_cols, outputCol="features")
     rf = RandomForestClassifier(
-        featuresCol="features", labelCol="label", numTrees=50, maxDepth=8, seed=42)
+        featuresCol="features", labelCol="label",
+        numTrees=10, maxDepth=4, seed=42)
     pipeline = Pipeline(stages=[assembler, rf])
     model    = pipeline.fit(train_df)
     preds    = model.transform(test_df)
@@ -176,37 +230,51 @@ with mlflow.start_run(run_name="random-forest-baseline") as run:
     auc = auc_eval.evaluate(preds)
     acc = acc_eval.evaluate(preds)
     f1  = f1_eval.evaluate(preds)
+
     mlflow.log_metric("test_auc",      auc)
     mlflow.log_metric("test_accuracy", acc)
     mlflow.log_metric("test_f1",       f1)
+
+    mlflow.spark.log_model(model, "model")
+
     print(f"AUC: {auc:.4f}  |  Accuracy: {acc:.4f}  |  F1: {f1:.4f}")
     rf_run_id = run.info.run_id
 ```
 
-#### Step 3 — Train GBT for Comparison
+#### Step 4 — Train GBT for Comparison
 
 ```python
 from pyspark.ml.classification import GBTClassifier
 
 with mlflow.start_run(run_name="gbt-baseline") as run:
     mlflow.set_tag("model_type", "gradient_boosted_trees")
+
+    mlflow.log_param("max_iter",          5)
+    mlflow.log_param("max_depth",         4)
+    mlflow.log_param("sample_fraction", 0.01)
+
     assembler_g = VectorAssembler(inputCols=feature_cols, outputCol="features")
     gbt = GBTClassifier(
-        featuresCol="features", labelCol="label", maxIter=20, maxDepth=6, seed=42)
+        featuresCol="features", labelCol="label",
+        maxIter=5, maxDepth=4, seed=42)
     model_gbt = Pipeline(stages=[assembler_g, gbt]).fit(train_df)
     preds_gbt = model_gbt.transform(test_df)
 
     auc_gbt = auc_eval.evaluate(preds_gbt)
     acc_gbt = acc_eval.evaluate(preds_gbt)
     f1_gbt  = f1_eval.evaluate(preds_gbt)
+
     mlflow.log_metric("test_auc",      auc_gbt)
     mlflow.log_metric("test_accuracy", acc_gbt)
     mlflow.log_metric("test_f1",       f1_gbt)
+
+    mlflow.spark.log_model(model_gbt, "model")
+
     print(f"GBT — AUC: {auc_gbt:.4f}  |  Accuracy: {acc_gbt:.4f}  |  F1: {f1_gbt:.4f}")
     gbt_run_id = run.info.run_id
 ```
 
-#### Step 4 — Compare in the MLflow UI
+#### Step 5 — Compare in the MLflow UI
 
 In the Databricks left sidebar, click **Experiments**, find your experiment, select both runs, then click **Compare**. Explore the Parallel Coordinates chart and metric comparison table.
 
@@ -214,7 +282,7 @@ In the Databricks left sidebar, click **Experiments**, find your experiment, sel
 
 > **Q2.1** Why is **AUC** more appropriate than Accuracy as the primary metric for this task? Refer to the label balance you observed in Section 1.
 
-> **Q2.2** What does `mlflow.spark.autolog()` capture automatically? List at least four things it logs without any explicit `log_param()` calls.
+> **Q2.2** In this lab we log parameters and metrics manually. What would `mlflow.spark.autolog()` have captured automatically that we have not logged here? List at least three things.
 
 > **Q2.3** What is the conceptual difference between a **tag** and a **parameter** in MLflow? When would you use each?
 
@@ -341,7 +409,7 @@ print("\nPSI Results")
 print("=" * 47)
 for feat in continuous_features:
     psi = compute_psi(pdf_baseline, pdf_production, feat)
-    status = "Stable" if psi < 0.10 else ("WARNING " if psi < 0.20 else "DRIFT DETECTED")
+    status = "Stable" if psi < 0.10 else ("Warning" if psi < 0.20 else "DRIFT")
     print(f"{feat:<25} {psi:>8.4f}  {status}")
 ```
 
@@ -425,10 +493,10 @@ print(f"\nBaseline windows within range:       {base_in_range:.1f}%")
 print(f"Production windows within range:     {prod_in_range:.1f}%")
 
 if prod_in_range < 60:
-    print("\n  DRIFT ALERT: fewer than 60% of production windows within acceptable range.")
+    print("\nDRIFT ALERT: fewer than 60% of production windows within acceptable range.")
     print("   Recommended action: investigate feature distributions, trigger retraining.")
 else:
-    print("\n  Production performance broadly within acceptable range.")
+    print("\nProduction performance broadly within acceptable range.")
 ```
 
 #### Step 7 — Log All Drift Metrics to MLflow
@@ -460,9 +528,9 @@ with mlflow.start_run(run_name="drift-analysis-jan-vs-jun"):
 
 > **Q4.1** Which features showed the highest drift (KS statistic, PSI)? Does this make intuitive sense given the January vs. June comparison? Explain the physical or behavioural factors driving each feature's shift.
 
-> **Q4.2** We apply the KS test to four features simultaneously. What problem does this create statistically, and how would you address it?
+> **Q4.2** We apply the KS test to four features simultaneously. What problem does this create statistically, and how would you address it? (Hint: Bonferroni correction.)
 
-> **Q4.3** The `% predictions within acceptable range` metric uses +/- 5 percentage points as the tolerance. Is this threshold arbitrary? How might you set it more rigorously using only the baseline data?
+> **Q4.3** The `% predictions within acceptable range` metric uses ±5 percentage points as the tolerance. Is this threshold arbitrary? How might you set it more rigorously using only the baseline data?
 
 > **Q4.4** The timestamp-indexed accuracy plot shows whether drift is gradual or abrupt. What does your plot reveal? Does accuracy drop uniformly across June, or are there specific patterns that stand out?
 
@@ -470,7 +538,7 @@ with mlflow.start_run(run_name="drift-analysis-jan-vs-jun"):
 
 In Sections 3 and 4, we scored all production data at once. In reality, inference logs accumulate gradually — each serving request adds one row. This section simulates that pattern, producing a more realistic inference table for monitoring.
 
-> **Free Edition note.** The Lakehouse Monitoring SDK in Step 5 requires a paid workspace. You can get free access to the paid workspace for 2 weeks, but leave that for later. For now, complete Steps 1 - 4 regardless — they demonstrate the incremental pattern and produce the plots needed to answer the questions.
+> **Free Edition note.** The Lakehouse Monitoring SDK in Step 5 requires a paid workspace. Complete Steps 1–4 regardless — they demonstrate the incremental pattern and produce the plots needed to answer the questions.
 
 #### Step 1 — Prepare Time-Ordered Production Data
 
@@ -523,11 +591,11 @@ inference_log = (
     .withColumnRenamed("tpep_pickup_datetime", "request_timestamp")
 )
 
-inference_table_path = "ml.com6012.taxi_tip_inference_log_abc1xyz"   # replace abc1xyz
+inference_table_path = "ml.com6012.taxi_tip_inference_log_abc1xy"   # replace abc1xy
 (inference_log.write.format("delta")
  .mode("overwrite").option("overwriteSchema", "true")
  .saveAsTable(inference_table_path))
-print(f"Inference log: {inference_log.count():,} rows -> {inference_table_path}")
+print(f"Inference log: {inference_log.count():,} rows → {inference_table_path}")
 ```
 
 #### Step 4 — Visualise Accumulating Accuracy
@@ -547,7 +615,6 @@ for b in range(1, 11):
     })
 pdf_metrics = pd.DataFrame(batch_metrics)
 
-tolerance = 0.05
 fig, ax = plt.subplots(figsize=(12, 4))
 ax.plot(pdf_metrics["up_to"], pdf_metrics["cumulative_accuracy"],
         marker="o", color="darkorange", linewidth=2, markersize=8,
@@ -602,24 +669,26 @@ except Exception as e:
 
 > **Q5.2** Compare the incremental approach (this section) with one-shot batch scoring (Section 4). What does the incremental approach reveal that the one-shot approach conceals? In a real production system, which approach reflects reality?
 
-> **Q5.3** The +/- 5 percentage point tolerance is fixed. What would be a more principled approach to setting this threshold — for instance, using the variance of the baseline rolling accuracy itself?
+> **Q5.3** The ±5 percentage point tolerance is fixed. What would be a more principled approach to setting this threshold — for instance, using the variance of the baseline rolling accuracy itself?
 
 ## 6. Retraining on Combined Data
 
 When drift is detected, the standard response is to retrain on more recent data.
 
 ```python
-df_combined    = train_df.union(df_production_sample.sample(fraction=0.8, seed=42))
+df_combined     = train_df.union(df_production_sample.sample(fraction=0.8, seed=42))
 train_c, test_c = df_combined.randomSplit([0.8, 0.2], seed=42)
 
 with mlflow.start_run(run_name="rf-retrained-combined") as retrain_run:
     mlflow.set_tag("trigger",     "drift_detected")
     mlflow.set_tag("data_period", "jan + jun 2019")
+    mlflow.log_param("num_trees", 10)
+    mlflow.log_param("max_depth",  4)
 
     model_r = Pipeline(stages=[
         VectorAssembler(inputCols=feature_cols, outputCol="features"),
         RandomForestClassifier(featuresCol="features", labelCol="label",
-                               numTrees=50, maxDepth=8, seed=42)
+                               numTrees=10, maxDepth=4, seed=42)
     ]).fit(train_c)
 
     auc_r      = auc_eval.evaluate(model_r.transform(test_c))
@@ -646,7 +715,11 @@ print(f"\nRetrained model registered as v{v.version}, alias: 'challenger'")
 
 ## Appendix A — Troubleshooting
 
-**Free Edition compute quota exceeded.** Compute resumes tomorrow. Data and notebooks are preserved. Reduce the sample fraction to `0.02` if needed.
+**Free Edition compute quota exceeded.** Compute resumes tomorrow. Data and notebooks are preserved. Reduce the sample fraction to `0.005` if needed.
+
+**Session timeout (SESSION_NOT_FOUND, INVALID_CONNECT_URL, or NO_ACTIVE_SESSION).** The serverless session has reset completely and all variables are lost. Detach and reattach Serverless compute from the notebook toolbar, then click **Run All** to re-execute the entire notebook from the top. The data will need to be re-downloaded. The checkpoint cell in Section 2 Step 2 can only help if `df_train_raw` is still in memory — verify with `print(df_train_raw.count())` before using it.
+
+**SparkSession error (INVALID_CONNECT_URL).** Do not call `SparkSession.builder.getOrCreate()` in Databricks notebooks. The `spark` variable is pre-provided automatically in every notebook session.
 
 **Public TLC URL slow or unavailable.** Try loading a single month:
 
@@ -655,6 +728,10 @@ print(f"\nRetrained model registered as v{v.version}, alias: 'challenger'")
             "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2019-01.parquet"
         )
     )
+
+**MLflow experiment path.** To find your correct path run `import os; os.getcwd()`. Use the email portion of the output as the base: `/Users/your-email@domain.com/experiment-name`. Do not include `/Workspace` in the MLflow path.
+
+**`mlflow.spark.autolog()` error.** This is not supported on Free Edition serverless clusters. The lab uses manual logging instead — remove any `mlflow.spark.autolog()` calls if encountered.
 
 **Unity Catalog schema not found.**
 
@@ -666,8 +743,6 @@ print(f"\nRetrained model registered as v{v.version}, alias: 'challenger'")
     %pip install databricks-sdk --upgrade
     dbutils.library.restartPython()
 
-**SparkSession in serverless.** `SparkSession.builder.getOrCreate()` works normally. The session is pre-configured — do not set a master URL or local cores.
-
 ## Appendix B — Dataset Quick Reference
 
 | Field | Used as | Notes |
@@ -675,18 +750,20 @@ print(f"\nRetrained model registered as v{v.version}, alias: 'challenger'")
 | `tpep_pickup_datetime` | Temporal split; timestamps for drift plots | Key for seasonal comparison |
 | `trip_distance` | Feature | Miles; shifts seasonally |
 | `fare_amount` | Feature | Base fare; correlated with distance |
-| `tip_amount` | Label source | `tip/fare > 0.20` -> label = 1 |
+| `tip_amount` | Label source | `tip/fare > 0.20` → label = 1 |
 | `passenger_count` | Feature | Integer |
 | `PULocationID` | Feature (as `pickup_zone`) | NYC taxi zone ID |
-| `payment_type` | Feature | 2 = cash -> tip always 0 |
+| `payment_type` | Feature | 2 = cash → tip always 0 |
 | `tpep_dropoff_datetime` | Compute `trip_duration_min` | Not used directly as feature |
 
 ## References
 
 - NYC TLC Trip Record Data: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
-- Databricks Free Edition: https://login.databricks.com
+- Databricks Free Edition: https://signup.databricks.com
 - Free Edition limitations: https://docs.databricks.com/aws/en/getting-started/free-edition-limitations
-- Databricks Training and Resources (Free Edition): https://www.databricks.com/learn
+- Educator guide (CE → Free Edition): https://community.databricks.com/t5/databricks-university-alliance/guide-and-best-practices-moving-from-community-edition-to-free/ta-p/129308
+- MLflow Model Registry: https://mlflow.org/docs/latest/model-registry.html
 - Databricks Data Quality Monitoring: https://docs.databricks.com/aws/en/data-quality-monitoring/
-- Huyen, C. (2022). Designing Machine Learning Systems. O'Reilly Media. https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/
-- Vechtomova, M. (2025). MLOps with Databricks: Machine Learning End-to-End. O'Reilly Media. https://www.oreilly.com/library/view/mlops-with-databricks/9798341608245/
+- Marvelous MLOps end-to-end pipeline: https://github.com/marvelousmlops/marvel-characters
+- Vechtomova, M. (2025). *MLOps with Databricks: Machine Learning End-to-End*. O'Reilly Media. https://www.oreilly.com/library/view/mlops-with-databricks/9798341608245/
+- Huyen, C. (2022). *Designing Machine Learning Systems*. O'Reilly Media. https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/
